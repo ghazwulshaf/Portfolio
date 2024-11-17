@@ -7,7 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <UpToDateCheckBuilt Include="wwwroot/css/site.css" Set="Css" />
+    <UpToDateCheckBuilt Include="tailwind.config.js" Set="Css" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="7.0.0" />
   </ItemGroup>
+
+  <Target Name="Tailwind" BeforeTargets="Build">
+    <Exec Command="npm run css:build" />
+  </Target>
 
 </Project>
