@@ -2,7 +2,41 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4 text-blue-500">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div id="home">
+
+    <section id="welcome" class="text-center px-48 pt-36 pb-60">
+        <div>
+            <div><code class="text-6xl font-bold">Hi, I'm Ghazwul Shaf</code></div>
+            <div class="mt-4"><code class="text-xl text-gray-500">A passionate .NET Developer, Internet of Things, and Artificial Intelligence</code></div>
+            <div class="mt-16">
+                <a class="btn btn-dark" asp-controller="Projects" asp-action="Index">View Projects</a>
+                <a class="ms-4 btn btn-light" asp-controller="Contact" asp-action="Index">Contact Me</a>
+            </div>
+        </div>
+    </section>
+
+    <section id="about" class="px-48 py-24 bg-neutral-200">
+        <div class="max-w-[960px]">
+            <h1 class="font-body">About Me</h1>
+            <p class="mt-8">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore officiis adipisci maiores at fuga molestiae vero ipsam commodi iusto a quos aspernatur excepturi, deleniti, libero, ad amet non placeat magni.
+            Repellendus, explicabo. Sint, recusandae! Voluptatum atque magni autem omnis quam quos, minus perferendis expedita, consectetur sint ad rem ea veniam dolor! Aliquid nobis harum ab fuga doloremque rem magni id.</p>
+        </div>
+    </section>
+
+    <section id="projects" class="px-48 pt-24 pb-48">
+        <div>
+            <h1>My Projects</h1>
+            <!-- Projects lists -->
+            <div class="mt-12 grid grid-flow-row grid-cols-3 gap-4">
+            @for (int i = 0; i < 3; i++)
+            {
+                <div class="card">
+                    <h5>Project @i</h5>
+                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aperiam distinctio ut ratione dolore quasi suscipit, quidem eos tenetur nihil hic? Accusamus eaque, consequuntur ullam nostrum inventore numquam debitis nemo modi!</p>
+                </div>
+            }
+            </div>
+        </div>
+    </section>
+
 </div>

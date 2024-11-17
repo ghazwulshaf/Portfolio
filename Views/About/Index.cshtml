@@ -1,0 +1,186 @@
+﻿@{
+    ViewData["Title"] = "About Me";
+}
+
+<div id="about" class="*:px-48 *:py-24">
+    <section id="profile" class="flex justify-between odd:bg-white even:bg-neutral-200">
+        <div id="profile-left" class="order-first w-3/5">
+
+            <div id="profile-title">
+                <h1>About Me</h1>
+            </div>
+
+            <div id="profile-description" class="mt-8 [&>p]:my-2">
+                <p>
+                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus ipsum recusandae impedit. Cum ipsum, enim ad animi magni molestias odio labore esse dolor dolorem quisquam maiores corporis pariatur asperiores dolores.
+                    Nulla nobis quis adipisci facilis ad sint vel similique accusantium! Ad asperiores saepe recusandae laboriosam veniam expedita fuga dolore, explicabo minima ipsam dolorem dicta? Officia adipisci suscipit nam similique libero.
+                </p>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. A quo vitae omnis laudantium accusantium earum minus debitis dolor alias et repellendus quam, error voluptate dignissimos ipsum blanditiis placeat quis quos!
+                </p>
+            </div>
+
+            <div id="profile-actions" class="mt-8">
+                <a asp-area="" asp-page="/Contact/Index" class="button button-dark">Contact Me</a>
+                <a asp-area="" asp-page="" class="button button-light ms-2"><i data-feather="download" class="inline h-4"></i> Download CV</a>
+            </div>
+        </div>
+
+        <div id="profile-right" class="w-1/5">
+            <div id="profile-image" class="relative w-full aspect-[4/6] rounded-md bg-gray-200"></div>
+        </div>
+    </section>
+
+    <section id="educations" class="odd:bg-white even:bg-neutral-200">
+        <div id="educations-title">
+            <h1>Educations</h1>
+        </div>
+
+        <div id="educations-list" class="mt-8 flex flex-col items-stretch gap-4">
+            <div class="card">
+
+                <div class="card-title">
+                    <span>S1 Teknik Informatika</span>
+                </div>
+
+                <div class="card-subtitle">
+                    <span>Universitas Hasanuddin</span>
+                    <span>|</span>
+                    <span>2020 - 2024</span>
+                </div>
+
+                <div class="card-body">
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi deleniti libero iusto exercitationem sed ratione id blanditiis deserunt necessitatibus veritatis. Reprehenderit expedita ratione id pariatur dolorum totam, quaerat rem! Totam!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="experiences" class="odd:bg-white even:bg-neutral-200">
+        <div id="experiences-title">
+            <h1>Experiences</h1>
+        </div>
+
+        <div id="experiences-list" class="mt-8 flex flex-col items-stretch gap-4">
+            <div class="card">
+                <div class="card-title">
+                    <span>Experience 1</span>
+                </div>
+
+                <div class="card-subtitle">
+                    <span>Company, Ltd.</span>
+                    <span>|</span>
+                    <span>2020 - Present</span>
+                </div>
+
+                <div class="card-body">
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, dolor adipisci. Molestias vel sapiente quaerat earum dolores tempore in dolorem impedit. Quae dignissimos repellat nobis vero amet! Voluptatum, soluta quae.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">
+                    <span>Experience 1</span>
+                </div>
+
+                <div class="card-subtitle">
+                    <span>Company, Ltd.</span>
+                    <span>|</span>
+                    <span>2020 - Present</span>
+                </div>
+
+                <div class="card-body">
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, dolor adipisci. Molestias vel sapiente quaerat earum dolores tempore in dolorem impedit. Quae dignissimos repellat nobis vero amet! Voluptatum, soluta quae.
+                    </p>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">
+                    <span>Experience 1</span>
+                </div>
+
+                <div class="card-subtitle">
+                    <span>Company, Ltd.</span>
+                    <span>|</span>
+                    <span>2020 - Present</span>
+                </div>
+
+                <div class="card-body">
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, dolor adipisci. Molestias vel sapiente quaerat earum dolores tempore in dolorem impedit. Quae dignissimos repellat nobis vero amet! Voluptatum, soluta quae.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="certificates" class="odd:bg-white even:bg-neutral-200 last:pb-36">
+        <div id="certificates-title">
+            <h1>Certificates</h1>
+        </div>
+
+        <div id="certificates-list" class="mt-8 flex flex-col items-stretch gap-4">
+            <div class="card">
+                <div class="card-title">
+                    <span>Certificate 1</span>
+                </div>
+
+                <div class="card-subtitle">
+                    <span>Company, Ltd.</span>
+                    <span>|</span>
+                    <span>2020 - Present</span>
+                </div>
+
+                <div class="card-body">
+                    <p>
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, dolor adipisci. Molestias vel sapiente quaerat earum dolores tempore in dolorem impedit. Quae dignissimos repellat nobis vero amet! Voluptatum, soluta quae.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="skills">
+        <div id="skills-title">
+            <h1>Skills</h1>
+        </div>
+
+        <div id="skills-list" class="mt-8 grid grid-cols-3 gap-4">
+            <div class="card">
+                <div class="card-title">
+                    <span>Skill 1</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">
+                    <span>Skill 1</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">
+                    <span>Skill 1</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">
+                    <span>Skill 1</span>
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-title">
+                    <span>Skill 1</span>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

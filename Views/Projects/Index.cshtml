@@ -1,0 +1,47 @@
+﻿@{
+    ViewData["Title"] = "Projects";
+}
+
+<section id="page-title" class="text-center px-48 pt-24 pb-48">
+    <h1>My Projects</h1>
+    <h5 class="mt-4 text-gray-500">Explore a collection of my latest work and personal projects.</h5>
+</section>
+
+<section id="projects-list" class="bg-neutral-200 px-48 py-24">
+    <div id="list-header" class="grid grid-cols-3 w-full gap-4">
+        <input type="search" class="input-search" placeholder="Search projects...">
+        <div id="list-filters" class="col-span-2 flex flex-row justify-end gap-2 *:bg-white *:text-black *:border-none *:rounded-md *:shadow *:px-4 *:py-2 ">
+            <button class="first:bg-black first:text-white">All</button>
+            <button>Web Development</button>
+            <button>Mobile Development</button>
+            <button>Data Science</button>
+            <button>Data Science</button>
+        </div>
+    </div>
+
+    <div id="list-items" class="mt-12 grid grid-cols-3 w-full gap-4">
+    @for (int i = 0; i < 15; i++)
+    {
+        <div class="card bg-white">
+            <div id="item-image" class="relative w-full aspect-[16/9] rounded-sm bg-gray-200"></div>
+            <a id="item-title" asp-controller="Projects" asp-action="Detail" asp-route-id="@i" class="block mt-4">
+                <h6>Project @i</h6>
+            </a>
+            <div id="item-type" class="text-gray-500">
+                <small>Web Development</small>
+            </div>
+            <div id="item-description" class="mt-2 *:line-clamp-2">
+                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Asperiores, voluptas impedit? Minus tenetur qui, corporis sapiente possimus tempora facilis, error quod esse laboriosam temporibus nostrum accusantium ea eum, nesciunt exercitationem.</p>
+            </div>
+        </div>
+    }
+    </div>
+
+    <div id="list-pagination" class="mt-12 w-full">
+        <div class="pagination flex flex-row justify-center gap-2">
+            <a asp-area="" asp-page="" class="pagination-item active">1</a>
+            <a asp-area="" asp-page="" class="pagination-item">2</a>
+            <a asp-area="" asp-page="" class="pagination-item">3</a>
+        </div>
+    </div>
+</section>

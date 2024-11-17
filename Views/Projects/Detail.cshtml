@@ -1,0 +1,70 @@
+﻿@{
+    ViewData["Title"] = "Project Details";
+}
+
+<div class="px-48 pt-24 pb-36">
+
+    <div id="detail-header" class="mb-8">
+        <a asp-area="" asp-page="/Projects/Index" class="flex gap-2"><i data-feather="arrow-left" class="h-5"></i>Back to Projects</a>
+    </div>
+
+    <div id="detail-project">
+
+        <div id="project-header" class="grid grid-cols-2 gap-8">
+
+            <div id="project-header-left" class="order-first">
+
+                <div id="project-title">
+                    <h1>Project @ViewData["Id"]</h1>
+                </div>
+
+                <div id="project-type">
+                    <span class="text-gray-500">Web Development</span>
+                </div>
+
+                <div id="project-description" class="mt-4">
+                    <p>
+                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore totam voluptates consequuntur exercitationem inventore possimus magnam vitae minus doloremque eum accusamus aut quasi vel aliquam quia quaerat, accusantium optio a?
+                    </p>
+                </div>
+
+                <div id="project-tags" class="mt-4 flex flex-row items-center gap-2">
+                    <span class="tag">React</span>
+                    <span class="tag">Node.js</span>
+                    <span class="tag">Express</span>
+                </div>
+
+                <div id="project-actions" class="mt-12">
+                    <a asp-area="" asp-page="" class="button button-dark"><i data-feather="play" class="inline h-4"></i> Live Demo</a>
+                    <a asp-area="" asp-page="" class="ms-2 button button-light"><i data-feather="github" class="inline h-4"></i> View Code</a>
+                </div>
+            </div>
+
+            <div id="project-header-right">
+                <div id="project-image" class="relative w-full aspect-[16/9] rounded-md bg-gray-200"></div>
+            </div>
+
+        </div>
+
+        <div class="mt-24 flex gap-4">
+
+            <div id="project-contents" class="w-3/4 [&>p]:my-2">
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. At molestias perspiciatis eos dolorum rem quam adipisci perferendis tempore ratione aliquam cumque corrupti, reiciendis quod est porro voluptate, enim provident expedita.
+                    Amet rem dolores, obcaecati ex at libero quod, ullam sequi, mollitia harum eum laboriosam aliquam provident necessitatibus tempore voluptatem porro quos? Nemo quidem a corrupti. Nulla alias veniam autem quam?
+                    Dolorem fugiat deleniti similique dolor? Veritatis tenetur eos illum velit. Maxime vitae aliquid deleniti sapiente, inventore blanditiis incidunt eos ab ea voluptate recusandae quae reprehenderit fugit numquam modi quis soluta?
+                </p>
+                <p>
+                    Lorem ipsum dolor sit amet consectetur adipisicing elit. At molestias perspiciatis eos dolorum rem quam adipisci perferendis tempore ratione aliquam cumque corrupti, reiciendis quod est porro voluptate, enim provident expedita.
+                    Amet rem dolores, obcaecati ex at libero quod, ullam sequi, mollitia harum eum laboriosam aliquam provident necessitatibus tempore voluptatem porro quos? Nemo quidem a corrupti. Nulla alias veniam autem quam?
+                    Dolorem fugiat deleniti similique dolor? Veritatis tenetur eos illum velit. Maxime vitae aliquid deleniti sapiente, inventore blanditiis incidunt eos ab ea voluptate recusandae quae reprehenderit fugit numquam modi quis soluta?
+                </p>
+            </div>
+
+            <div id="project-side" class="ps-8 border-s">
+                ini adalah aside
+            </div>
+
+        </div>
+    </div>
+</div>
