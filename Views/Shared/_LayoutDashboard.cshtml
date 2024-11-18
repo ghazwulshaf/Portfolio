@@ -1,0 +1,75 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - GhazwulShaf</title>
+    <script type="importmap"></script>
+
+    <!-- Bootstrap CSS
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> -->
+
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/output.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/GhazwulShaf.styles.css" asp-append-version="true" />
+</head>
+
+<body>
+
+    <div id="dashboard-layout" class="min-h-screen flex flex-row justify-stretch items-stretch">
+        <div class="relative w-1/6 bg-gray-800 text-white">
+            <a id="brand" asp-controller="Home" asp-action="Index" class="block p-4">
+                <h4>GhazwulShaf</h4>
+                <span>Admin</span>
+            </a>
+
+            <nav id="dashboard-navbar" class="sticky top-0 w-full mb-24 flex flex-col items-stretch gap-0 *:px-4 *:py-3 *:flex *:items-center *:gap-2">
+                <a asp-controller="Dashboard" asp-action="Index" class="active">
+                    <i data-feather="layout" class="h-5"></i> Dashboard
+                </a>
+                <a>
+                    <i data-feather="file-text" class="h-5"></i> Masterdata
+                </a>
+                <a>
+                    <i data-feather="user" class="h-5"></i> About
+                </a>
+                <a>
+                    <i data-feather="code" class="h-5"></i> Projects
+                </a>
+                <a>
+                    <i data-feather="phone" class="h-5"></i> Contact
+                </a>
+            </nav>
+
+            <form id="auth-logout" name="auth-logout"></form>
+            <button type="submit" form="auth-logout" class="absolute left-4 right-4 bottom-4 button button-dark">Logout</button>
+        </div>
+        
+        <div class="w-5/6 bg-gray-200">
+            <header class="w-full bg-white px-12 py-4">
+                <h4>@ViewData["Title"]</h4>
+            </header>
+
+            <main role="main" class="px-12 py-4">
+                @RenderBody()
+            </main>
+        </div>
+    </div>
+
+    <!-- Feather Icons -->
+    <script src="~/lib/feathericons\dist\js\feather.min.js"></script>
+    <script>
+        feather.replace();
+    </script>
+
+    <!-- Bootstrap CSS
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> -->
+    
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>

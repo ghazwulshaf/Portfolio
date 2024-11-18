@@ -2,7 +2,7 @@ using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using GhazwulShaf.Models;
 
-namespace GhazwulShaf.Controllers;
+namespace GhazwulShaf.Controllers.Home;
 
 public class HomeController : Controller
 {

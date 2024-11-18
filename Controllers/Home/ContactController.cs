@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace GhazwulShaf.Controllers
+namespace GhazwulShaf.Controllers.Home
 {
     public class ContactController : Controller
     {
