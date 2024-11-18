@@ -7,7 +7,7 @@ namespace GhazwulShaf.Controllers
         // GET: AboutController
         public IActionResult Index()
         {
-            return View();
+            return View("/Views/Home/About/Index.cshtml");
         }
 
     }

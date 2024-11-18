@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "E:\\Gasul\\Projects\\GhazwulShaf\\GhazwulShaf.csproj": {}
+    "E:\\Gasul\\GhazwulShaf\\GhazwulShaf.csproj": {}
   },
   "projects": {
-    "E:\\Gasul\\Projects\\GhazwulShaf\\GhazwulShaf.csproj": {
+    "E:\\Gasul\\GhazwulShaf\\GhazwulShaf.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "E:\\Gasul\\Projects\\GhazwulShaf\\GhazwulShaf.csproj",
+        "projectUniqueName": "E:\\Gasul\\GhazwulShaf\\GhazwulShaf.csproj",
         "projectName": "GhazwulShaf",
-        "projectPath": "E:\\Gasul\\Projects\\GhazwulShaf\\GhazwulShaf.csproj",
+        "projectPath": "E:\\Gasul\\GhazwulShaf\\GhazwulShaf.csproj",
         "packagesPath": "C:\\Users\\lenovo\\.nuget\\packages\\",
-        "outputPath": "E:\\Gasul\\Projects\\GhazwulShaf\\obj\\",
+        "outputPath": "E:\\Gasul\\GhazwulShaf\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\lenovo\\AppData\\Roaming\\NuGet\\NuGet.Config"

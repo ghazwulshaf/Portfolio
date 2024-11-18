@@ -7,14 +7,14 @@ namespace GhazwulShaf.Controllers
         // GET: ProjectsController
         public ActionResult Index()
         {
-            return View();
+            return View("/Views/Home/Projects/Index.cshtml");
         }
 
         // GET: Project Details
         public IActionResult Detail(int id)
         {
             ViewData["Id"] = id;
-            return View();
+            return View("/Views/Home/Projects/Detail.cshtml");
         }
 
     }

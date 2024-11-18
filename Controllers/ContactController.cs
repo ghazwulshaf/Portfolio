@@ -7,7 +7,7 @@ namespace GhazwulShaf.Controllers
         // GET: ContactController
         public ActionResult Index()
         {
-            return View();
+            return View("/Views/Home/Contact/Index.cshtml");
         }
 
     }
