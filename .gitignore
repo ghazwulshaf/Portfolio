@@ -1,6 +1,6 @@
 # Ignore debug dependencies
-/bin/Debug/
-/obj/Debug/
+/bin/
+/obj/
 
 # Ignore node modules
 /node_modules/

@@ -22,7 +22,7 @@
         <div class="relative w-1/6 bg-gray-800 text-white">
             <a id="brand" asp-controller="Home" asp-action="Index" class="block p-4">
                 <h4>GhazwulShaf</h4>
-                <span>Admin</span>
+                <span>@ViewData["User"]</span>
             </a>
 
             <nav id="dashboard-navbar" class="sticky top-0 w-full mb-24 flex flex-col items-stretch gap-0 *:px-4 *:py-3 *:flex *:items-center *:gap-2">
@@ -43,7 +43,7 @@
                 </a>
             </nav>
 
-            <form id="auth-logout" name="auth-logout"></form>
+            <form id="auth-logout" name="auth-logout" method="post" asp-controller="Auth" asp-action="Logout"></form>
             <button type="submit" form="auth-logout" class="absolute left-4 right-4 bottom-4 button button-dark">Logout</button>
         </div>
         
