@@ -1,4 +1,5 @@
-﻿@{
+﻿@model User
+@{
     Layout = "_LayoutAuth";
     ViewData["Title"] = "Authentication";
 }
@@ -14,22 +15,24 @@
             <h4>LOGIN</h4>
         </div>
 
-        @if (ViewBag.ErrorMessage != null)
+        @if (ViewData["Login Error"] != null)
         {
-            <div class="mt-8 text-sm text-red-500">
+            <div class="text-center text-sm text-red-500">
                 <span>@ViewData["Login Error"]</span>
             </div>
         }
 
         <form id="auth-form" method="post" asp-controller="Auth"a asp-action="Login" class="mt-8">
             <div>
-                <label for="username" class="label">Username</label>
-                <input type="text" name="username" id="username" class="input mt-2" placeholder="Username">
+                <label asp-for="Username" class="label">Username</label>
+                <input type="text" asp-for="Username" class="input mt-2" placeholder="Username">
+                <span asp-validation-for="Username" class="text-sm text-red-500"></span>
             </div>
 
             <div class="mt-4">
-                <label for="password" class="label">Password</label>
-                <input type="password" name="password" id="password" class="input mt-2" placeholder="Password">
+                <label asp-for="Password" class="label">Password</label>
+                <input type="password" asp-for="Password" class="input mt-2" placeholder="Password">
+                <span asp-validation-for="Password" class="text-sm text-red-500"></span>
             </div>
 
             <div class="flex justify-center gap-4 mt-12">

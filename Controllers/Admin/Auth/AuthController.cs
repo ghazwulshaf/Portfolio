@@ -38,7 +38,7 @@ namespace GhazwulShaf.Controllers.Admin.Auth
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(string username, string password)
         {
-            if (await _authService.LoginAsync(username, password, HttpContext))
+            if (ModelState.IsValid && await _authService.LoginAsync(username, password, HttpContext))
                 return RedirectToAction("Index", "Dashboard");
 
             ViewData["Login Error"] = "Invalid username or password.";
