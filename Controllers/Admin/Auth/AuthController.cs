@@ -1,5 +1,4 @@
-using System.Security.Claims;
-using GhazwulShaf.Data;
+using GhazwulShaf.Services;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,11 +8,11 @@ namespace GhazwulShaf.Controllers.Admin.Auth
     [Route("/Admin/Auth/")]
     public class AuthController : Controller
     {
-        public readonly AppDbContext _context;
+        private readonly AuthService _authService;
 
-        public AuthController(AppDbContext context)
+        public AuthController(AuthService authService)
         {
-            _context = context;
+            _authService = authService;
         }
 
         // GET: Login
@@ -28,7 +27,7 @@ namespace GhazwulShaf.Controllers.Admin.Auth
                 // Redirect ke halaman dashboard jika sudah login
                 return RedirectToAction("Index", "Dashboard");
             }
-            
+
             return View("/Views/Admin/Auth/Login.cshtml");
         }
 
@@ -39,24 +38,8 @@ namespace GhazwulShaf.Controllers.Admin.Auth
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(string username, string password)
         {
-            if (username == "admin" && password == "admin123")
-            {
-                var claims = new List<Claim>
-                {
-                    new Claim(ClaimTypes.Name, username),
-                    new Claim(ClaimTypes.Role, "Admin")
-                };
-
-                var claimsIdentity = new ClaimsIdentity(claims, "CookieAuth");
-                var authProperties = new AuthenticationProperties
-                {
-                    IsPersistent = true
-                };
-
-                await HttpContext.SignInAsync("CookieAuth", new ClaimsPrincipal(claimsIdentity), authProperties);
-
+            if (await _authService.LoginAsync(username, password, HttpContext))
                 return RedirectToAction("Index", "Dashboard");
-            }
 
             ViewData["Login Error"] = "Invalid username or password.";
             return View("/Views/Admin/Auth/Login.cshtml");

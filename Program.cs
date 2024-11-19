@@ -1,5 +1,6 @@
 using GhazwulShaf.Data;
 using GhazwulShaf.Models;
+using GhazwulShaf.Services;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +16,7 @@ builder.Services.AddAuthentication("CookieAuth")
         options.LogoutPath = "/Admin/Auth/Logout";
     });
 builder.Services.AddAuthorization();
+builder.Services.AddScoped<AuthService>();
 
 // Add swashbuckle service
 builder.Services.AddEndpointsApiExplorer();
@@ -47,15 +49,7 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 // Create user
-using (var scope = app.Services.CreateScope())
-{
-    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    if (!db.Users.Any())
-    {
-        db.Users.Add(new User { Username = "admin", Password = "admin123" });
-        db.SaveChanges();
-    }
-}
+DbSeeder.Seed(app.Services);
 
 app.MapStaticAssets();
 
