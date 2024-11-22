@@ -14,25 +14,42 @@
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/css/output.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/GhazwulShaf.styles.css" asp-append-version="true" />
+
+    <!-- Summernote -->
+    <link rel="stylesheet" href="~/lib/summernote/dist/summernote-lite.min.css" />
 </head>
 
 <body>
 
     <div id="dashboard-layout" class="min-h-screen flex flex-row justify-stretch items-stretch">
-        <div class="relative w-1/6 bg-gray-800 text-white">
-            <a id="brand" asp-controller="Home" asp-action="Index" class="block p-4">
+        <div id="sidebar" class="fixed min-h-screen w-1/6 bg-gray-800 text-white">
+
+            <a id="brand" href="@Url.Action("Index", "Home")" class="block p-4">
                 <h4>GhazwulShaf</h4>
-                <span>@ViewData["User"]</span>
+                <span>@AuthUser.Role</span>
             </a>
 
-            <nav id="dashboard-navbar" class="sticky top-0 w-full mb-24 flex flex-col items-stretch gap-0 *:px-4 *:py-3 *:flex *:items-center *:gap-2">
-                <a asp-controller="Dashboard" asp-action="Index" class="active">
+            @functions {
+                // function to get route and set nav active 
+                public string IsActive(string action, string controller)
+                {
+                    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+                    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+                    
+                    if (currentAction == action && currentController == controller)
+                        return "active";
+                    
+                    return "";
+                }
+            }
+            <nav id="dashboard-navbar" class="w-full mb-24 flex flex-col items-stretch gap-0 *:px-4 *:py-3 *:flex *:items-center *:gap-2">
+                <a href="@Url.Action("Index", "Dashboard")" class="@IsActive("Index", "Dashboard")">
                     <i data-feather="layout" class="h-5"></i> Dashboard
                 </a>
                 <a>
                     <i data-feather="file-text" class="h-5"></i> Masterdata
                 </a>
-                <a>
+                <a href="@Url.Action("Index", "DashboardAbout")" class="@IsActive("Index", "DashboardAbout")">
                     <i data-feather="user" class="h-5"></i> About
                 </a>
                 <a>
@@ -43,11 +60,11 @@
                 </a>
             </nav>
 
-            <form id="auth-logout" name="auth-logout" method="post" asp-controller="Auth" asp-action="Logout"></form>
+            <form id="auth-logout" name="auth-logout" method="post" action="@Url.Action("Logout", "Auth")"></form>
             <button type="submit" form="auth-logout" class="absolute left-4 right-4 bottom-4 button button-dark">Logout</button>
         </div>
         
-        <div class="w-5/6 bg-gray-200">
+        <div id="content" class="w-5/6 bg-gray-200">
             <header class="w-full bg-white px-12 py-4">
                 <h4>@ViewData["Title"]</h4>
             </header>
@@ -69,6 +86,31 @@
     
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <!-- Summernote -->
+    <script src="~/lib/summernote/dist/summernote-lite.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            // add margin at main section
+            $('#content').css('margin-left', $('#sidebar').width() + 'px');
+
+            // init summernote
+            $('#summernote').summernote({
+                placeholder: 'Write the contents in here',
+                tabsize: 2,
+                height: 300,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['fullscreen', 'codeview', 'help']]
+                ]
+            });
+        })
+    </script>
     @await RenderSectionAsync("Scripts", required: false)
 
 </body>

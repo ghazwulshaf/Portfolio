@@ -65,6 +65,24 @@
     .button {
         @apply font-medium px-4 py-3 rounded-md;
     }
+    .button-primary {
+        @apply bg-blue-500 text-white;
+    }
+    .button-secondary {
+        @apply bg-neutral-600 text-white;
+    }
+    .button-info {
+        @apply bg-sky-500 text-black;
+    }
+    .button-success {
+        @apply bg-green-600 text-white;
+    }
+    .button-warning {
+        @apply bg-yellow-500 text-black;
+    }
+    .button-danger {
+        @apply bg-red-600 text-white;
+    }
     .button-dark {
         @apply bg-black text-white;
     }
@@ -73,13 +91,19 @@
     }
 
     .label {
-        @apply block font-medium;
+        @apply block font-medium mb-1;
     }
     .input {
         @apply w-full bg-white text-black px-4 py-2 border border-gray-200 rounded-md focus:caret-black focus:ring-black;
     }
+    #dashboard-layout .input {
+        @apply px-2 py-1 rounded-sm;
+    }
     .input::placeholder {
         @apply text-gray-500 font-normal;
+    }
+    #dashboard-layout .input::placeholder {
+        @apply text-sm;
     }
     .input-search {
         @apply bg-white text-gray-500 px-4 py-2 border-none rounded-md shadow focus:caret-gray-500 focus:ring-gray-500;

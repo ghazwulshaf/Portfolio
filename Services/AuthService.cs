@@ -43,6 +43,11 @@ public class AuthService
 
         await httpContext.SignInAsync("CookieAuth", new ClaimsPrincipal(claimsIdentity), authProperties);
 
+        // set auth user attributes
+        AuthUser.Username = user.Username;
+        AuthUser.Password = user.Password;
+        AuthUser.Role = user.Role;
+
         return true;
     }
 }
