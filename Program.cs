@@ -1,12 +1,12 @@
 using GhazwulShaf.Data;
-using GhazwulShaf.Models;
 using GhazwulShaf.Services;
+using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews().AddNewtonsoftJson();
 
 // Add authentication and authorization service
 builder.Services.AddAuthentication("CookieAuth")
@@ -18,22 +18,11 @@ builder.Services.AddAuthentication("CookieAuth")
 builder.Services.AddAuthorization();
 builder.Services.AddScoped<AuthService>();
 
-// Add swashbuckle service
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
 // Configure EF Core
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 var app = builder.Build();
-
-// Enable swashbuckle
-app.UseSwagger();
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwaggerUI();
-}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

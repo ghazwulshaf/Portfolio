@@ -1,4 +1,6 @@
-﻿@{
+﻿@model About
+
+@{
     Layout = "_LayoutDashboard";
     ViewData["Title"] = "About";
 }
@@ -7,34 +9,41 @@
     <section id="about-profile">
         <div class="section-title flex items-end gap-4">
             <h6>Profile</h6>
-            <button id="profile-edit" class="text-blue-500">Edit</button>
+            <button id="profile-edit" class="inline text-blue-500" onclick="EditForm(this, 'profile-form', 'profile-actions')">Edit</button>
         </div>
+        
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="text-blue-500">@TempData["SuccessMessage"]</div>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="text-red-500">@TempData["ErrorMessage"]</div>
+        }
+
         <div class="card mt-2">
-            <form id="profile-form" class="*:mt-4" disable>
+            
+            <form id="profile-form" method="post" enctype="multipart/form-data" asp-action="Update" asp-controller="DashboardAbout" data-editable="false" class="*:mt-4">
                 <div class="first:mt-0">
-                    <label  class="label">Title:</label>
-                    <input type="text" class="input" value="About Me">
+                    <label asp-for='Profile.Data["Title"]' class="label">Title:</label>
+                    <input type="text" asp-for='Profile.Data["Title"]' class="input">
                 </div>
 
                 <div>
-                    <label class="label">Description:</label>
-                    <textarea id="summernote">Lorem ipsum dolor sit amet consectetur adipisicing elit. Laboriosam, ex. Enim delectus officiis voluptates placeat quo sunt pariatur dignissimos! Alias impedit blanditiis tempora aperiam consequuntur eveniet pariatur voluptatibus error deleniti!
-                    Unde, eum sequi! Distinctio iste voluptates consectetur sint at aliquam ab assumenda quisquam necessitatibus neque, dolorum voluptatem accusamus, aut incidunt, sed nemo non! Distinctio, voluptatibus asperiores! Minima assumenda voluptates magnam?
-                    Labore cumque cupiditate ex voluptatibus minima deleniti reiciendis quos corporis nisi dicta, debitis illo quia et aperiam iste, fugiat, officiis atque consequatur ut! Vel labore amet possimus atque odio doloremque!
-                    Mollitia in molestias cupiditate tempore nam odit minima, odio at maiores sunt quisquam itaque impedit, dolorem sit voluptates inventore cumque iusto magnam ratione sequi temporibus harum quidem similique voluptate? Modi.
-                    </textarea>
+                    <label asp-for='Profile.Data["Description"]' class="label">Description:</label>
+                    <textarea id="summernote" asp-for='Profile.Data["Description"]'></textarea>
                 </div>
 
                 <div>
-                    <label class="label">Photo:</label>
+                    <label asp-for='ProfilePhoto.File' class="label">Photo:</label>
                     <div class="input">
-                        <input type="file" id="profile-photo-input" accept="image/*">
-                        <img id="profile-photo" src="~/images/example.jpg" class="w-48 mt-2">
+                        <input type="file" id="profile-photo-input" asp-for='ProfilePhoto.File' accept="image/*">
+                        <img id="profile-photo" src='@Model.Profile.Data["Photo"]' class="w-48 mt-2">
                     </div>
                 </div>
 
                 <div>
-                    <label class="label">Actions:
+                    <label asp-for='Profile.Data["Actions"]' class="label">Actions:
                         <button class="text-sm text-blue-500 underline">add</button>
                      </label>
                     <ul>
@@ -65,9 +74,9 @@
                     </ul>
                 </div>
 
-                <div class="flex justify-center gap-4 last:mt-8 mb-4">
-                    <button type="submit" class="button button-dark py-1">Save</button>
-                    <button class="button button-light py-1">Cancel</button>
+                <div id="profile-actions" class="hidden justify-center gap-4 last:mt-8 mb-4">
+                    <button id="profile-submit" type="submit" class="button button-dark py-1">Save</button>
+                    <button class="button button-light py-1" onclick="CloseForm()">Cancel</button>
                 </div>
             </form>
         </div>
@@ -77,6 +86,12 @@
 @section Scripts
 {
     <script>
+        // set data-editable global attribute on forms
+        let forms = document.querySelectorAll("[data-editable]");
+        forms.forEach((form) => {
+            SetEditable(form, form.dataset.editable);
+        })
+
         // show profile photo dynamically
         const profilePhoto = document.querySelector("#profile-photo");
         const profilePhotoInput = document.querySelector("#profile-photo-input");
@@ -94,5 +109,47 @@
                 reader.readAsDataURL(file);
             }
         })
+
+        // function for set form editable
+        function EditForm(button, formId, actionsId) {
+            // set form editable attribute
+            const form = document.querySelector("#" + formId);
+            form.dataset.editable = "true";
+            SetEditable(form, form.dataset.editable)
+
+            // hide edit button
+            button.classList.replace("inline", "hidden");
+
+            // show actions button
+            const actionsWrapper = document.querySelector("#" + actionsId)
+            actionsWrapper.classList.replace("hidden", "flex");
+        }
+
+        // function for set all inputs in form to readonly or disable
+        function SetEditable(form, editable) {
+            if (editable == "true") {
+                $(form).find('input').prop('disabled', false);
+                $(form).find('select').prop('disabled', false);
+                $(form).find('button').prop('disabled', false);
+                $(form).find('button').removeClass('disabled');
+                $(form).find('#summernote').summernote('enable');
+            }
+            else {
+                $(form).find('input').prop('disabled', true);
+                $(form).find('select').prop('disabled', true);
+                $(form).find('button').prop('disabled', true);
+                $(form).find('button').addClass('disabled');
+                $(form).find('#summernote').summernote('disable');
+            }
+        }
+
+        // function for close form editing
+        function CloseForm() {
+            window.addEventListener("beforeunload", (event) => {
+                const message = "Do you really want to close form editing?";
+                event.returnValue = message;
+                return message;
+            })
+        }
     </script>
 }
