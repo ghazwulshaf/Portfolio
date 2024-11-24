@@ -1,16 +1,40 @@
-## Hi there 👋
+# MY PORTFOLIO
+<p>This is my web portfolio that using ASP.NET MVC framework</p>
 
-<!--
-**ghazwulshaf/ghazwulshaf** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.
+## TOOLS
+<ul>
+    <li>C#</li>
+    <li>.NET 9.0</li>
+    <li>ASP.NET MVC</li>
+    <li>Node JS</li>
+    <li>Tailwind CSS</li>
+    <li>Feather Icons</li>
+</ul>
 
-Here are some ideas to get you started:
+## PREPARE
 
-- 🔭 I’m currently working on ...
-- 🌱 I’m currently learning ...
-- 👯 I’m looking to collaborate on ...
-- 🤔 I’m looking for help with ...
-- 💬 Ask me about ...
-- 📫 How to reach me: ...
-- 😄 Pronouns: ...
-- ⚡ Fun fact: ...
--->
+### .NET PACKAGES
+<span>Packages:</span>
+<ul>
+    <li>Swashbuckle.AspNetCore 7.0.0</li>
+    <li>Microsoft.AspNetCore.Identity 2.2.0</li>
+    <li>Microsoft.EntityFrameworkCore 9.0.0</li>
+    <li>Microsoft.EntityFrameworkCore.Design 9.0.0</li>
+    <li>Microsoft.EntityFrameworkCore.Tools 9.0.0</li>
+    <li>Microsoft.EntityFrameworkCore.SQLite 9.0.0</li>
+    <li>Microsoft.EntityFrameworkCore.SqlServer 9.0.0</li>
+</ul>
+
+<strong>Run:</strong> <code>dotnet add package &lt;package&gt;</code> <span>for adding package to project</span>
+
+### INSTALL NODE JS PACKAGES
+<strong>Install:</strong> <code>npm install</code>
+
+### BUILD TAILWIND CSS
+<strong>Watch:</strong> <code>npm run watch</code>
+
+### BUILD .NET PROJECT
+<strong>Watch:</strong> <code>dotnet watch</code>
+
+<strong>Build:</strong> <code>dotnet build</code><br>
+<span>This build will build tailwind css also</span>

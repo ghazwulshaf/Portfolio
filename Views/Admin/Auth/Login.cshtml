@@ -1,0 +1,44 @@
+﻿@model User
+@{
+    Layout = "_LayoutAuth";
+    ViewData["Title"] = "Authentication";
+}
+
+<div id="auth" class="flex min-h-screen justify-center items-center">
+    <div class="card w-1/3 p-12">
+
+        <a id="auth-brand" asp-controller="Home"a asp-action="Index" class="text-center">
+            <h1>GhazwulShaf</h1>
+        </a>
+
+        <div id="auth-title" class="text-center mt-4">
+            <h4>LOGIN</h4>
+        </div>
+
+        @if (ViewData["Login Error"] != null)
+        {
+            <div class="text-center text-sm text-red-500">
+                <span>@ViewData["Login Error"]</span>
+            </div>
+        }
+
+        <form id="auth-form" method="post" asp-controller="Auth"a asp-action="Login" class="mt-8">
+            <div>
+                <label asp-for="Username" class="label">Username</label>
+                <input type="text" asp-for="Username" class="input mt-2" placeholder="Username">
+                <span asp-validation-for="Username" class="text-sm text-red-500"></span>
+            </div>
+
+            <div class="mt-4">
+                <label asp-for="Password" class="label">Password</label>
+                <input type="password" asp-for="Password" class="input mt-2" placeholder="Password">
+                <span asp-validation-for="Password" class="text-sm text-red-500"></span>
+            </div>
+
+            <div class="flex justify-center gap-4 mt-12">
+                <button type="submit" class="button button-dark font-semibold px-12">Login</button>
+                <a asp-controller="Home"a asp-action="Index" class="button button-light font-semibold px-12">Home</a>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,31 +1,173 @@
-html {
-  font-size: 14px;
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/****************************
+** Fonts
+****************************/
+
+@font-face {
+    font-family: "Manrope";
+    src: url(../fonts/Manrope/Manrope-VariableFont_wght.ttf)
+}
+@font-face {
+    font-family: "Outfit";
+    src: url(../fonts/Outfit/Outfit-VariableFont_wght.ttf);
 }
 
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
+/****************************
+** Base
+****************************/
+
+@layer base {
+    html {
+        @apply font-manrope text-lg;
+    }
+    h1 {
+        @apply text-5xl font-bold mb-4;
+    }
+    h2 {
+        @apply text-4xl font-bold mb-4;
+    }
+    h3 {
+        @apply text-3xl font-bold mb-3;
+    }
+    h4 {
+        @apply text-2xl font-semibold mb-2;
+    }
+    h5 {
+        @apply text-xl font-semibold mb-1;
+    }
+    h6 {
+        @apply text-lg font-semibold;
+    }
 }
 
-.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
-  box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+@layer components {
+
+    .card {
+        @apply p-4 border bg-white text-black border-neutral-200 rounded-md shadow;
+    }
+    .card .card-title {
+        @apply text-lg font-semibold;
+    }
+    .card .card-subtitle {
+        @apply text-gray-500 text-sm;
+    }
+    .card .card-body {
+        @apply [&>p]:mt-2;
+    }
+
+    .tag {
+        @apply text-sm p-2 rounded bg-gray-200;
+    }
+
+    button.disabled {
+        @apply cursor-not-allowed text-gray-500;
+    }
+    .button {
+        @apply font-medium px-4 py-3 rounded-md;
+    }
+    .button.disabled {
+        @apply bg-gray-400 text-gray-800;
+    }
+    .button-primary {
+        @apply bg-blue-500 text-white;
+    }
+    .button-secondary {
+        @apply bg-neutral-600 text-white;
+    }
+    .button-info {
+        @apply bg-sky-500 text-black;
+    }
+    .button-success {
+        @apply bg-green-600 text-white;
+    }
+    .button-warning {
+        @apply bg-yellow-500 text-black;
+    }
+    .button-danger {
+        @apply bg-red-600 text-white;
+    }
+    .button-dark {
+        @apply bg-black text-white;
+    }
+    .button-light {
+        @apply bg-white text-black border border-gray-500;
+    }
+
+    .label {
+        @apply block font-medium mb-1;
+    }
+    .input {
+        @apply w-full bg-white text-black px-4 py-2 border border-gray-200 rounded-md focus:caret-black focus:ring-black;
+    }
+    #dashboard-layout .input {
+        @apply px-2 py-1 rounded-sm;
+    }
+    .input::placeholder {
+        @apply text-gray-500 font-normal;
+    }
+    #dashboard-layout .input::placeholder {
+        @apply text-sm;
+    }
+    .input-search {
+        @apply bg-white text-gray-500 px-4 py-2 border-none rounded-md shadow focus:caret-gray-500 focus:ring-gray-500;
+    }
+    .input-search::-webkit-search-cancel-button {
+        -webkit-appearance: none;
+        appearance: none;
+    }
+    .input-search::placeholder {
+        @apply text-gray-400;
+    }
+
+    .pagination {
+        @apply flex flex-row justify-center gap-2;
+    }
+    .pagination-item {
+        @apply bg-white text-black rounded-md px-4 py-2;
+    }
+    .pagination-item.active {
+        @apply bg-black text-white;
+    }
 }
 
-html {
-  position: relative;
-  min-height: 100%;
+
+/****************************
+** Index (Home)
+****************************/
+
+#home .btn {
+    @apply font-semibold px-8 py-4 rounded;
 }
 
-body {
-  margin-bottom: 60px;
+#home .btn-dark {
+    @apply bg-black text-white border border-black;
 }
 
-.form-floating > .form-control-plaintext::placeholder, .form-floating > .form-control::placeholder {
-  color: var(--bs-secondary-color);
-  text-align: end;
+#home .btn-light {
+    @apply bg-white text-black border border-black;
 }
 
-.form-floating > .form-control-plaintext:focus::placeholder, .form-floating > .form-control:focus::placeholder {
-  text-align: start;
+
+/****************************
+** Dashboard Layout
+****************************/
+
+#dashboard-layout nav a:hover {
+    @apply bg-gray-900;
+}
+#dashboard-layout nav a.active {
+    @apply bg-gray-900;
+}
+
+.note-editor {
+    font-family: inherit !important;
+}
+.note-editable {
+    font-family: inherit !important;
+}
+.note-result {
+    font-family: inherit !important;
 }

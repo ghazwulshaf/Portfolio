@@ -1,0 +1,156 @@
+﻿@model About
+
+@{
+    Layout = "_LayoutDashboard";
+    ViewData["Title"] = "About";
+}
+
+<div id="dashboard-about">
+    <section id="about-profile">
+        <div class="section-title flex items-end gap-4">
+            <h6>Profile</h6>
+            <button id="profile-edit" class="inline text-blue-500" onclick="EditForm(this, 'profile-form', 'profile-actions')">Edit</button>
+        </div>
+        
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="text-blue-500">@TempData["SuccessMessage"]</div>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="text-red-500">@TempData["ErrorMessage"]</div>
+        }
+
+        <div class="card mt-2">
+            
+            <form id="profile-form" method="post" enctype="multipart/form-data" asp-action="Update" asp-controller="DashboardAbout" data-editable="false" class="*:mt-4">
+                <div class="first:mt-0">
+                    <label asp-for='Profile.Data["Title"]' class="label">Title:</label>
+                    <input type="text" asp-for='Profile.Data["Title"]' class="input">
+                </div>
+
+                <div>
+                    <label asp-for='Profile.Data["Description"]' class="label">Description:</label>
+                    <textarea id="summernote" asp-for='Profile.Data["Description"]'></textarea>
+                </div>
+
+                <div>
+                    <label asp-for='ProfilePhoto.File' class="label">Photo:</label>
+                    <div class="input">
+                        <input type="hidden" asp-for='Profile.Data["Photo"]'>       @* input hidden untuk menyimpan value photo old jika tidak terdapat perubahan photo *@
+                        <input type="file" id="profile-photo-input" asp-for='ProfilePhoto.File' accept="image/*">
+                        <img id="profile-photo" src='@Model.Profile.Data["Photo"]' class="w-48 mt-2">
+                    </div>
+                </div>
+
+                <div>
+                    <label asp-for='Profile.Data["Actions"]' class="label">Actions:
+                        <button class="text-sm text-blue-500 underline">add</button>
+                     </label>
+                    <ul>
+                        <li class="flex *:grow gap-2">
+                            <div>
+                                <label class="text-sm">Name:</label>
+                                <input type="text" class="input" placeholder="Action name...">
+                            </div>
+                            <div>
+                                <label class="text-sm">Icon:</label>
+                                <input type="text" class="input" placeholder="Action icon... <feathericons>">
+                            </div>
+                            <div>
+                                <label class="text-sm">Target:</label>
+                                <input type="text" class="input" placeholder="Action target...">
+                            </div>
+                            <div>
+                                <label class="text-sm">Type:</label>
+                                <select class="input">
+                                    <option value="primary">Primary</option>
+                                    <option value="secondary">Secondary</option>
+                                    <option value="dark">Dark</option>
+                                    <option value="light">Light</option>
+                                </select>
+                            </div>
+                            <button class="self-center last:grow-0 text-sm text-red-500 underline">delete</button>
+                        </li>
+                    </ul>
+                </div>
+
+                <div id="profile-actions" class="hidden justify-center gap-4 last:mt-8 mb-4">
+                    <button id="profile-submit" type="submit" class="button button-dark py-1">Save</button>
+                    <button class="button button-light py-1" onclick="CloseForm()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>
+
+@section Scripts
+{
+    <script>
+        // set data-editable global attribute on forms
+        let forms = document.querySelectorAll("[data-editable]");
+        forms.forEach((form) => {
+            SetEditable(form, form.dataset.editable);
+        })
+
+        // show profile photo dynamically
+        const profilePhoto = document.querySelector("#profile-photo");
+        const profilePhotoInput = document.querySelector("#profile-photo-input");
+
+        profilePhotoInput.addEventListener("change", (event) => {
+            const file = event.target.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    profilePhoto.src = e.target.result;
+                }
+
+                reader.readAsDataURL(file);
+            }
+        })
+
+        // function for set form editable
+        function EditForm(button, formId, actionsId) {
+            // set form editable attribute
+            const form = document.querySelector("#" + formId);
+            form.dataset.editable = "true";
+            SetEditable(form, form.dataset.editable)
+
+            // hide edit button
+            button.classList.replace("inline", "hidden");
+
+            // show actions button
+            const actionsWrapper = document.querySelector("#" + actionsId)
+            actionsWrapper.classList.replace("hidden", "flex");
+        }
+
+        // function for set all inputs in form to readonly or disable
+        function SetEditable(form, editable) {
+            if (editable == "true") {
+                $(form).find('input').prop('disabled', false);
+                $(form).find('select').prop('disabled', false);
+                $(form).find('button').prop('disabled', false);
+                $(form).find('button').removeClass('disabled');
+                $(form).find('#summernote').summernote('enable');
+            }
+            else {
+                $(form).find('input').prop('disabled', true);
+                $(form).find('select').prop('disabled', true);
+                $(form).find('button').prop('disabled', true);
+                $(form).find('button').addClass('disabled');
+                $(form).find('#summernote').summernote('disable');
+            }
+        }
+
+        // function for close form editing
+        function CloseForm() {
+            window.addEventListener("beforeunload", (event) => {
+                const message = "Do you really want to close form editing?";
+                event.returnValue = message;
+                return message;
+            })
+        }
+    </script>
+}

@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - GhazwulShaf</title>
+    <script type="importmap"></script>
+
+    <!-- Bootstrap CSS
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> -->
+
+    <!-- Tailwind CSS -->
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/css/output.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/GhazwulShaf.styles.css" asp-append-version="true" />
+</head>
+
+<body>
+
+    <main role="main">
+        @RenderBody()
+    </main>
+
+    <!-- Feather Icons -->
+    <script src="~/lib/feathericons\dist\js\feather.min.js"></script>
+    <script>
+        feather.replace();
+    </script>
+
+    <!-- Bootstrap CSS
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script> -->
+    
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+
+</body>
+</html>
