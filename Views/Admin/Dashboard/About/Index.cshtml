@@ -37,6 +37,7 @@
                 <div>
                     <label asp-for='ProfilePhoto.File' class="label">Photo:</label>
                     <div class="input">
+                        <input type="hidden" asp-for='Profile.Data["Photo"]'>       @* input hidden untuk menyimpan value photo old jika tidak terdapat perubahan photo *@
                         <input type="file" id="profile-photo-input" asp-for='ProfilePhoto.File' accept="image/*">
                         <img id="profile-photo" src='@Model.Profile.Data["Photo"]' class="w-48 mt-2">
                     </div>

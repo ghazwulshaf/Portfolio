@@ -2,6 +2,6 @@ namespace GhazwulShaf.Models;
 
 public class About
 {
-    public Profile Profile { get; set; } = new Profile();
+    public AboutProfile Profile { get; set; } = new AboutProfile();
     public UploadFile ProfilePhoto { get; set; } = new UploadFile();
 }

@@ -1,7 +1,7 @@
 using GhazwulShaf.Models;
+using GhazwulShaf.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Newtonsoft.Json;
 
 namespace GhazwulShaf.Controllers.Admin.Dashboard
 {
@@ -11,9 +11,12 @@ namespace GhazwulShaf.Controllers.Admin.Dashboard
     {
         private readonly string _profileJsonFile = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "data", "profile.json");
         private readonly string _profilePhotoFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "profile");
+        private readonly AboutProfileService _profileService;
 
-        public DashboardAboutController()
+        public DashboardAboutController(AboutProfileService profileService)
         {
+            _profileService = profileService;
+
             // pastikan setiap folder tersedia
             if (!Directory.Exists(_profilePhotoFolder))
             {
@@ -25,24 +28,11 @@ namespace GhazwulShaf.Controllers.Admin.Dashboard
         [HttpGet]
         public async Task<IActionResult> Index()
         {
-            Dictionary<string, string> profile;
-
-            // baca data JSON dri file
-            if (System.IO.File.Exists(_profileJsonFile))
-            {
-                var profileString = await System.IO.File.ReadAllTextAsync(_profileJsonFile);
-                profile = JsonConvert.DeserializeObject<Dictionary<string, string>>(profileString);
-            }
-            else
-            {
-                // buat data kosong jika file tidak ada
-                profile = new Dictionary<string, string>();
-            }
-
             return View("/Views/Admin/Dashboard/About/Index.cshtml",
                 new About {
-                    Profile = new Profile { Data = profile }
-                });
+                    Profile = await _profileService.GetAsync()
+                }
+            );
         }
 
         [HttpPost]
@@ -50,10 +40,10 @@ namespace GhazwulShaf.Controllers.Admin.Dashboard
         // [Consumes("application/x-www-form-urlencoded")]
         public async Task<IActionResult> Update(About About)
         {
-            if (ModelState.IsValid)
+            if (About.Profile.Data != null)
             {
                 // simpan file gambar jika terdapat file terupload
-                if (About.ProfilePhoto.File != null & About.ProfilePhoto.File.Length > 0)
+                if (About.ProfilePhoto.File != null && About.ProfilePhoto.File.Length > 0)
                 {
                     var photoFileName = Path.GetFileName(About.ProfilePhoto.File.FileName);
                     var photoFilePath = Path.Combine(_profilePhotoFolder, photoFileName);
@@ -75,11 +65,8 @@ namespace GhazwulShaf.Controllers.Admin.Dashboard
                     About.Profile.Data["Photo"] = "/images/profile/" + photoFileName;
                 }
 
-                // konversi data ke JSON
-                var json = JsonConvert.SerializeObject(About.Profile.Data, Formatting.Indented);
-
                 // simpan data ke file
-                await System.IO.File.WriteAllTextAsync(_profileJsonFile, json);
+                await _profileService.UpdateAsync(About.Profile);
 
                 // kembali ke halaman Index dan tampilkan pesan
                 TempData["SuccessMessage"] = "Profile has been updated!";

@@ -1,6 +1,5 @@
 using GhazwulShaf.Data;
 using GhazwulShaf.Services;
-using Microsoft.AspNetCore.Http.Features;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -17,6 +16,7 @@ builder.Services.AddAuthentication("CookieAuth")
     });
 builder.Services.AddAuthorization();
 builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<AboutProfileService>();
 
 // Configure EF Core
 builder.Services.AddDbContext<AppDbContext>(options =>

@@ -1,4 +1,6 @@
-﻿@{
+﻿@model About
+
+@{
     ViewData["Title"] = "About Me";
 }
 
@@ -7,17 +9,11 @@
         <div id="profile-left" class="order-first w-3/5">
 
             <div id="profile-title">
-                <h1>About Me</h1>
+                <h1>@Model.Profile.Data["Title"]</h1>
             </div>
 
-            <div id="profile-description" class="mt-8 [&>p]:my-2">
-                <p>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Accusamus ipsum recusandae impedit. Cum ipsum, enim ad animi magni molestias odio labore esse dolor dolorem quisquam maiores corporis pariatur asperiores dolores.
-                    Nulla nobis quis adipisci facilis ad sint vel similique accusantium! Ad asperiores saepe recusandae laboriosam veniam expedita fuga dolore, explicabo minima ipsam dolorem dicta? Officia adipisci suscipit nam similique libero.
-                </p>
-                <p>
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. A quo vitae omnis laudantium accusantium earum minus debitis dolor alias et repellendus quam, error voluptate dignissimos ipsum blanditiis placeat quis quos!
-                </p>
+            <div id="profile-description" class="note-result mt-8 [&>p]:my-2">
+                @Html.Raw(Model.Profile.Data["Description"])
             </div>
 
             <div id="profile-actions" class="mt-8">
@@ -27,7 +23,7 @@
         </div>
 
         <div id="profile-right" class="w-1/5">
-            <div id="profile-image" class="relative w-full aspect-[4/6] rounded-md bg-gray-200"></div>
+            <div id="profile-image" class="relative w-full aspect-[4/6] rounded-md bg-gray-200 bg-cover bg-center" style='background-image: url(@Model.Profile.Data["Photo"]);'></div>
         </div>
     </section>
 

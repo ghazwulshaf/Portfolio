@@ -107,7 +107,16 @@
                     ['table', ['table']],
                     ['insert', ['link', 'picture', 'video']],
                     ['view', ['fullscreen', 'codeview', 'help']]
-                ]
+                ],
+                fontNames: [],
+                fontNamesIgnoreCheck: true,
+                callbacks: {
+                    onChange: function(contents, $editable) {
+                        $editable.find('*').each(function() {
+                            $(this).css('font-family', '');
+                        });
+                    }
+                }
             });
         })
     </script>
