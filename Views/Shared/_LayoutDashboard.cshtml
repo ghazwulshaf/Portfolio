@@ -69,7 +69,7 @@
                 <h4>@ViewData["Title"]</h4>
             </header>
 
-            <main role="main" class="px-12 py-4">
+            <main role="main">
                 @RenderBody()
             </main>
         </div>
@@ -108,15 +108,9 @@
                     ['insert', ['link', 'picture', 'video']],
                     ['view', ['fullscreen', 'codeview', 'help']]
                 ],
-                fontNames: [],
-                fontNamesIgnoreCheck: true,
-                callbacks: {
-                    onChange: function(contents, $editable) {
-                        $editable.find('*').each(function() {
-                            $(this).css('font-family', '');
-                        });
-                    }
-                }
+                fontNames: ['Manrope'],
+                fontNamesIgnoreCheck: ['Manrope'],
+                addDefaultFonts: false,
             });
         })
     </script>

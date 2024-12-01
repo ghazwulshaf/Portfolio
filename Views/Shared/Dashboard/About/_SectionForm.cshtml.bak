@@ -1,0 +1,162 @@
+@model AboutSection
+@{
+    var FormId = "Form" + Model.Id;
+    var FormItemsId = FormId + "-items";
+    var FormActionsId = FormId + "-actions";
+    var FormSelectorId = FormId + "-selector";
+}
+
+<!-- pass data to js file -->
+<div id='form-id' data-form-id='@FormId' class='hidden'></div>
+<div id='item-view' data-item-view='@Url.Action("LoadPartialView", "View")'></div>
+
+<section class='first:mt-4'>
+    <div class="section-title flex items-end gap-4">
+        <h6>Section @Model.Id</h6>
+        <button id='@FormId-edit' class="section-edit hidden text-blue-500" onclick='EditForm(this, @FormId, @FormActionsId)'>Edit</button>
+    </div>
+
+    <div class="card mt-2">
+        <form id='@FormId'>
+
+            <input type="hidden" asp-for='Id'>
+
+            <div>
+                <label class="label">Section Title:</label>
+                <input type="text" class="input" asp-for='Title'>
+            </div>
+
+            <div class="mt-4 w-full flex items-start gap-4">
+                <div class="grow-0 flex flex-col items-end gap-2">
+                    <select id='@FormSelectorId' class="input w-24 text-sm" asp-for='Type' onchange='ChangeType()'>
+                        <option value="" disabled>-- Type --</option>
+                        <option value="1" selected>Type 1</option>
+                        <option value="2">Type 2</option>
+                        <option value="3">Type 3</option>
+                        <option value="4">Type 4</option>
+                        <option value="5">Type 5</option>
+                    </select>
+
+                    <button type="button" class='text-sm text-blue-500 underline' onclick='AddItem()'>Add</button>
+                </div>
+                
+                <div id='@FormItemsId' class="w-full text-sm *:mt-4"></div>
+            </div>
+
+            <div id='@FormActionsId' class="flex justify-center gap-4 last:mt-8 mb-4">
+                <button type="submit" form='@FormId' class="button button-dark py-1" onsubmit='SubmitForm()'>Save</button>
+                <button class="button button-light py-1" onclick="CloseForm()">Cancel</button>
+            </div>
+        </form>
+    </div>
+</section>
+
+<script>
+    var itemId = 0;
+
+    if (itemId < 1) {
+        AddItem();
+    }
+    
+    function ChangeType()
+    {
+        data = {
+            Datas: {
+                'Id': itemId,
+                'ItemId': '@FormId' + 'Item' + itemId,
+                'Type': $('#@FormSelectorId').val()
+            }
+        };
+    
+        $.ajax({
+            url: '@Url.Action("LoadSectionItem", "DashboardAbout")',
+            type: 'GET',
+            data: data,
+            success: (response) => {
+                $('#@FormItemsId').html(response);
+            }
+        })
+    }
+    
+    function AddItem()
+    {
+        itemId++;
+        data = {
+            Datas: {
+                'Id': itemId,
+                'ItemId': '@FormId' + 'Item' + itemId,
+                'Type': $('#@FormSelectorId').val()
+            }
+        };
+    
+        $.ajax({
+            url: '@Url.Action("LoadSectionItem", "DashboardAbout")',
+            type: 'GET',
+            data: data,
+            success: (response) => {
+                $('#@FormItemsId').append(response);
+            }
+        })
+    }
+
+    function DeleteItem(elementId) {
+        const confirmed = confirm('Are you sure you want to delete item?');
+
+        if (confirmed) {
+            $('#' + elementId).remove();
+        }
+    }
+
+    async function SubmitForm() {
+        try {
+            const response = await fetch('@Url.Action("UpdateSection", "DashboardAbout")', {
+                method: 'POST',
+                body: JSON.stringify({ username: 'example' }),
+                headers: {
+                    'Content-Type', 'application/json'
+                }
+            });
+        } catch (error) {
+            console.error(error.message);
+        }
+    }
+    
+    @* document.querySelector('#@FormId').addEventListener('submit', (event) => {
+        event.preventDefault();
+
+        const formData = new FormData(this);
+        const items = [];
+
+        const data = {};
+        formData.forEach((value, key) => {
+            const match = key.match(/^Items\[(d+)\]\.(\w+)$/);
+            if (match) {
+                const index = match[1];
+                const field = match[2];
+                if (!items[index]) {
+                    items[index] = {};
+                }
+                items[index].field = value;
+            }
+        });
+
+        const filteredItems = items.filter(items -> items);
+
+        fetch('@Url.Action("UpdateSection", "DashboardAbout")', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(filteredItems)
+        })
+        .then(response => response.json())
+        .then(result => {
+            console.log('Sukses', result);
+            alert('Data berhasil dikirim!');
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Terjadi kesalahan saat mengirim data.');
+        });
+    }); *@
+</script>

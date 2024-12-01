@@ -161,13 +161,3 @@
 #dashboard-layout nav a.active {
     @apply bg-gray-900;
 }
-
-.note-editor {
-    font-family: inherit !important;
-}
-.note-editable {
-    font-family: inherit !important;
-}
-.note-result {
-    font-family: inherit !important;
-}

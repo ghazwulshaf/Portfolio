@@ -1,0 +1,206 @@
+﻿@model About
+
+@{
+    Layout = "_LayoutDashboard";
+    ViewData["Title"] = "About";
+
+    var dictData = new Dictionary<string, string>
+    {
+        { "Id", "1" }
+    };
+}
+
+<div id="dashboard-about" class="*:mt-4">
+
+    <!-- PROFILE -->
+    <section id="about-profile" class="first:mt-0">
+        <div class="section-title flex items-end gap-4">
+            <h6>Profile</h6>
+            <button id="profile-form-edit" class="inline text-blue-500" onclick="EditForm(this, 'profile-form')">Edit</button>
+        </div>
+        
+        @if (TempData["SuccessMessage"] != null)
+        {
+            <div class="text-blue-500">@TempData["SuccessMessage"]</div>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="text-red-500">@TempData["ErrorMessage"]</div>
+        }
+
+        <div class="card mt-2">
+            
+            <form id="profile-form" method="post" enctype="multipart/form-data" asp-action="Update" asp-controller="DashboardAbout" data-editable="false" class="*:mt-4">
+                <div class="first:mt-0">
+                    <label asp-for='Profile.Data["Title"]' class="label">Title:</label>
+                    <input type="text" asp-for='Profile.Data["Title"]' class="input">
+                </div>
+
+                <div>
+                    <label asp-for='Profile.Data["Description"]' class="label">Description:</label>
+                    <textarea asp-for='Profile.Data["Description"]' id="summernote"></textarea>
+                </div>
+
+                <div>
+                    <label asp-for='ProfilePhoto.File' class="label">Photo:</label>
+                    <div class="input">
+                        <input type="hidden" asp-for='Profile.Data["Photo"]'>       @* input hidden untuk menyimpan value photo old jika tidak terdapat perubahan photo *@
+                        <input type="file" id="profile-photo-input" asp-for='ProfilePhoto.File' accept="image/*">
+                        <img id="profile-photo" src='@Model.Profile.Data["Photo"]' class="w-48 mt-2">
+                    </div>
+                </div>
+
+                <div>
+                    <label asp-for='Profile.Data["Actions"]' class="label">Actions:
+                        <button class="text-sm text-blue-500 underline">add</button>
+                     </label>
+                    <ul>
+                        <li class="flex *:grow gap-2">
+                            <div>
+                                <label class="text-sm">Name:</label>
+                                <input type="text" class="input" placeholder="Action name...">
+                            </div>
+                            <div>
+                                <label class="text-sm">Icon:</label>
+                                <input type="text" class="input" placeholder="Action icon... <feathericons>">
+                            </div>
+                            <div>
+                                <label class="text-sm">Target:</label>
+                                <input type="text" class="input" placeholder="Action target...">
+                            </div>
+                            <div>
+                                <label class="text-sm">Type:</label>
+                                <select class="input">
+                                    <option value="primary">Primary</option>
+                                    <option value="secondary">Secondary</option>
+                                    <option value="dark">Dark</option>
+                                    <option value="light">Light</option>
+                                </select>
+                            </div>
+                            <button class="self-center last:grow-0 text-sm text-red-500 underline">delete</button>
+                        </li>
+                    </ul>
+                </div>
+
+                <div id="profile-form-actions" class="hidden justify-center gap-4 last:mt-8 mb-4">
+                    <button type="submit" form="profile-form" class="button button-dark py-1">Save</button>
+                    <button class="button button-light py-1" onclick="CloseForm()">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </section>
+
+    <!-- SECTIONS -->
+    <div id="about-sections" class="*:mt-4"></div>
+
+    <div class="w-full flex justify-end border border-t-black">
+        <button class="text-blue-500" onclick="AddSection()">Add Section</button>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        // set data-editable global attribute on forms
+        var forms = document.querySelectorAll('form');
+        forms.forEach((form) => {
+            // set editable to false
+            form.dataset.editable = "false";
+
+            @* // show edit button
+            const formEdit = form.querySelector('#' + form.id + '-edit');
+            if (formEdit.classList.contains('hidden')) {
+                formEdit.classList.replace('hidden', 'inline');
+            }
+
+            // hide actions button
+            const formActions = form.querySelector('#' + form.id + '-actions');
+            if (formActions.classList.contains('flex')){
+                formActions.classList.replace('flex', 'hidden');
+            } *@
+
+            SetEditable(form, form.dataset.editable);
+        })
+
+        // show profile photo dynamically
+        const profilePhoto = document.querySelector("#profile-photo");
+        const profilePhotoInput = document.querySelector("#profile-photo-input");
+
+        profilePhotoInput.addEventListener("change", (event) => {
+            const file = event.target.files[0];
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = function(e) {
+                    profilePhoto.src = e.target.result;
+                }
+
+                reader.readAsDataURL(file);
+            }
+        })
+
+        // function for set form editable
+        function EditForm(button, formId) {
+            var formActionsId = formId + '-actions';
+
+            // set form editable attribute
+            const form = document.querySelector("#" + formId);
+            form.dataset.editable = "true";
+            SetEditable(form, form.dataset.editable)
+
+            // hide edit button
+            button.classList.replace("inline", "hidden");
+
+            // show actions button
+            const actionsWrapper = document.querySelector("#" + formActionsId)
+            actionsWrapper.classList.replace("hidden", "flex");
+        }
+
+        // function for set all inputs in form to readonly or disable
+        function SetEditable(form, editable) {
+            if (editable == "true") {
+                $(form).find('input').prop('disabled', false);
+                $(form).find('select').prop('disabled', false);
+                $(form).find('button').prop('disabled', false);
+                $(form).find('button').removeClass('disabled');
+                $(form).find('#summernote').summernote('enable');
+            }
+            else {
+                $(form).find('input').prop('disabled', true);
+                $(form).find('select').prop('disabled', true);
+                $(form).find('button').prop('disabled', true);
+                $(form).find('button').addClass('disabled');
+                $(form).find('#summernote').summernote('disable');
+            }
+        }
+
+        // function for close form editing
+        function CloseForm() {
+            window.addEventListener("beforeunload", (event) => {
+                const message = "Do you really want to close form editing?";
+                event.returnValue = message;
+                return message;
+            })
+        }
+    </script>
+
+    <script>
+        var sectionId = 0;
+
+        function AddSection() {
+            var Section = {
+                Id: sectionId++
+            };
+
+            $.ajax({
+                url: '@Url.Action("LoadSectionForm", "DashboardAbout")',
+                type: 'GET',
+                data: Section,
+                success: (response) => {
+                    $('#about-sections').append(response);
+                }
+            })
+        }
+    </script>
+}

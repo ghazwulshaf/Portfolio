@@ -17,6 +17,7 @@ builder.Services.AddAuthentication("CookieAuth")
 builder.Services.AddAuthorization();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<AboutProfileService>();
+builder.Services.AddScoped<AboutSectionService>();
 
 // Configure EF Core
 builder.Services.AddDbContext<AppDbContext>(options =>

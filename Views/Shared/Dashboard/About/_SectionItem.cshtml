@@ -1,0 +1,74 @@
+@model AboutSectionItem
+@{
+    var SubmitText = "";
+    if (ViewBag.Session == "Add")
+        SubmitText = "Add";
+    if (ViewBag.Session == "Edit")
+        SubmitText = "Save";
+}
+
+<div id="section-item" class="fixed top-0 right-0 bottom-0 left-0 overflow-auto backdrop-blur-sm bg-white/30 flex justify-center items-center">
+    <div class="card w-[728px]">
+
+        <h6>@ViewBag.Title</h6>
+
+        @* <form method="post" action="@Url.Action("AddSectionItem", "DashboardAbout", new { id = ViewBag.Id })" class="mt-4 *:mt-4"> *@
+        <form method="post" asp-action="@ViewBag.Action" asp-controller="DashboardAbout" asp-route-id="@ViewBag.Id" asp-route-itemId="@Model.Id" class="mt-4 *:mt-4">
+            <input type="hidden" asp-for="Id">
+
+            <div class="first:mt-0">
+                <label class="label">Name:</label>
+                <input type="text" class="input" asp-for="Name">
+            </div>
+
+            <div>
+                <label class="label">Company/University:</label>
+                <input type="text" class="input" asp-for="Company">
+            </div>
+
+            <div>
+                <label class="label">Description:</label>
+                <textarea class="summernote" asp-for="Description"></textarea>
+            </div>
+
+            <div class="flex gap-2">
+                <div>
+                    <label class="label">From:</label>
+                    <input type="month" class="input" asp-for="From">
+                </div>
+
+                <div>
+                    <label class="label">To:</label>
+                    <input type="month" class="input" asp-for="To">
+                </div>
+            </div>
+
+            <div class="flex justify-center gap-2 last:mt-8 mb-4">
+                <button type="submit" class="button button-dark py-1">@SubmitText</button>
+                <button type="button" class="button button-light py-1" onclick="document.querySelector('#section-item').remove()">Cancel</button>
+            </div>
+        </form>
+    </div>
+    
+    <script>
+        $(document).ready(() => {
+            $('.summernote').summernote({
+                placeholder: 'Write the contents in here',
+                tabsize: 2,
+                height: 200,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['fullscreen', 'codeview', 'help']]
+                ],
+                fontNames: ['Manrope'],
+                fontNamesIgnoreCheck: ['Manrope'],
+                addDefaultFonts: false,
+            });
+        })
+    </script>
+</div>

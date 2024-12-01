@@ -8,11 +8,11 @@ public class User
 
     [Required]
     [StringLength(100)]
-    public string Username { get; set; }
+    public string Username { get; set; } = default!;
 
     [Required]
     [DataType(DataType.Password)]
-    public string Password { get; set; }
+    public string Password { get; set; } = default!;
 
-    public string Role { get; set; }
+    public string Role { get; set; } = default!;
 }
