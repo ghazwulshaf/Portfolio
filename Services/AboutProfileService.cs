@@ -9,7 +9,7 @@ public class AboutProfileService
 
     public AboutProfileService(IConfiguration configuration)
     {
-        _filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "data", "profile.json");
+        _filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "data", "about_profile.json");
     }
 
     public async Task<AboutProfile> GetAsync()

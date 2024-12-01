@@ -1,0 +1,37 @@
+[
+  {
+    "Id": 0,
+    "Title": "Skills",
+    "Items": [
+      {
+        "Id": 0,
+        "Name": "Skill 2",
+        "Company": null,
+        "Description": null,
+        "From": null,
+        "To": null
+      },
+      {
+        "Id": 1,
+        "Name": "Skill 3",
+        "Company": null,
+        "Description": null,
+        "From": null,
+        "To": null
+      },
+      {
+        "Id": 2,
+        "Name": "Skill 4",
+        "Company": null,
+        "Description": null,
+        "From": null,
+        "To": null
+      }
+    ]
+  },
+  {
+    "Id": 1,
+    "Title": "Experience",
+    "Items": []
+  }
+]

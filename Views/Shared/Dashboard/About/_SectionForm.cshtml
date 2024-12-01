@@ -1,0 +1,33 @@
+@model AboutSection
+@{
+    var SubmitText = "";
+    if (ViewBag.Session == "Add")
+        SubmitText = "Add";
+    if (ViewBag.Session == "Edit")
+        SubmitText = "Save";
+}
+
+<div id="section-form" class="fixed top-0 right-0 bottom-0 left-0 backdrop-blur-sm bg-white/30 flex justify-center items-center">
+    <div class="card w-96">
+        <form method="post" asp-action="@ViewBag.Action" asp-controller="DashboardAbout">
+            <input type="hidden" asp-for='Id'>
+
+            <div>
+                <label class="label">Section Title:</label>
+                <input type="text" class="input" asp-for='Title' placeholder="Title..." required>
+                <span asp-validation-for="Title" class="text-sm text-red-500"></span>
+            </div>
+
+            <div class="flex justify-center gap-4 mt-8">
+                <button type="submit" class="button button-dark py-1">@SubmitText</button>
+                <button type="button" class="button button-light py-1" onclick="document.querySelector('#section-form').remove()">Cancel</button>
+            </div>
+        </form>
+    </div>
+
+    <script>
+        $(document).ready(() => {
+            $('#Title').focus();
+        })
+    </script>
+</div>

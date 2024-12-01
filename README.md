@@ -16,7 +16,6 @@
 ### .NET PACKAGES
 <span>Packages:</span>
 <ul>
-    <li>Swashbuckle.AspNetCore 7.0.0</li>
     <li>Microsoft.AspNetCore.Identity 2.2.0</li>
     <li>Microsoft.EntityFrameworkCore 9.0.0</li>
     <li>Microsoft.EntityFrameworkCore.Design 9.0.0</li>

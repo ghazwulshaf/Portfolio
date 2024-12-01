@@ -27,6 +27,6 @@ public static class DbSeeder
     public static string HashPassword(string password)
     {
         var hasher = new PasswordHasher<User>();
-        return hasher.HashPassword(null, password);
+        return hasher.HashPassword(new User(), password);
     }
 }
