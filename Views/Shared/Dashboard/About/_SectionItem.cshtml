@@ -18,7 +18,7 @@
 
             <div class="first:mt-0">
                 <label class="label">Name:</label>
-                <input type="text" class="input" asp-for="Name">
+                <input type="text" class="input" asp-for="Name" required>
             </div>
 
             <div>
@@ -52,6 +52,8 @@
     
     <script>
         $(document).ready(() => {
+            $('#Name').focus();
+            
             $('.summernote').summernote({
                 placeholder: 'Write the contents in here',
                 tabsize: 2,

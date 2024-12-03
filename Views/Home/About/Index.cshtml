@@ -27,156 +27,42 @@
         </div>
     </section>
 
-    <section id="educations" class="odd:bg-white even:bg-neutral-200">
-        <div id="educations-title">
-            <h1>Educations</h1>
+    @foreach (var Section in Model.Sections)
+    {
+    <section id="@Section.Title" class="odd:bg-white even:bg-neutral-200">
+        <div>
+            <h1>@Section.Title</h1>
         </div>
 
-        <div id="educations-list" class="mt-8 flex flex-col items-stretch gap-4">
+        <div class="mt-8 flex flex-col items-stretch gap-4">
+
+            @foreach (var Item in Section.Items)
+            {
             <div class="card">
-
                 <div class="card-title">
-                    <span>S1 Teknik Informatika</span>
+                    <span>@Item.Name</span>
                 </div>
 
+                @if (Item.Company != null)
+                {
                 <div class="card-subtitle">
-                    <span>Universitas Hasanuddin</span>
-                    <span>|</span>
-                    <span>2020 - 2024</span>
+                    <span>@Item.Company</span>
+                    <span>@(Item.From != null ? "|" : null)</span>
+                    <span>@Item.From?.ToString("MMMM yyyy")</span>
+                    <span>@(Item.To != null ? "-" : null)</span>
+                    <span>@Item.To?.ToString("MMMM yyyy")</span>
                 </div>
+                }
 
+                @if (Item.Description != null)
+                {
                 <div class="card-body">
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Quasi deleniti libero iusto exercitationem sed ratione id blanditiis deserunt necessitatibus veritatis. Reprehenderit expedita ratione id pariatur dolorum totam, quaerat rem! Totam!
-                    </p>
+                    @Html.Raw(Item.Description)
                 </div>
+                }
             </div>
+            }
         </div>
     </section>
-
-    <section id="experiences" class="odd:bg-white even:bg-neutral-200">
-        <div id="experiences-title">
-            <h1>Experiences</h1>
-        </div>
-
-        <div id="experiences-list" class="mt-8 flex flex-col items-stretch gap-4">
-            <div class="card">
-                <div class="card-title">
-                    <span>Experience 1</span>
-                </div>
-
-                <div class="card-subtitle">
-                    <span>Company, Ltd.</span>
-                    <span>|</span>
-                    <span>2020 - Present</span>
-                </div>
-
-                <div class="card-body">
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, dolor adipisci. Molestias vel sapiente quaerat earum dolores tempore in dolorem impedit. Quae dignissimos repellat nobis vero amet! Voluptatum, soluta quae.
-                    </p>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">
-                    <span>Experience 1</span>
-                </div>
-
-                <div class="card-subtitle">
-                    <span>Company, Ltd.</span>
-                    <span>|</span>
-                    <span>2020 - Present</span>
-                </div>
-
-                <div class="card-body">
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, dolor adipisci. Molestias vel sapiente quaerat earum dolores tempore in dolorem impedit. Quae dignissimos repellat nobis vero amet! Voluptatum, soluta quae.
-                    </p>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">
-                    <span>Experience 1</span>
-                </div>
-
-                <div class="card-subtitle">
-                    <span>Company, Ltd.</span>
-                    <span>|</span>
-                    <span>2020 - Present</span>
-                </div>
-
-                <div class="card-body">
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, dolor adipisci. Molestias vel sapiente quaerat earum dolores tempore in dolorem impedit. Quae dignissimos repellat nobis vero amet! Voluptatum, soluta quae.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="certificates" class="odd:bg-white even:bg-neutral-200 last:pb-36">
-        <div id="certificates-title">
-            <h1>Certificates</h1>
-        </div>
-
-        <div id="certificates-list" class="mt-8 flex flex-col items-stretch gap-4">
-            <div class="card">
-                <div class="card-title">
-                    <span>Certificate 1</span>
-                </div>
-
-                <div class="card-subtitle">
-                    <span>Company, Ltd.</span>
-                    <span>|</span>
-                    <span>2020 - Present</span>
-                </div>
-
-                <div class="card-body">
-                    <p>
-                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Odit, dolor adipisci. Molestias vel sapiente quaerat earum dolores tempore in dolorem impedit. Quae dignissimos repellat nobis vero amet! Voluptatum, soluta quae.
-                    </p>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <section id="skills">
-        <div id="skills-title">
-            <h1>Skills</h1>
-        </div>
-
-        <div id="skills-list" class="mt-8 grid grid-cols-3 gap-4">
-            <div class="card">
-                <div class="card-title">
-                    <span>Skill 1</span>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">
-                    <span>Skill 1</span>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">
-                    <span>Skill 1</span>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">
-                    <span>Skill 1</span>
-                </div>
-            </div>
-
-            <div class="card">
-                <div class="card-title">
-                    <span>Skill 1</span>
-                </div>
-            </div>
-        </div>
-    </section>
+    }
 </div>
