@@ -1,0 +1,67 @@
+@model AboutSection
+
+<form id="section_@Model.Id-form-delete" method="post" asp-action="DeleteSection" asp-controller="DashboardAbout" asp-route-id="@Model.Id" onsubmit="return Delete(event, 'section')" hidden></form>
+<form id="section_@Model.Id-form-reorder" method="post" asp-action="ReorderSectionItems" asp-controller="DashboardAbout" asp-route-sectionId="@Model.Id" hidden></form>
+
+<section id="section_@Model.Id">
+    <input type="hidden" form="section_@Model.Id-form-reorder" asp-for="Id">
+
+    <div class="section-title flex items-center gap-2">
+        <h6>@Model.Title</h6>
+        <div class="flex items-center">
+            <button type="button" onclick="EditSection('@Url.Action("EditSection", "DashboardAbout", new { id = Model.Id })')"><i data-feather="edit-3" class="h-4"></i></button>
+            <button type="submit" form="section_@Model.Id-form-delete"><i data-feather="trash" class="h-4 text-red-500"></i></button>
+        </div>
+    </div>
+
+    <div class="card mt-2">
+        <div class="flex gap-2 *:grow-0">
+            <label class="label">Items:</label>
+            <div class="*:me-1">
+                <button type="button" class="inline text-sm hover:text-blue-900 underline" onclick="GetSectionItem('@Url.Action("AddSectionItem", "DashboardAbout", new { sectionId = Model.Id })')">add</button>
+                <div class="inline">
+                    <button type="button" class="inline text-sm hover:text-blue-900 underline" onclick="Reorder('section_@Model.Id', @Model.Items.Count)">reorder</button>
+                    <div id="section_@Model.Id-reorder-actions" class="hidden text-sm">:
+                        <button type="submit" form="section_@Model.Id-form-reorder" class="text-blue-500 hover:text-blue-600">save</button>
+                        <button type="button" class="text-yellow-500 hover:text-yellow-600" onclick="CancelReorder()">cancel</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="flex flex-col gap-2">
+        @foreach (var Item in Model.Items)
+        {
+            <div id="section_@Model.Id-item_@Item.Id" class="section-item flex items-start gap-2" style="order: @Item.Id;">
+                <input type="hidden" form="section_@Model.Id-form-reorder" asp-for="Items[Item.Id].Id">
+                <input type="hidden" form="section_@Model.Id-form-reorder" asp-for="Items[Item.Id].Order" class="item-input-order">
+                
+                <form id="section_@Model.Id-item_@Item.Id-form-delete" method="post" asp-action="DeleteSectionItem" asp-controller="DashboardAbout" asp-route-sectionId="@Model.Id" asp-route-itemId="@Item.Id" onsubmit="return Delete(event, 'item')" hidden></form>
+                
+                <div class="w-full border border-gray-200 p-4">
+                    <h6 class="text-base">@Item.Name</h6>
+
+                    @if (Item.Company != null || Item.From != null)
+                    {
+                    <div class="mt-1 text-sm text-gray-500">
+                        <span>@Item.Company</span> <span>@(@Item.From != null ? "|" : null)</span> <span>@Item.From?.ToString("MMMM yyyy")</span> <span>@(Item.To != null ? "-" : null)</span> <span>@Item.To?.ToString("MMMM yyyy")</span>
+                    </div>
+                    }
+
+                    @if (Item.Description != null)
+                    {
+                    <p class="mt-2">@Html.Raw(Item.Description)</p>
+                    }
+                </div>
+
+                <div class="mt-2 grow-0 flex">
+                    <button type="button" onclick="GetSectionItem('@Url.Action("EditSectionItem", "DashboardAbout", new { sectionId = Model.Id, itemId = Item.Id })')" class="hover:text-blue-900"><i data-feather="edit-3" class="h-4"></i></button>
+                    <button type="button" class="btn-order btn-order-up hidden hover:text-blue-900" onclick="OrderUp('section_@Model.Id-item_@Item.Id', @Model.Items.Count)"><i data-feather="arrow-up" class="h-4"></i></button>
+                    <button type="button" class="btn-order btn-order-down hidden hover:text-blue-900" onclick="OrderDown('section_@Model.Id-item_@Item.Id', @Model.Items.Count)"><i data-feather="arrow-down" class="h-4"></i></button>
+                    <button type="submit" form="section_@Model.Id-item_@Item.Id-form-delete" class="text-red-500 hover:text-red-600"><i data-feather="trash" class="h-4"></i></button>
+                </div>
+            </div>
+        }
+        </div>
+    </div>
+</section>
