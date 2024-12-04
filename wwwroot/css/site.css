@@ -161,3 +161,12 @@
 #dashboard-layout nav a.active {
     @apply bg-gray-900;
 }
+
+
+/****************************
+** Dashboard About
+****************************/
+
+.btn-order.disable {
+    @apply text-gray-400 hover:text-gray-400;
+}

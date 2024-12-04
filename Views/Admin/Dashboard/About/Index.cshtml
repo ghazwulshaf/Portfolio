@@ -5,7 +5,7 @@
     ViewData["Title"] = "About";
 }
 
-<div id="dashboard-about" class="relative">
+<div id="dashboard-about" class="relative select-none transition-all duration-500">
 
     <div class="px-12 py-4 *:mt-4">
 
@@ -57,57 +57,7 @@
 
         @foreach (var Section in Model.Sections)
         {
-        <form id="section_@Section.Id" method="post" asp-action="DeleteSection" asp-controller="DashboardAbout" asp-route-id="@Section.Id" onsubmit="return Delete(event, 'section')" hidden></form>
-        
-        <section>
-            <div class="section-title flex items-center gap-2">
-                <h6>@Section.Title</h6>
-                <div class="flex items-center">
-                    <button onclick="EditSection('@Url.Action("EditSection", "DashboardAbout", new { id = Section.Id })')"><i data-feather="edit-3" class="h-4"></i></button>
-                    <button type="submit" form="section_@Section.Id"><i data-feather="trash" class="h-4 text-red-500"></i></button>
-                </div>
-            </div>
-
-            <div class="card mt-2">
-                <div class="flex gap-2 *:grow-0">
-                    <label class="label">Items:</label>
-                    <div>
-                        <button class="inline text-sm text-blue-500 underline" onclick="GetSectionItem('@Url.Action("AddSectionItem", "DashboardAbout", new { sectionId = Section.Id })')">add</button>
-                    </div>
-                </div>
-
-                <div class="*:mt-2">
-                @foreach (var Item in Section.Items)
-                {
-                    <form id="section_@Section.Id-item_@Item.Id" method="post" asp-action="DeleteSectionItem" asp-controller="DashboardAbout" asp-route-sectionId="@Section.Id" asp-route-itemId="@Item.Id" onsubmit="return Delete(event, 'item')" hidden></form>
-
-                    <div class="flex items-start gap-2">
-                        <div class="w-full border border-gray-200 p-4">
-                            <h6 class="text-base">@Item.Name</h6>
-
-                            @if (Item.Company != null || Item.From != null)
-                            {
-                            <div class="mt-1 text-sm text-gray-500">
-                                <span>@Item.Company</span> <span>@(@Item.From != null ? "|" : null)</span> <span>@Item.From?.ToString("MMMM yyyy")</span> <span>@(Item.To != null ? "-" : null)</span> <span>@Item.To?.ToString("MMMM yyyy")</span>
-                            </div>
-                            }
-
-                            @if (Item.Description != null)
-                            {
-                            <p class="mt-2">@Html.Raw(Item.Description)</p>
-                            }
-                        </div>
-
-                        <div class="mt-2 grow-0 flex">
-                            <button type="button" onclick="GetSectionItem('@Url.Action("EditSectionItem", "DashboardAbout", new { sectionId = Section.Id, itemId = Item.Id })')"><i data-feather="edit-3" class="h-4"></i></button>
-                            <button type="submit" form="section_@Section.Id-item_@Item.Id"><i data-feather="trash" class="h-4 text-red-500"></i></button>
-                        </div>
-                    </div>
-                }
-                </div>
-            </div>
-        </section>
-
+        @await Html.PartialAsync("/Views/Admin/Dashboard/About/Section.cshtml", Section)
         }
 
         <div class="w-full mt-4 flex justify-end border border-t-black">
@@ -223,6 +173,108 @@
                     $('#dashboard-about').append(response);
                 }
             })
+        }
+    </script>
+
+    <script>
+        function Reorder(sectionId, itemCount) {
+            // show actions button
+            const actions = document.querySelector('#' + sectionId + '-reorder-actions');
+            actions.classList.replace('hidden', 'inline');
+
+            // show items order button
+            const sectionElement = document.querySelector('#' + sectionId);
+            const itemsOrderButton = sectionElement.querySelectorAll('.btn-order');
+            itemsOrderButton.forEach((item) => {
+                item.classList.remove('hidden');
+            });
+
+            CheckOrder(sectionId, itemCount);
+        }
+
+        function CancelReorder() {
+            if (confirm('Are you sure you want to cancel section reordering items?'))
+                location.reload();
+        }
+
+        function CheckOrder(parentId, itemCount) {
+            var parent = document.querySelector('#' + parentId);
+
+            var firstItem = parent.querySelector('.section-item[style="order: 0;"]');
+            var firstItemBtn = firstItem.querySelector('.btn-order-up');
+            $(firstItemBtn).addClass('disable');
+            $(firstItemBtn).prop('disables', 'true');
+
+            var lastItem = parent.querySelector(`.section-item[style="order: ${itemCount-1};"]`);
+            var lastItemBtn = lastItem.querySelector('.btn-order-down');
+            $(lastItemBtn).addClass('disable');
+            $(lastItemBtn).prop('disabled', 'true');
+        }
+
+        function OrderUp(elementId, itemCount) {
+            var orderNumber = $('#' + elementId).css('order');
+            var beforeNumber = Number(orderNumber) - Number(1);
+
+            var item = document.querySelector('#' + elementId);
+            var itemBefore = $(item).siblings(`[style="order: ${beforeNumber};"]`);
+            itemBefore = itemBefore[0];
+
+            $(itemBefore).css('order', orderNumber);
+            $(itemBefore).children('.item-input-order').val(orderNumber);
+            $(item).css('order', beforeNumber);
+            $(item).children('.item-input-order').val(beforeNumber);
+
+            var btnOrderUp = item.querySelector('.btn-order-up');
+            var btnOrderDown = item.querySelector('.btn-order-down');
+            var btnOrderUpBefore = itemBefore.querySelector('.btn-order-up');
+            var btnOrderDownBefore = itemBefore.querySelector('.btn-order-down');
+
+            if (beforeNumber == 0) {
+                $(btnOrderUp).addClass('disable');
+                $(btnOrderUp).prop('disabled', 'true');
+                $(btnOrderUpBefore).removeClass('disable');
+                $(btnOrderUpBefore).removeAttr('disabled');
+            }
+
+            if (orderNumber == itemCount - 1) {
+                $(btnOrderDown).removeClass('disable');
+                $(btnOrderDown).removeAttr('disabled');
+                $(btnOrderDownBefore).addClass('disable');
+                $(btnOrderDownBefore).prop('disabled', 'true');
+            }
+        }
+
+        function OrderDown(elementId, itemCount) {
+            var orderNumber = $('#' + elementId).css('order');
+            var nextNumber = Number(orderNumber) + Number(1);
+
+            var item = document.querySelector('#' + elementId);
+            var itemNext = $(item).siblings(`[style="order: ${nextNumber};"]`);
+            itemNext = itemNext[0];
+
+            $(itemNext).css('order', orderNumber);
+            $(itemNext).children('.item-input-order').val(orderNumber);
+            $(item).css('order', nextNumber);
+            $(item).children('.item-input-order').val(nextNumber);
+
+            var btnOrderUp = item.querySelector('.btn-order-up');
+            var btnOrderDown = item.querySelector('.btn-order-down');
+            var btnOrderUpNext = itemNext.querySelector('.btn-order-up');
+            var btnOrderDownNext = itemNext.querySelector('.btn-order-down');
+
+            if (orderNumber == 0) {
+                $(btnOrderUp).removeClass('disable');
+                $(btnOrderUp).removeAttr('disabled');
+                $(btnOrderUpNext).addClass('disable');
+                $(btnOrderUpNext).prop('disabled', 'true');
+            }
+
+            if (nextNumber == itemCount - 1) {
+                $(btnOrderDown).addClass('disable');
+                $(btnOrderDown).prop('disabled', 'true');
+                $(btnOrderDownNext).removeClass('disable');
+                $(btnOrderDownNext).removeAttr('disabled');
+            }
         }
     </script>
 }

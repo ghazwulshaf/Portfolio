@@ -193,5 +193,14 @@ namespace GhazwulShaf.Controllers.Admin.Dashboard
             await _sectionService.DeleteItemAsync(sectionId, itemId);
             return RedirectToAction(nameof(Index));
         }
+
+        // POST: Reorder Section Items
+        [HttpPost]
+        [Route("Sections/{sectionId}/Reorder")]
+        public async Task<IActionResult> ReorderSectionItems(AboutSection section)
+        {
+            await _sectionService.ReorderItemsAsync(section);
+            return RedirectToAction(nameof(Index));
+        }
     }
 }

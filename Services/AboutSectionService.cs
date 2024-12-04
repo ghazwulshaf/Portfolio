@@ -51,6 +51,7 @@ public class AboutSectionService
         section.Id = sections.Any() ? sections.Max(s => s.Id) + 1 : 0;
         sections.Add(section);
 
+        await OptimizeId(sections);
         await WriteAsync(sections);
     }
 
@@ -66,6 +67,7 @@ public class AboutSectionService
             sections[id] = section;
         }
 
+        await OptimizeId(sections);
         await WriteAsync(sections);
     }
 
@@ -128,6 +130,23 @@ public class AboutSectionService
         await WriteAsync(sections);
     }
 
+    public async Task ReorderItemsAsync(AboutSection section)
+    {
+        var sections = await GetAllAsync();
+        var oldSection = sections.FirstOrDefault(s => s.Id == section.Id);
+
+        if (oldSection != null)
+        {
+            for (int i = 0; i < oldSection.Items.Count; i++)
+                oldSection.Items[i].Order = section.Items[i].Order;
+
+            oldSection.Items = oldSection.Items.OrderBy(i => i.Order).ToList();
+        }
+        
+        await OptimizeId(sections);
+        await WriteAsync(sections);
+    }
+
     public async Task OptimizeId(List<AboutSection> sections)
     {
         await Task.Run(() =>
@@ -139,7 +158,10 @@ public class AboutSectionService
 
                     if (sections[i].Items.Count != 0)
                         for (var j = 0; j < sections[i].Items.Count; j++)
+                        {
                             sections[i].Items[j].Id = j;
+                            sections[i].Items[j].Order = j;
+                        }
                 }
         });
     }
