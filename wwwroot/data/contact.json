@@ -1,0 +1,27 @@
+{
+  "Title": "Get in Touch",
+  "Description": "<p><span style=\"text-align: justify;\">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque viverra, ex et cursus sollicitudin, urna leo sodales dolor, non vulputate diam lectus id ex. Vestibulum libero purus, sollicitudin eu vehicula.</span></p>",
+  "Email": "email@example.com",
+  "Phone": "+0 123 456 789",
+  "Address": "Example St.",
+  "Links": [
+    {
+      "Id": 0,
+      "Name": "GitHub",
+      "Icon": "github",
+      "Url": "https://example.com"
+    },
+    {
+      "Id": 0,
+      "Name": "LinkedIn",
+      "Icon": "linkedin",
+      "Url": "https://example.com"
+    },
+    {
+      "Id": 0,
+      "Name": "Instagram",
+      "Icon": "instagram",
+      "Url": "https://example.com"
+    }
+  ]
+}

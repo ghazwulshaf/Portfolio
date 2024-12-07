@@ -18,6 +18,7 @@ builder.Services.AddAuthorization();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<AboutProfileService>();
 builder.Services.AddScoped<AboutSectionService>();
+builder.Services.AddScoped<ContactService>();
 
 // Configure EF Core
 builder.Services.AddDbContext<AppDbContext>(options =>

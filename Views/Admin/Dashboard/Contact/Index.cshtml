@@ -1,0 +1,88 @@
+﻿@model Contact
+@{
+    Layout = "_LayoutDashboard";
+    ViewData["Title"] = "Contact";
+    
+    var linksCount = Model.Links.Count;
+}
+
+<div class="px-12 py-4">
+    <div class="card">
+        <form method="post" asp-action="Update" asp-controller="DashboardContact" class="*:mt-4">
+            <div class="first:mt-0">
+                <label class="label">Title:</label>
+                <input type="text" class="input" asp-for="Title" placeholder="Get in Touch">
+            </div>
+
+            <div>
+                <label class="label">Description:</label>
+                <textarea id="summernote" asp-for="Description"></textarea>
+            </div>
+
+            <div class="grid grid-cols-3 gap-2">
+                <div>
+                    <label for="" class="label">Email:</label>
+                    <input type="email" class="input" asp-for="Email" placeholder="email@example.com">
+                </div>
+
+                <div>
+                    <label for="" class="label">Phone:</label>
+                    <input type="text" class="input" asp-for="Phone" placeholder="+0 123 456 789">
+                </div>
+
+                <div>
+                    <label for="" class="label">Address:</label>
+                    <input type="text" class="input" asp-for="Address" placeholder="Example St.">
+                </div>
+            </div>
+
+            <div>
+                <div class="*:inline">
+                    <label for="" class="label">Links:</label>&nbsp;
+                    <button type="button" class="underline" onclick="AddItem()">add</button>
+                </div>
+
+                <div id="links-items" class="*:mt-2">
+                @for (var index = 0; index < Model.Links.Count; index++)
+                {
+                    ViewBag.State = "Show";
+                    ViewBag.ItemId = index;
+                    <partial name="/Views/Admin/Dashboard/Contact/_LinksItem.cshtml" for="@Model"></partial>
+                }
+                </div>
+            </div>
+
+            <div class="last:mt-8 text-center">
+                <button type="submit" class="button button-dark py-1">Save</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+<script>
+    var itemId = @Model.Links.Count;
+
+    function AddItem() {
+        var data = {
+            itemId: itemId++
+        }
+
+        $.ajax({
+            url: '@Url.Action("AddLinksItem", "DashboardContact")',
+            data: data,
+            success: (response) => {
+                $('#links-items').append(response);
+            }
+        })
+    }
+
+    function DeleteItem(itemId) {
+        var item = document.querySelector('#' + itemId);
+
+        if (confirm('Are you sure you want to delete this item?'))
+            item.remove();
+    }
+</script>
+}
