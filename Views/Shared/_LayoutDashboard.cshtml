@@ -22,7 +22,7 @@
 <body>
 
     <div id="dashboard-layout" class="min-h-screen flex flex-row justify-stretch items-stretch">
-        <div id="sidebar" class="fixed min-h-screen w-1/6 bg-gray-800 text-white">
+        <div id="sidebar" class="fixed top-0 bottom-0 left-0 min-h-screen overflow-y-auto w-1/6 mb-8 bg-gray-800 text-white">
 
             <a id="brand" href="@Url.Action("Index", "Home")" class="block p-4">
                 <h4>GhazwulShaf</h4>
@@ -52,7 +52,7 @@
                 <a href="@Url.Action("Index", "DashboardAbout")" class="@IsActive("Index", "DashboardAbout")">
                     <i data-feather="user" class="h-5"></i> About
                 </a>
-                <a>
+                <a href="@Url.Action("Index", "DashboardProjects")" class="@IsActive("Index", "DashboardProjects")">
                     <i data-feather="code" class="h-5"></i> Projects
                 </a>
                 <a href="@Url.Action("Index", "DashboardContact")" class="@IsActive("Index", "DashboardContact")">
