@@ -1,0 +1,119 @@
+﻿@model Project
+@{
+    Layout = "_LayoutDashboard";
+    ViewData["Title"] = "Add Project";
+}
+
+<div class="px-12 py-4 *:mt-4">
+    <div class="card first:mt-0">
+        <a asp-action="Index" asp-controller="DashboardProjects" class="flex w-fit items-center"><i data-feather="arrow-left" class="inline h-4"></i> Back</a>
+    </div>
+
+    <div class="card">
+        <form class="*:mt-4">
+            <div class="first:mt-0">
+                <label asp-for="Title" class="label">Title:</label>
+                <input type="text" asp-for="Title" class="input" placeholder="Project title..." autofocus>
+            </div>
+
+            <div>
+                <label class="label">Thumbnail:</label>
+                <input type="file" id="thumbnail-input" accept="image/*" class="input">
+                <img id="thumbnail-show" src="" alt="thumbnail" class="w-96 mt-2">
+            </div>
+
+            <div>
+                <label asp-for="Type" class="label">Type:</label>
+                <select asp-for="Type" class="input">
+                    <option value="" disabled selected>-- Select Type --</option>
+                    <option value="">Website</option>
+                </select>
+            </div>
+
+            <div>
+                <label class="label">Tags:</label>
+                <form id="tags-form" hidden></form>
+                <input type="text" form="tags-form" id="tags-input" class="input" placeholder="Type tag...">
+
+                <div id="tags-items" class="flex gap-2 mt-2">
+                @foreach (var Tag in Model.Tags)
+                {
+                    ViewBag.Session = "Show";
+                    ViewBag.ItemId = Tag.Id;
+                    ViewBag.ItemName = Tag.Name;
+                    <partial name="./_Tag.cshtml" for="@Model"></partial>
+                }
+                </div>
+            </div>
+
+            <div>
+                <label asp-for="Contents" class="label">Contents:</label>
+                <textarea asp-for="Contents" id="summernote"></textarea>
+            </div>
+
+            <div class="flex justify-center gap-2 last:mt-8 mb-4">
+                <button type="submit" class="button button-dark">Add</button>
+                <a role="button" class="button button-light">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        feather.replace();
+
+        $(document).ready(() => {
+            $('#summernote').summernote({
+                height: 600
+            });
+        })
+    </script>
+
+    <script>
+        $(document).ready(() => {
+            $('#thumbnail-input').change((event) => {
+                const file = event.target.files[0];
+                const imageShow = document.querySelector('#thumbnail-show');
+
+                if (file) {
+                    const reader = new FileReader();
+
+                    reader.onload = (e) => {
+                        imageShow.src = e.target.result;
+                    }
+
+                    reader.readAsDataURL(file);
+                }
+            })
+
+            var itemId = 0;
+
+            $('#tags-form').on('submit', (e) => {
+                e.preventDefault();
+                var itemName = $('#tags-input').val();
+
+                var data = {
+                    itemId: itemId++,
+                    itemName: itemName
+                }
+
+                $.ajax({
+                    url: '@Url.Action("AddTag", "DashboardProjects")',
+                    type: 'GET',
+                    data: data,
+                    success: (response) {
+                        $('#tags-items').append(response);
+                        $('#tags-input').val('');
+                    }
+                })
+            })
+            
+            function DeleteTag(elementId) {
+                const tag = document.querySelector('#' + elementId);
+                tag.remove();
+            }
+        })
+    </script>
+}

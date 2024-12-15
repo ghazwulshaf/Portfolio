@@ -36,7 +36,10 @@
                     var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
                     var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
                     
-                    if (currentAction == action && currentController == controller)
+                    @* if (currentAction == action && currentController == controller)
+                        return "active"; *@
+                    
+                    if (currentController == controller)
                         return "active";
                     
                     return "";
@@ -98,7 +101,7 @@
             $('#summernote').summernote({
                 placeholder: 'Write the contents in here',
                 tabsize: 2,
-                height: 300,
+                height: 480,
                 toolbar: [
                     ['style', ['style']],
                     ['font', ['bold', 'underline', 'clear']],

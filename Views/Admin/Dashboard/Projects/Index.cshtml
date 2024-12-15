@@ -5,7 +5,7 @@
 
 <div class="px-12 py-4">
     <section class="card flex gap-2">
-        <a href="#" class="flex justify-center items-center px-2 bg-gray-700 text-white rounded-sm"><i data-feather="plus"></i></a>
+        <a asp-action="Add" asp-controller="DashboardProjects" class="flex justify-center items-center px-2 bg-gray-700 text-white rounded-sm"><i data-feather="plus"></i></a>
         <div class="relative w-3/4">
             <input type="search" name="" id="" class="input" style="padding-left: 2rem;" placeholder="Search...">
             <div class="absolute left-0 top-0 bottom-0 flex ps-2 items-center">
@@ -21,12 +21,28 @@
 
     <section class="card mt-4">
         <table class="w-full table-fixed border-y border-gray-500">
-            <thead class="border-b border-gray-500 leading-10">
-                <th class="w-1/12">No</th>
-                <th class="w-4/12 text-start">Title</th>
-                <th class="w-2/12">Project</th>
-                <th class="w-3/12">Tags</th>
-                <th class="w-2/12">Action</th>
+            <thead class="border-b border-gray-500 [&_th>div]:px-1 [&_th>div]:py-2">
+                <th class="w-1/12">
+                    <div>No</div>
+                </th>
+                <th class="w-1/12">
+                    <div>Thumbnail</div>
+                </th>
+                <th class="w-3/12 text-start">
+                    <div>Title</div>
+                </th>
+                <th class="w-2/12">
+                    <div>Project</div>
+                </th>
+                <th class="w-2/12">
+                    <div>Tags</div>
+                </th>
+                <th class="w-2/12">
+                    <div>Date</div>
+                </th>
+                <th class="w-1/12">
+                    <div>Action</div>
+                </th>
             </thead>
             <div id="table-items">
                 @await Html.PartialAsync("./_Projects.cshtml", new { ItemsCount = 10 })
