@@ -1,7 +1,9 @@
 ﻿@model Project
 @{
     Layout = "_LayoutDashboard";
-    ViewData["Title"] = "Add Project";
+    ViewData["Title"] = Model.Title ?? "Add Project";
+
+    var tagsCount = Model.Tags.Any() ? Model.Tags.Count : 0;
 }
 
 <div class="px-12 py-4 *:mt-4">
@@ -10,16 +12,20 @@
     </div>
 
     <div class="card">
-        <form class="*:mt-4">
+        <form method="post" asp-action="@ViewData["FormAction"]" asp-controller="DashboardProjects" asp-route-id="@Model.Id" enctype="multipart/form-data" class="*:mt-4">
+            <input type="hidden" asp-for="Id">
+            
             <div class="first:mt-0">
                 <label asp-for="Title" class="label">Title:</label>
                 <input type="text" asp-for="Title" class="input" placeholder="Project title..." autofocus>
+                <span asp-validation-for="Title" class="text-sm text-red-500"></span>
             </div>
 
             <div>
                 <label class="label">Thumbnail:</label>
-                <input type="file" id="thumbnail-input" accept="image/*" class="input">
-                <img id="thumbnail-show" src="" alt="thumbnail" class="w-96 mt-2">
+                <input type="file" id="thumbnail-input" name="thumbnailFile" accept="image/*" class="input">
+                <input type="hidden" asp-for="Thumbnail">
+                <img id="thumbnail-show" src="@Model.Thumbnail" alt="thumbnail" class="w-96 mt-2">
             </div>
 
             <div>
@@ -32,13 +38,12 @@
 
             <div>
                 <label class="label">Tags:</label>
-                <form id="tags-form" hidden></form>
-                <input type="text" form="tags-form" id="tags-input" class="input" placeholder="Type tag...">
+                <input type="text" id="tags-input" class="input" placeholder="Type tag...">
 
                 <div id="tags-items" class="flex gap-2 mt-2">
                 @foreach (var Tag in Model.Tags)
                 {
-                    ViewBag.Session = "Show";
+                    ViewBag.State = "Show";
                     ViewBag.ItemId = Tag.Id;
                     ViewBag.ItemName = Tag.Name;
                     <partial name="./_Tag.cshtml" for="@Model"></partial>
@@ -52,8 +57,8 @@
             </div>
 
             <div class="flex justify-center gap-2 last:mt-8 mb-4">
-                <button type="submit" class="button button-dark">Add</button>
-                <a role="button" class="button button-light">Cancel</a>
+                <button type="submit" class="button button-dark">@ViewData["Button"]</button>
+                <a href="@Url.Action("Index", "DashboardProjects")" role="button" class="button button-light">Cancel</a>
             </div>
         </form>
     </div>
@@ -88,32 +93,39 @@
                 }
             })
 
-            var itemId = 0;
+            var itemId = @tagsCount;
 
-            $('#tags-form').on('submit', (e) => {
-                e.preventDefault();
-                var itemName = $('#tags-input').val();
+            $('#tags-input').keypress((e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
 
-                var data = {
-                    itemId: itemId++,
-                    itemName: itemName
+                    var itemName = $('#tags-input').val();
+                    var data = {
+                        itemId: itemId++,
+                        itemName: itemName
+                    };
+
+                    $.ajax({
+                        url: '@Url.Action("AddTag", "DashboardProjects")',
+                        type: 'GET',
+                        data: data,
+                        success: (response) => {
+                            $('#tags-items').append(response);
+                            $('#tags-input').val('');
+                        }
+                    });
                 }
-
-                $.ajax({
-                    url: '@Url.Action("AddTag", "DashboardProjects")',
-                    type: 'GET',
-                    data: data,
-                    success: (response) {
-                        $('#tags-items').append(response);
-                        $('#tags-input').val('');
-                    }
-                })
             })
-            
-            function DeleteTag(elementId) {
-                const tag = document.querySelector('#' + elementId);
-                tag.remove();
-            }
         })
+    </script>
+
+    <script>
+        function DeleteTag(elementId) {
+            const tag = document.querySelector('#' + elementId);
+            const name = document.querySelector('#' + elementId + '-Name');
+
+            tag.remove();
+            name.value = null;
+        }
     </script>
 }

@@ -1,4 +1,5 @@
-﻿@{
+﻿@model List<Project>
+@{
     Layout = "_LayoutDashboard";
     ViewData["Title"] = "Projects";
 }
@@ -37,16 +38,33 @@
                 <th class="w-2/12">
                     <div>Tags</div>
                 </th>
-                <th class="w-2/12">
-                    <div>Date</div>
+                <th class="w-1/12">
+                    <div>Create Date</div>
+                </th>
+                <th class="w-1/12">
+                    <div>Update Date</div>
                 </th>
                 <th class="w-1/12">
                     <div>Action</div>
                 </th>
             </thead>
             <div id="table-items">
-                @await Html.PartialAsync("./_Projects.cshtml", new { ItemsCount = 10 })
+                @await Html.PartialAsync("./_Projects.cshtml", Model)
             </div>
         </table>
     </section>
 </div>
+
+@section Scripts
+{
+<script>
+    function DeleteProject(event) {
+        var userConfirmed = confirm('Are you sure you want to delete this projects?');
+        if (!userConfirmed) {
+            event.preventDefault();
+        }
+
+        return userConfirmed;
+    }
+</script>
+}
