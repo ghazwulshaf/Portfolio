@@ -1,10 +1,12 @@
 using GhazwulShaf.Models;
 using GhazwulShaf.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 
 namespace GhazwulShaf.Controllers.Admin.Dashboard
 {
+    [Authorize(Roles = "Admin")]
     [Route("/Admin/Dashboard/Contact")]
     public class DashboardContactController : Controller
     {

@@ -1,0 +1,12 @@
+{
+  "Types": [
+    {
+      "Id": 0,
+      "Name": "Website"
+    },
+    {
+      "Id": 1,
+      "Name": "Internet of Things (IoT)"
+    }
+  ]
+}
