@@ -1,0 +1,66 @@
+﻿@model Masterdata
+@{
+    Layout = "_LayoutDashboard";
+    ViewData["Title"] = "Masterdata";
+
+    int projectTypesCount = Model.Types.Count;
+}
+
+<div class="px-12 py-4 *:mt-4">
+    <section id="project-types" class="first:mt-0">
+        <div class="section__header">
+            <h6>Project Types</h6>
+        </div>
+
+        <div class="section__body card mt-2">
+            <div class="flex items-center gap-1">
+                <span>Items:</span>
+                <button type="button" onclick="AddProjectType()"><i data-feather="plus-square" class="inline h-5"></i></button>
+            </div>
+
+            <form method="post" asp-action="Update" asp-controller="DashboardMasterdata" class="text-sm mt-2">
+                <div id="project-types-items" class="section__body_items grid grid-cols-2 gap-2">
+                @for (var i = 0; i < projectTypesCount; i++)
+                {
+                    ViewBag.TypeId = i;
+                    <partial name="./_ProjectType.cshtml" for="@Model"></partial>
+                }
+                </div>
+
+                <div class="text-center mt-8 mb-4">
+                    <button type="submit" class="button button-dark px-8 py-2">Save</button>
+                </div>
+            </form>
+        </div>
+    </section>
+</div>
+
+@section Scripts
+{
+<script>
+    var projectTypeId = @projectTypesCount;
+
+    function AddProjectType() {
+        var data = {
+            typeId: projectTypeId++
+        };
+
+        $.ajax({
+            url: '@Url.Action("AddTypesItem", "DashboardMasterdata")',
+            method: 'GET',
+            data: data,
+            success: (response) => {
+                $('#project-types-items').append(response);
+                feather.replace();
+            }
+        });
+    }
+
+    function DeleteProjectType(typeId) {
+        var confirmedUser = confirm('Are you sure you want to delete this item? Save then!');
+        if (confirmedUser) {
+            $('#project_type-' + typeId).remove();
+        }
+    }
+</script>
+}

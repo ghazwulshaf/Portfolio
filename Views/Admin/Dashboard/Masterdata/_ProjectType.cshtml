@@ -1,0 +1,13 @@
+@model Masterdata
+@{
+    int TypeId = ViewBag.TypeId;
+}
+
+<input type="hidden" name="Types[@TypeId].Id" value="@(TypeId < Model.Types.Count ? Model.Types[TypeId].Id : null)">
+<div id="project_type-@TypeId" class="flex gap-2 border border-gray-200 rounded-sm p-2">
+    <div class="w-full">
+        <input type="text" name="Types[@TypeId].Name" value="@(TypeId < Model.Types.Count ? Model.Types[TypeId].Name : null)" class="input" placeholder="Type name...">
+    </div>
+
+    <button type="button" class="text-red-500" onclick="DeleteProjectType('@TypeId')"><i data-feather="trash" class="inline h-4"></i></button>
+</div>

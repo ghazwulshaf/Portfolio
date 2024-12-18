@@ -19,6 +19,7 @@ builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<AboutProfileService>();
 builder.Services.AddScoped<AboutSectionService>();
 builder.Services.AddScoped<ContactService>();
+builder.Services.AddScoped<MasterdataService>();
 builder.Services.AddScoped<ProjectsService>();
 
 // Configure EF Core

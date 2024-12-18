@@ -5,8 +5,8 @@ using Newtonsoft.Json;
 
 namespace GhazwulShaf.Controllers.Admin.Dashboard
 {
-    [Route("/Admin/Dashboard/")]
     [Authorize(Roles = "Admin")]
+    [Route("/Admin/Dashboard/")]
     public class DashboardController : Controller
     {
         // GET: DashboardController
