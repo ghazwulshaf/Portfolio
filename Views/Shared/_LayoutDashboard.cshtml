@@ -31,31 +31,29 @@
 
             @functions {
                 // function to get route and set nav active 
-                public string IsActive(string action, string controller)
+                public string IsActive(string controller)
                 {
-                    var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
                     var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
-                    
-                    if (currentAction == action && currentController == controller)
+                    if (currentController == controller)
                         return "active";
                     
                     return "";
                 }
             }
             <nav id="dashboard-navbar" class="w-full mb-24 flex flex-col items-stretch gap-0 *:px-4 *:py-3 *:flex *:items-center *:gap-2">
-                <a href="@Url.Action("Index", "Dashboard")" class="@IsActive("Index", "Dashboard")">
+                <a href="@Url.Action("Index", "Dashboard")" class="@IsActive("Dashboard")">
                     <i data-feather="layout" class="h-5"></i> Dashboard
                 </a>
-                <a>
+                <a href="@Url.Action("Index", "DashboardMasterdata")" class="@IsActive("DashboardMasterdata")">
                     <i data-feather="file-text" class="h-5"></i> Masterdata
                 </a>
-                <a href="@Url.Action("Index", "DashboardAbout")" class="@IsActive("Index", "DashboardAbout")">
+                <a href="@Url.Action("Index", "DashboardAbout")" class="@IsActive("DashboardAbout")">
                     <i data-feather="user" class="h-5"></i> About
                 </a>
                 <a>
                     <i data-feather="code" class="h-5"></i> Projects
                 </a>
-                <a href="@Url.Action("Index", "DashboardContact")" class="@IsActive("Index", "DashboardContact")">
+                <a href="@Url.Action("Index", "DashboardContact")" class="@IsActive("DashboardContact")">
                     <i data-feather="phone" class="h-5"></i> Contact
                 </a>
             </nav>
