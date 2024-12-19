@@ -5,6 +5,7 @@ namespace GhazwulShaf.Models;
 public class Project
 {
     public int Id { get; set;}
+    public Guid Guid { get; set;}
     
     [Required]
     public string Title { get; set;} = default!;
@@ -14,5 +15,5 @@ public class Project
     public DateOnly UpdateDate { get; set;} = new DateOnly();
     public string Type { get; set;} = default!;
     public List<Tag> Tags { get; set; } = [];
-    public string Contents { get; set;} = default!;
+    public string ContentFile { get; set;} = default!;
 }

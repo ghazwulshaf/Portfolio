@@ -33,6 +33,14 @@ public class ProjectsService
         return project;
     }
 
+    public async Task<Project> GetByGuidAsync(Guid guid)
+    {
+        var projects = await GetAllAsync();
+        var project = projects.FirstOrDefault(p => p.Guid == guid) ?? new Project();
+
+        return project;
+    }
+
     public async Task AddAsync(Project project)
     {
         var projects = await GetAllAsync();
@@ -51,13 +59,14 @@ public class ProjectsService
     public async Task UpdateAsync(Project project)
     {
         var projects = await GetAllAsync();
-        var oldProject = projects.FirstOrDefault(p => p.Id == project.Id);
+        var oldProject = projects.FirstOrDefault(p => p.Guid == project.Guid);
 
         if (oldProject != null & project != null)
         {
-            project!.CreateDate = oldProject!.CreateDate;
-            project!.UpdateDate = DateOnly.FromDateTime(DateTime.Now);
-            projects[oldProject!.Id] = project!;
+            projects[oldProject!.Id].Title = project!.Title;
+            projects[oldProject!.Id].Type = project.Type;
+            projects[oldProject!.Id].Tags = project.Tags;
+            projects[oldProject!.Id].UpdateDate = DateOnly.FromDateTime(DateTime.Now);
         }
 
         await WriteAsync(projects);

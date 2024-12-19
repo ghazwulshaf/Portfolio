@@ -12,8 +12,9 @@
     </div>
 
     <div class="card">
-        <form method="post" asp-action="@ViewData["FormAction"]" asp-controller="DashboardProjects" asp-route-id="@Model.Id" enctype="multipart/form-data" class="*:mt-4">
+        <form method="post" asp-action="@ViewData["FormAction"]" asp-controller="DashboardProjects" asp-route-guid="@Model.Guid" enctype="multipart/form-data" class="*:mt-4">
             <input type="hidden" asp-for="Id">
+            <input type="hidden" asp-for="Guid">
             
             <div class="first:mt-0">
                 <label asp-for="Title" class="label">Title:</label>
@@ -23,8 +24,7 @@
 
             <div>
                 <label class="label">Thumbnail:</label>
-                <input type="file" id="thumbnail-input" name="thumbnailFile" accept="image/*" class="input">
-                <input type="hidden" asp-for="Thumbnail">
+                <input type="file" id="thumbnail-input" name="ThumbnailFile" accept="image/*" class="input">
                 <img id="thumbnail-show" src="@Model.Thumbnail" alt="thumbnail" class="w-96 mt-2">
             </div>
 
@@ -32,7 +32,10 @@
                 <label asp-for="Type" class="label">Type:</label>
                 <select asp-for="Type" class="input">
                     <option value="" disabled selected>-- Select Type --</option>
-                    <option value="">Website</option>
+                    @foreach (var Item in ViewBag.ProjectTypes)
+                    {
+                    <option value="@Item.Name">@Item.Name</option>
+                    }
                 </select>
             </div>
 
@@ -52,8 +55,8 @@
             </div>
 
             <div>
-                <label asp-for="Contents" class="label">Contents:</label>
-                <textarea asp-for="Contents" id="summernote"></textarea>
+                <label class="label">Content:</label>
+                <textarea name="ProjectContent" id="summernote"></textarea>
             </div>
 
             <div class="flex justify-center gap-2 last:mt-8 mb-4">
@@ -68,12 +71,6 @@
 {
     <script>
         feather.replace();
-
-        $(document).ready(() => {
-            $('#summernote').summernote({
-                height: 600
-            });
-        })
     </script>
 
     <script>
@@ -112,6 +109,7 @@
                         success: (response) => {
                             $('#tags-items').append(response);
                             $('#tags-input').val('');
+                            feather.replace();
                         }
                     });
                 }
@@ -128,4 +126,20 @@
             name.value = null;
         }
     </script>
+
+    @if (Model.ContentFile != null)
+    {
+    <script>
+        $(document).ready(() => {
+            const summernoteEditor = document.querySelector('[name="ProjectContent"] + .note-editor');
+            fetch('@Model.ContentFile')
+                .then(response => response.text())
+                .then(data => {
+                    summernoteEditor.querySelector('.note-editable').innerHTML = data;
+                    summernoteEditor.querySelector('.note-placeholder, .note-control-selection').style.display = 'none';
+                })
+                .catch(error => console.error('Error content: ', error));
+        })
+    </script>
+    }
 }

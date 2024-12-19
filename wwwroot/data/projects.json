@@ -1,11 +1,12 @@
 [
   {
     "Id": 0,
-    "Title": "Project 4",
-    "Thumbnail": "/images/projects/project_2/LinkedIn Background 1-01.png",
-    "CreateDate": "0001-01-01",
-    "UpdateDate": "0001-01-01",
-    "Type": null,
+    "Guid": "54948af2-26b1-4dcb-9a28-5cba5121ac31",
+    "Title": "This is Project",
+    "Thumbnail": "/projects/54948af2-26b1-4dcb-9a28-5cba5121ac31/thumbnail.png",
+    "CreateDate": "2024-12-19",
+    "UpdateDate": "2024-12-19",
+    "Type": "Website",
     "Tags": [
       {
         "Id": 0,
@@ -13,32 +14,37 @@
       },
       {
         "Id": 1,
-        "Name": "Tag3"
-      }
-    ],
-    "Contents": "<p>This is the contents.</p>"
-  },
-  {
-    "Id": 1,
-    "Title": "Project 1",
-    "Thumbnail": "/images/projects/project_3/logo-6060989_1280.jpg",
-    "CreateDate": "0001-01-01",
-    "UpdateDate": "2024-12-16",
-    "Type": null,
-    "Tags": [
-      {
-        "Id": 0,
         "Name": "Tag2"
-      },
-      {
-        "Id": 1,
-        "Name": "Tag4"
       },
       {
         "Id": 2,
         "Name": "Tag5"
+      },
+      {
+        "Id": 3,
+        "Name": "Tag4"
       }
     ],
-    "Contents": "<p>This is the contents.</p>"
+    "ContentFile": "/projects/54948af2-26b1-4dcb-9a28-5cba5121ac31/content.html"
+  },
+  {
+    "Id": 1,
+    "Guid": "9336e173-cc8b-4af8-badd-a9f7a6941b21",
+    "Title": "Lorem Ipsum",
+    "Thumbnail": "/projects/9336e173-cc8b-4af8-badd-a9f7a6941b21/thumbnail.jpg",
+    "CreateDate": "2024-12-19",
+    "UpdateDate": "2024-12-19",
+    "Type": "Internet of Things (IoT)",
+    "Tags": [
+      {
+        "Id": 0,
+        "Name": "Tag10"
+      },
+      {
+        "Id": 1,
+        "Name": "Tag0"
+      }
+    ],
+    "ContentFile": "/projects/9336e173-cc8b-4af8-badd-a9f7a6941b21/content.html"
   }
 ]
