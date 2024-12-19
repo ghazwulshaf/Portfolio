@@ -1,0 +1,18 @@
+@model Project
+@{
+    var ItemId = ViewBag.ItemId;
+    var ItemName = ViewBag.ItemName;
+}
+
+<input type="hidden" name="Tags[@ItemId].Id" id="Tags_@ItemId-Id" value="@(ViewBag.State == "Show" ? Model.Tags[ItemId].Id : null)">
+<input type="hidden" name="Tags[@ItemId].Name" id="Tags_@ItemId-Name" value="@(ViewBag.State == "Show" ? Model.Tags[ItemId].Name : ItemName)">
+
+<div id="Tags_@ItemId">
+    <div class="inline-flex items-center gap-2 bg-gray-100 rounded px-2 py-0.5">
+
+        <span>@ItemName</span>
+        <button type="button" onclick="DeleteTag('Tags_@ItemId')">
+            <i data-feather="x" class="h-4"></i>
+        </button>
+    </div>
+</div>
