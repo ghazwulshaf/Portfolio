@@ -23,8 +23,22 @@ namespace GhazwulShaf.Controllers.Admin.Dashboard
         {
             var projects = await _projectsService.GetAllAsync();
             var masterdata = await _masterdataService.GetAsync();
+            
+            int pageCurrent = 1;
+            int pageSize = 10;
+            int totalCount = projects.Count;
+            int totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+
+            projects = projects.Take(pageSize).ToList();
 
             ViewBag.ProjectTypes = masterdata.Types;
+            ViewBag.PagingInfo = new PagingInfo
+            {
+                CurrentPage = pageCurrent,
+                PageSize = pageSize,
+                TotalCount = totalCount,
+                TotalPages = totalPages
+            };
 
             return View("/Views/Admin/Dashboard/Projects/Index.cshtml", projects);
         }
@@ -48,6 +62,61 @@ namespace GhazwulShaf.Controllers.Admin.Dashboard
                     p.Tags.Any(t => t.Name.Contains(search, StringComparison.OrdinalIgnoreCase))
                 ).ToList();
             }
+
+            int pageCurrent = 1;
+            int pageSize = 10;
+            int totalCount = projects.Count;
+            int totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+
+            projects = projects.Take(pageSize).ToList();
+
+            ViewBag.PagingInfo = new PagingInfo
+            {
+                CurrentPage = pageCurrent,
+                PageSize = pageSize,
+                TotalCount = totalCount,
+                TotalPages = totalPages
+            };
+
+            return PartialView("/Views/Admin/Dashboard/Projects/_Projects.cshtml", projects);
+        }
+
+        // GET: Projects Pagination
+        [HttpGet]
+        [Route("Page")]
+        public async Task<IActionResult> SetPage(string projectType, string search, int page)
+        {
+            var projects = await _projectsService.GetAllAsync();
+
+            if (projectType != "All")
+            {
+                projects = projects.Where(p => p.Type == projectType).ToList();
+            }
+
+            if (!String.IsNullOrEmpty(search))
+            {
+                projects = projects.Where(p =>
+                    p.Title.Contains(search, StringComparison.OrdinalIgnoreCase) ||
+                    p.Tags.Any(t => t.Name.Contains(search, StringComparison.OrdinalIgnoreCase))
+                ).ToList();
+            }
+
+            int pageCurrent = page;
+            int pageSize = 10;
+            int totalCount = projects.Count;
+            int totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
+
+            projects = projects.Skip((pageCurrent - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+
+            ViewBag.PagingInfo = new PagingInfo
+            {
+                CurrentPage = pageCurrent,
+                PageSize = pageSize,
+                TotalCount = totalCount,
+                TotalPages = totalPages
+            };
 
             return PartialView("/Views/Admin/Dashboard/Projects/_Projects.cshtml", projects);
         }

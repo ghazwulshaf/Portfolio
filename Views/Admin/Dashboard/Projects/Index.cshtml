@@ -2,6 +2,8 @@
 @{
     Layout = "_LayoutDashboard";
     ViewData["Title"] = "Projects";
+
+    List<ProjectType> ProjectTypes = ViewBag.ProjectTypes;
 }
 
 <div class="px-12 py-4">
@@ -16,50 +18,24 @@
 
         <select id="project-type" class="input w-1/4" onchange="Search()">
             <option value="All">All</option>
-            @foreach (var Item in ViewBag.ProjectTypes)
+            @foreach (var Item in ProjectTypes)
             {
             <option value="@Item.Name">@Item.Name</option>
             }
         </select>
     </section>
 
-    <section class="card mt-4">
-        <table class="w-full table-fixed border-y border-gray-500">
-            <thead class="border-b border-gray-500 [&_th>div]:px-1 [&_th>div]:py-2">
-                <th class="w-1/12">
-                    <div>No</div>
-                </th>
-                <th class="w-1/12">
-                    <div>Thumbnail</div>
-                </th>
-                <th class="w-3/12 text-start">
-                    <div>Title</div>
-                </th>
-                <th class="w-2/12">
-                    <div>Project</div>
-                </th>
-                <th class="w-2/12">
-                    <div>Tags</div>
-                </th>
-                <th class="w-1/12">
-                    <div>Create Date</div>
-                </th>
-                <th class="w-1/12">
-                    <div>Update Date</div>
-                </th>
-                <th class="w-1/12">
-                    <div>Action</div>
-                </th>
-            </thead>
-            <tbody id="table-items">
-                <partial name="./_Projects.cshtml" for="@Model"></partial>
-            </tbody>
-        </table>
-    </section>
+    <div id="projects-list" class="*:mt-4">
+        <partial name="/Views/Admin/Dashboard/Projects/_Projects.cshtml" for="@Model"></partial>
+    </div>
 </div>
 
 @section Scripts
 {
+<script>
+    feather.replace();
+</script>
+
 <script>
     function Search() {
         var data = {
@@ -71,12 +47,36 @@
             url: '@Url.Action("Search", "DashboardProjects")',
             data: data,
             success: (response) => {
-                $('#table-items').html(response);
+                $('#projects-list').html(response);
                 feather.replace();
             }
         })
     }
+
+    function SetPage(element) {
+        var pageNumber = element.dataset.pageNumber;
+        var data = {
+            projectType: $('#project-type').val(),
+            search: $('#project-search').val(),
+            page: pageNumber
+        };
+
+        $.ajax({
+            url: '@Url.Action("SetPage", "DashboardProjects")',
+            data: data,
+            success: (response) => {
+                $('#projects-list').html(response);
+                feather.replace();
+            }
+        });
+
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    }
 </script>
+
 <script>
     function DeleteProject(event) {
         var userConfirmed = confirm('Are you sure you want to delete this projects?');

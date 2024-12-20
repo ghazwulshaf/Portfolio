@@ -126,7 +126,7 @@
         @apply flex flex-row justify-center gap-2;
     }
     .pagination-item {
-        @apply bg-white text-black rounded-md px-4 py-2;
+        @apply bg-gray-200 text-black hover:bg-black hover:text-white disabled:text-gray-500 disabled:hover:bg-gray-200 disabled:hover:text-gray-500 rounded-md px-4 py-2;
     }
     .pagination-item.active {
         @apply bg-black text-white;
