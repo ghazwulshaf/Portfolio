@@ -20,6 +20,7 @@ builder.Services.AddScoped<AboutProfileService>();
 builder.Services.AddScoped<AboutSectionService>();
 builder.Services.AddScoped<ContactService>();
 builder.Services.AddScoped<MasterdataService>();
+builder.Services.AddScoped<ProjectsService>();
 
 // Configure EF Core
 builder.Services.AddDbContext<AppDbContext>(options =>

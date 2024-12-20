@@ -66,7 +66,7 @@
         @apply cursor-not-allowed text-gray-500;
     }
     .button {
-        @apply font-medium px-4 py-3 rounded-md;
+        @apply inline-flex justify-center items-center px-8 py-2 rounded-md;
     }
     .button.disabled {
         @apply bg-gray-400 text-gray-800;
@@ -126,7 +126,7 @@
         @apply flex flex-row justify-center gap-2;
     }
     .pagination-item {
-        @apply bg-white text-black rounded-md px-4 py-2;
+        @apply bg-gray-200 text-black hover:bg-black hover:text-white disabled:text-gray-500 disabled:hover:bg-gray-200 disabled:hover:text-gray-500 rounded-md px-4 py-2;
     }
     .pagination-item.active {
         @apply bg-black text-white;
