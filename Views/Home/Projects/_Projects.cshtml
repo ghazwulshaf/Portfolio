@@ -1,0 +1,15 @@
+@model List<Project>
+@{
+    List<Project> Projects = Model;
+}
+
+<div class="grid grid-cols-3 w-full gap-4">
+@foreach (var Project in Projects)
+{
+    <partial name="./_Project.cshtml" for="@Project"></partial>
+}
+</div>
+
+<div id="pagination" class="card mt-12">
+    <partial name="_Pagination"></partial>
+</div>

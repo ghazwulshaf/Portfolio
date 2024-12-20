@@ -135,7 +135,7 @@
 
 
 /****************************
-** Index (Home)
+** Home (Index)
 ****************************/
 
 #home .btn {
@@ -148,6 +148,18 @@
 
 #home .btn-light {
     @apply bg-white text-black border border-black;
+}
+
+
+/****************************
+** Home Projects
+****************************/
+
+.project_types-item {
+    @apply transition-colors delay-75 ease-in bg-white hover:bg-black text-black hover:text-white rounded-md shadow px-4 py-2;
+}
+.project_types-item.current {
+    @apply bg-black text-white;
 }
 
 
