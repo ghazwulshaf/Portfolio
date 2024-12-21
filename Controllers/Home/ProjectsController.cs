@@ -122,10 +122,23 @@ namespace GhazwulShaf.Controllers.Home
         }
 
         // GET: Project Details
-        public IActionResult Detail(int id)
+        [HttpGet]
+        [Route("{id}/Details")]
+        public async Task<IActionResult> Details(int id)
         {
-            ViewData["Id"] = id;
-            return View("/Views/Home/Projects/Detail.cshtml");
+            var projects = await _projectsService.GetAllAsync();
+            var project = await _projectsService.GetByIdAsync(id);
+            var nextProject = projects.FirstOrDefault(p => p.Id == id + 1) ?? null;
+
+            var projectsSameType = projects.Where(p => p.Type == project.Type)
+                .OrderByDescending(p => p.Id)
+                .Take(5)
+                .ToList();
+            
+            ViewBag.NextProject = nextProject;
+            ViewBag.ProjectsSameType = projectsSameType;
+
+            return View("/Views/Home/Projects/Details.cshtml", project);
         }
     }
 }
