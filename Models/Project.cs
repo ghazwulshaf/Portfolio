@@ -10,6 +10,7 @@ public class Project
     [Required]
     public string Title { get; set;} = default!;
     
+    public string Description { get; set;} = default!;
     public string Thumbnail { get; set; } = default!;
     public DateOnly CreateDate { get; set; } = new DateOnly();
     public DateOnly UpdateDate { get; set;} = new DateOnly();

@@ -30,11 +30,7 @@
                     <span class="text-gray-500">@Project.Type</span>
                 </div>
 
-                <div id="project-description" class="mt-4">
-                    <p>
-                        Lorem ipsum dolor sit amet, consectetur adipisicing elit. Tempore totam voluptates consequuntur exercitationem inventore possimus magnam vitae minus doloremque eum accusamus aut quasi vel aliquam quia quaerat, accusantium optio a?
-                    </p>
-                </div>
+                <div id="project-description" class="text-justify mt-4">@Project.Description</div>
 
                 <div id="project-tags" class="mt-4 flex flex-row items-center gap-2">
                 @foreach (var Tag in Project.Tags)
