@@ -12,11 +12,11 @@
     </div>
 
     <div class="card">
-        <form method="post" asp-action="@ViewData["FormAction"]" asp-controller="DashboardProjects" asp-route-guid="@Model.Guid" enctype="multipart/form-data" class="*:mt-4">
+        <form method="post" asp-action="@ViewData["FormAction"]" asp-controller="DashboardProjects" asp-route-guid="@Model.Guid" enctype="multipart/form-data" class="flex flex-col gap-4">
             <input type="hidden" asp-for="Id">
             <input type="hidden" asp-for="Guid">
             
-            <div class="first:mt-0">
+            <div>
                 <label asp-for="Title" class="label">Title:</label>
                 <input type="text" asp-for="Title" class="input" placeholder="Project title..." autofocus>
                 <span asp-validation-for="Title" class="text-sm text-red-500"></span>
@@ -26,6 +26,11 @@
                 <label class="label">Thumbnail:</label>
                 <input type="file" id="thumbnail-input" name="ThumbnailFile" accept="image/*" class="input">
                 <img id="thumbnail-show" src="@Model.Thumbnail" alt="thumbnail" class="w-96 mt-2">
+            </div>
+
+            <div>
+                <label asp-for="Description" class="label">Description:</label>
+                <textarea asp-for="Description" class="input" rows="3" placeholder="Project description..."></textarea>
             </div>
 
             <div>

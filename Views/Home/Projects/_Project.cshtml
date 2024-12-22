@@ -1,0 +1,26 @@
+@model Project
+@{
+    Project Project = Model;
+}
+
+<div class="card bg-white">
+    <a asp-controller="Projects" asp-action="Details" asp-route-id="@Project.Id" class="block">
+        <div class="relative w-full aspect-[16/9] rounded-sm bg-gray-200 bg-cover bg-center"
+            style="background-image: url('@Project.Thumbnail');"
+        ></div>
+        <h6 class="mt-4">@Project.Title</h6>
+    </a>
+    
+    <div class="text-gray-900">
+        <small>@Project.Type</small>
+    </div>
+
+    <div class="line-clamp-2">@Project.Description</div>
+
+    <div class="flex gap-2 text-xs mt-4 *:bg-gray-200 *:text-gray-900 *:rounded-sm *:py-1 *:px-2">
+    @foreach (var Tag in Project.Tags)
+    {
+        <div>@Tag.Name</div>
+    }
+    </div>
+</div>

@@ -163,18 +163,15 @@ namespace GhazwulShaf.Controllers.Admin.Dashboard
                 project.Thumbnail = $"/projects/{project.Guid}/{thumbnailFileName}";
             }
 
-            if (ProjectContent != null)
-            {
-                var contentFileName = "content.html";
-                var contentFilePath = Path.Combine(projectDir, contentFileName);
+            var contentFileName = "content.html";
+            var contentFilePath = Path.Combine(projectDir, contentFileName);
 
-                if (System.IO.File.Exists(contentFilePath))
-                    System.IO.File.Delete(contentFilePath);
-                
-                await System.IO.File.WriteAllTextAsync(contentFilePath, ProjectContent);
+            if (System.IO.File.Exists(contentFilePath))
+                System.IO.File.Delete(contentFilePath);
+            
+            await System.IO.File.WriteAllTextAsync(contentFilePath, ProjectContent);
 
-                project.ContentFile = $"/projects/{project.Guid}/{contentFileName}";
-            }
+            project.ContentFile = $"/projects/{project.Guid}/{contentFileName}";
 
             await _projectsService.AddAsync(project);
 
