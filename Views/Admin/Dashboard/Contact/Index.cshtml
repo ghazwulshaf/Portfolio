@@ -16,7 +16,7 @@
 
             <div>
                 <label class="label">Description:</label>
-                <textarea id="summernote" asp-for="Description"></textarea>
+                <textarea id="description" asp-for="Description"></textarea>
             </div>
 
             <div class="grid grid-cols-3 gap-2">
@@ -62,6 +62,28 @@
 @section Scripts
 {
 <script>
+    $(document).ready(() => {
+        $('#description').summernote({
+            placeholder: 'Write the contents in here',
+            tabsize: 2,
+            height: 300,
+            toolbar: [
+                ['style', ['style']],
+                ['font', ['bold', 'underline', 'clear']],
+                ['color', ['color']],
+                ['para', ['ul', 'ol', 'paragraph']],
+                ['table', ['table']],
+                ['insert', ['link', 'picture', 'video']],
+                ['view', ['fullscreen', 'codeview', 'help']]
+            ],
+            fontNames: ['Manrope'],
+            fontNamesIgnoreCheck: ['Manrope'],
+            addDefaultFonts: false,
+        });
+    })
+</script>
+
+<script>
     var itemId = @Model.Links.Count;
 
     function AddItem() {
@@ -74,6 +96,7 @@
             data: data,
             success: (response) => {
                 $('#links-items').append(response);
+                feather.replace();
             }
         })
     }
