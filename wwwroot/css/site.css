@@ -21,22 +21,22 @@
 
 @layer base {
     html {
-        @apply font-manrope text-lg;
+        @apply font-manrope;
     }
     h1 {
-        @apply text-5xl font-bold mb-4;
+        @apply text-4xl sm:text-5xl font-bold;
     }
     h2 {
-        @apply text-4xl font-bold mb-4;
+        @apply text-4xl font-bold;
     }
     h3 {
-        @apply text-3xl font-bold mb-3;
+        @apply text-3xl font-bold;
     }
     h4 {
-        @apply text-2xl font-semibold mb-2;
+        @apply text-2xl font-semibold;
     }
     h5 {
-        @apply text-xl font-semibold mb-1;
+        @apply text-xl font-semibold;
     }
     h6 {
         @apply text-lg font-semibold;
@@ -136,7 +136,7 @@
 ****************************/
 
 #home .btn {
-    @apply font-semibold px-8 py-4 rounded;
+    @apply font-semibold px-6 sm:px-8 py-2 sm:py-4 rounded;
 }
 
 #home .btn-dark {
