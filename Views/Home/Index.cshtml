@@ -1,5 +1,8 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
+
+    var AboutDescription = ViewBag.AboutDescription;
+    List<Project> Projects = ViewBag.Projects;
 }
 
 <div id="home" class="[&>section]:px-4 [&>section]:sm:px-12 [&>section]:lg:px-24 [&>section]:2xl:px-48">
@@ -14,10 +17,9 @@
     </section>
 
     <section id="about" class="text-center sm:text-left px-4 sm:px-12 lg:px-24 2xl:px-48 py-12 sm:py-24 bg-neutral-200">
-        <div class="max-w-[960px]">
+        <div>
             <h1 class="font-body">About Me</h1>
-            <p class="mt-4 sm:mt-8">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Labore officiis adipisci maiores at fuga molestiae vero ipsam commodi iusto a quos aspernatur excepturi, deleniti, libero, ad amet non placeat magni.
-            Repellendus, explicabo. Sint, recusandae! Voluptatum atque magni autem omnis quam quos, minus perferendis expedita, consectetur sint ad rem ea veniam dolor! Aliquid nobis harum ab fuga doloremque rem magni id.</p>
+            <div class="mt-6 sm:mt-8">@Html.Raw(AboutDescription)</div>
         </div>
     </section>
 
@@ -26,14 +28,30 @@
             <h1>My Projects</h1>
             <!-- Projects lists -->
             <div class="mt-12 grid grid-cols-1 lg:grid-cols-3 gap-4">
-            @for (int i = 0; i < 3; i++)
+            @foreach (var Project in Projects)
             {
-                <div class="card">
-                    <h5>Project @i</h5>
-                    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Aperiam distinctio ut ratione dolore quasi suscipit, quidem eos tenetur nihil hic? Accusamus eaque, consequuntur ullam nostrum inventore numquam debitis nemo modi!</p>
+                <div class="card bg-white text-left">
+                    <a asp-controller="Projects" asp-action="Details" asp-route-id="@Project.Id" class="block">
+                        <div class="relative w-full aspect-[16/9] rounded-sm bg-gray-200 bg-cover bg-center"
+                            style="background-image: url('@Project.Thumbnail');"
+                        ></div>
+                        <h6 class="mt-4">@Project.Title</h6>
+                    </a>
+                    
+                    <div class="text-gray-900">
+                        <small>@Project.Type</small>
+                    </div>
+
+                    <div class="line-clamp-2 sm:text-justify">@Project.Description</div>
+
+                    <div class="flex gap-2 text-xs mt-4 *:bg-gray-200 *:text-gray-900 *:rounded-sm *:py-1 *:px-2">
+                    @foreach (var Tag in Project.Tags)
+                    {
+                        <div>@Tag.Name</div>
+                    }
+                    </div>
                 </div>
             }
-            </div>
         </div>
     </section>
 

@@ -21,7 +21,7 @@
 
 @layer base {
     html {
-        @apply font-manrope;
+        @apply font-manrope 2xl:text-lg;
     }
     h1 {
         @apply text-4xl sm:text-5xl font-bold;

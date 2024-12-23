@@ -19,5 +19,59 @@
       }
     ],
     "ContentFile": "/projects/d7cd41ed-8673-4217-b20d-ec7a77671cbe/content.html"
+  },
+  {
+    "Id": 1,
+    "Guid": "9576a0ba-079e-4231-a12c-5f06d6c6ce6f",
+    "Title": "This is a Project",
+    "Description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque eget purus neque. In efficitur, arcu at tincidunt laoreet, magna justo.",
+    "Thumbnail": "/projects/9576a0ba-079e-4231-a12c-5f06d6c6ce6f/thumbnail.jpg",
+    "CreateDate": "2024-12-23",
+    "UpdateDate": "2024-12-23",
+    "Type": "Internet of Things (IoT)",
+    "Tags": [
+      {
+        "Id": 0,
+        "Name": "Tag5"
+      },
+      {
+        "Id": 1,
+        "Name": "Tag7"
+      },
+      {
+        "Id": 2,
+        "Name": "Tag11"
+      }
+    ],
+    "ContentFile": "/projects/9576a0ba-079e-4231-a12c-5f06d6c6ce6f/content.html"
+  },
+  {
+    "Id": 2,
+    "Guid": "67bd4288-4a21-4fa7-92f2-5bb27b2337c1",
+    "Title": "I Own This",
+    "Description": "Nam eleifend suscipit mi, sed consectetur augue blandit id. Quisque placerat enim nec mi imperdiet tincidunt. Mauris enim tortor, commodo vel ex sit amet, interdum venenatis turpis. Fusce et erat venenatis, faucibus mi vel, interdum neque. Nam porttitor commodo magna. Sed non tristique enim, ac iaculis lectus. Phasellus consectetur vestibulum mauris non maximus. Aenean pretium est nec justo consequat mollis. Integer ultricies maximus tempus. Nam mattis ipsum luctus nibh feugiat, quis faucibus eros cursus. Nunc eget mattis nibh, vel interdum neque. Sed eget eleifend augue, vitae tristique purus.",
+    "Thumbnail": "/projects/67bd4288-4a21-4fa7-92f2-5bb27b2337c1/thumbnail.png",
+    "CreateDate": "2024-12-23",
+    "UpdateDate": "2024-12-23",
+    "Type": "Website",
+    "Tags": [
+      {
+        "Id": 0,
+        "Name": "Tag5"
+      },
+      {
+        "Id": 1,
+        "Name": "Tag3"
+      },
+      {
+        "Id": 2,
+        "Name": "Tag9"
+      },
+      {
+        "Id": 3,
+        "Name": "Tag1"
+      }
+    ],
+    "ContentFile": "/projects/67bd4288-4a21-4fa7-92f2-5bb27b2337c1/content.html"
   }
 ]
