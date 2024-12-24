@@ -16,5 +16,12 @@ public class Project
     public DateOnly UpdateDate { get; set;} = new DateOnly();
     public string Type { get; set;} = default!;
     public List<Tag> Tags { get; set; } = [];
+    
+    [Url]
+    public string? LiveView { get; set; }
+
+    [Url]
+    public string? CodeView { get; set; }
+    
     public string ContentFile { get; set;} = default!;
 }

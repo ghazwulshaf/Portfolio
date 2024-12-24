@@ -124,7 +124,7 @@ namespace GhazwulShaf.Controllers.Home
 
         // GET: Project Details
         [HttpGet]
-        [Route("{id}/Details")]
+        [Route("{id}/details")]
         public async Task<IActionResult> Details(int id)
         {
             var projects = await _projectsService.GetAllAsync();

@@ -138,7 +138,7 @@ namespace GhazwulShaf.Controllers.Admin.Dashboard
         // POST: Store New Project
         [HttpPost]
         [Route("Add/Store")]
-        public async Task<IActionResult> Store(Project project, IFormFile ThumbnailFile, String ProjectContent)
+        public async Task<IActionResult> Store(Project project, IFormFile ThumbnailFile, string ProjectContent)
         {
             project.Guid = Guid.NewGuid();
 
@@ -197,7 +197,7 @@ namespace GhazwulShaf.Controllers.Admin.Dashboard
         // POST: Update Project
         [HttpPost]
         [Route("{guid}/Update")]
-        public async Task<IActionResult> Update(Guid guid, Project project, IFormFile ThumbnailFile, String ProjectContent)
+        public async Task<IActionResult> Update(Guid guid, Project project, IFormFile ThumbnailFile, string ProjectContent)
         {
             var projectDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "projects", project.Guid.ToString());
 
@@ -219,6 +219,7 @@ namespace GhazwulShaf.Controllers.Admin.Dashboard
 
             var contentFileName = "content.html";
             var contentFilePath = Path.Combine(projectDir, contentFileName);
+
             await System.IO.File.WriteAllTextAsync(contentFilePath, ProjectContent);
 
             await _projectsService.UpdateAsync(project);

@@ -64,9 +64,11 @@ public class ProjectsService
         if (oldProject != null & project != null)
         {
             projects[oldProject!.Id].Title = project!.Title;
-            projects[oldProject!.Id].Type = project.Type;
-            projects[oldProject!.Id].Tags = project.Tags;
-            projects[oldProject!.Id].UpdateDate = DateOnly.FromDateTime(DateTime.Now);
+            projects[oldProject.Id].Type = project.Type;
+            projects[oldProject.Id].Tags = project.Tags;
+            projects[oldProject.Id].LiveView = project.LiveView;
+            projects[oldProject.Id].CodeView = project.CodeView;
+            projects[oldProject.Id].UpdateDate = DateOnly.FromDateTime(DateTime.Now);
         }
 
         await WriteAsync(projects);

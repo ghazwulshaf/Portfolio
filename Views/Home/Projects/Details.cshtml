@@ -40,8 +40,14 @@
                 </div>
 
                 <div id="project-actions" class="flex flex-col sm:flex-row items-stretch gap-2 mt-12">
-                    <a asp-area="" asp-page="" class="button button-dark"><i data-feather="play" class="inline h-4"></i> Live Demo</a>
-                    <a asp-area="" asp-page="" class="button button-light"><i data-feather="github" class="inline h-4"></i> View Code</a>
+                @if (Project.LiveView != null)
+                {
+                    <a href="@Project.LiveView" class="button button-dark"><i data-feather="play" class="inline h-4"></i> Live Demo</a>
+                }
+                @if (Project.CodeView != null)
+                {
+                    <a href="@Project.CodeView" class="button button-light"><i data-feather="github" class="inline h-4"></i> View Code</a>
+                }
                 </div>
             </div>
 
