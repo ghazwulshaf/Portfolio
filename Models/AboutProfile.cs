@@ -2,10 +2,8 @@ namespace GhazwulShaf.Models;
 
 public class AboutProfile
 {
-    public Dictionary<string, string> Data { get; set; } = new Dictionary<string, string>()
-    {
-        {"Title", ""},
-        {"Description", ""},
-        {"Photo", ""}
-    };
+    public string Title { get; set; } = default!;
+    public string Description { get; set;} = default!;
+    public string Photo { get; set; } = default!;
+    public string CV { get; set; } = default!;
 }

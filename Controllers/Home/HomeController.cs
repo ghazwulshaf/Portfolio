@@ -20,10 +20,10 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
-        var about = await _profileService.GetAsync();
+        var profile = await _profileService.GetAsync();
         var projects = await _projectsService.GetAllAsync();
 
-        ViewBag.AboutDescription = about.Data["Description"];
+        ViewBag.AboutDescription = profile.Description;
         ViewBag.Projects = projects.OrderByDescending(p => p.Id)
             .Take(3)
             .ToList();

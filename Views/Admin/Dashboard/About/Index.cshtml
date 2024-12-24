@@ -29,21 +29,36 @@
                 
                 <form id="profile-form" method="post" enctype="multipart/form-data" asp-action="Update" asp-controller="DashboardAbout" data-editable="false" class="*:mt-4">
                     <div class="first:mt-0">
-                        <label asp-for='Profile.Data["Title"]' class="label">Title:</label>
-                        <input type="text" asp-for='Profile.Data["Title"]' class="input">
+                        <label asp-for='Profile.Title' class="label">Title:</label>
+                        <input type="text" asp-for='Profile.Title' class="input">
                     </div>
 
                     <div>
-                        <label asp-for='Profile.Data["Description"]' class="label">Description:</label>
-                        <textarea asp-for='Profile.Data["Description"]' id="summernote"></textarea>
+                        <label asp-for='Profile.Description' class="label">Description:</label>
+                        <textarea asp-for='Profile.Description' id="summernote"></textarea>
                     </div>
 
                     <div>
-                        <label asp-for='ProfilePhoto.File' class="label">Photo:</label>
+                        <label asp-for='Profile.Photo' class="label">Photo:</label>
                         <div class="input">
-                            <input type="hidden" asp-for='Profile.Data["Photo"]'>       @* input hidden untuk menyimpan value photo old jika tidak terdapat perubahan photo *@
-                            <input type="file" id="profile-photo-input" asp-for='ProfilePhoto.File' accept="image/*">
-                            <img id="profile-photo" src='@Model.Profile.Data["Photo"]' class="w-48 mt-2">
+                            <input type="hidden" asp-for='Profile.Photo'>
+                            <input type="file" id="profile-photo-input" name="ProfilePhotoFile" accept="image/*">
+                            <img id="profile-photo" src='@Model.Profile.Photo' class="w-48 mt-2">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label asp-for="Profile.CV" class="label">CV:</label>
+                        <div class="input">
+                            <input type="hidden" asp-for="Profile.CV">
+                            <input type="file" name="ProfileCVFile" id="profile-cv-input" accept="pdf/*">
+                        @if (Model.Profile.CV != null && Model.Profile.CV != "")
+                        {
+                            <a href="@Url.Action("DownloadFile", "File", new { fileName = Model.Profile.CV })" class="flex items-start gap-2 mt-2">
+                                <img src="/images/pdf.png" alt="Download CV" class="h-12">
+                                <div>@Model.Profile.CV</div>
+                            </a>
+                        }
                         </div>
                     </div>
 

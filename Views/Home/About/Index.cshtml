@@ -9,21 +9,24 @@
         <div id="profile-left" class="order-last md:order-first md:w-1/2 xl:w-2/3">
 
             <div id="profile-title">
-                <h1>@Model.Profile.Data["Title"]</h1>
+                <h1>@Model.Profile.Title</h1>
             </div>
 
             <div id="profile-description" class="note-result mt-8 [&>p]:my-2">
-                @Html.Raw(Model.Profile.Data["Description"])
+                @Html.Raw(Model.Profile.Description)
             </div>
 
             <div id="profile-actions" class="flex flex-col items-stretch lg:flex-row gap-2 mt-8">
-                <a asp-area="" asp-page="/Contact/Index" class="button button-dark">Contact Me</a>
-                <a asp-area="" asp-page="" class="button button-light"><i data-feather="download" class="inline h-4"></i> Download CV</a>
+                <a href="@Url.Action("Index", "Contact")" class="button button-dark">Contact Me</a>
+            @if (Model.Profile.CV != null && Model.Profile.CV.Length > 0)
+            {
+                <a href="@Url.Action("DownloadFile", "File", new { fileName = Model.Profile.CV })" class="button button-light"><i data-feather="download" class="inline h-4"></i> Download CV</a>
+            }
             </div>
         </div>
 
         <div id="profile-right" class="md:w-1/2 xl:max-w-[420px]">
-            <div id="profile-image" class="relative w-full aspect-[4/6] rounded-md bg-gray-200 bg-cover bg-center" style='background-image: url(@Model.Profile.Data["Photo"]);'></div>
+            <div id="profile-image" class="relative w-full aspect-[4/6] rounded-md bg-gray-200 bg-cover bg-center" style='background-image: url(@Model.Profile.Photo);'></div>
         </div>
     </section>
 

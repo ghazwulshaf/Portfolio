@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace GhazwulShaf.Controllers.Home
 {
+    [Route("/about")]
     public class AboutController : Controller
     {
         private readonly AboutProfileService _profileService;
