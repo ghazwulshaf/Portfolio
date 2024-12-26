@@ -5,7 +5,7 @@
     ViewData["Title"] = "About";
 }
 
-<div id="dashboard-about" class="relative sm:w-full px-2 sm:px-4 lg:px-12 pt-2 sm:pt-4 pb-6 *:mt-4">
+<div id="dashboard-about" class="relative sm:w-full px-2 sm:px-4 lg:px-12 pt-2 sm:pt-4 pb-6 *:mt-4 [&_.note-editor]:text-sm [&_.note-editor]:sm:text-base">
 
     <!-- PROFILE -->
     <section id="about-profile" class="first:mt-1">
@@ -31,7 +31,7 @@
                     <input type="text" asp-for='Profile.Title' class="input">
                 </div>
 
-                <div class="[&>.note-editor]:text-sm [&>.note-editor]:sm:text-base">
+                <div>
                     <label asp-for='Profile.Description' class="label">Description:</label>
                     <textarea asp-for='Profile.Description' id="summernote"></textarea>
                 </div>

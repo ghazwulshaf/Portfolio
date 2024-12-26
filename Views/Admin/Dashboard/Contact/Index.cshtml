@@ -6,8 +6,8 @@
     var linksCount = Model.Links.Count;
 }
 
-<div class="px-12 py-4">
-    <div class="card">
+<div class="px-2 sm:px-4 lg:px-12 pt-2 sm:pt-4 pb-6 [&_.note-editor]:text-sm [&_.note-editor]:sm:text-base">
+    <div class="card p-2 sm:p-4">
         <form method="post" asp-action="Update" asp-controller="DashboardContact" class="*:mt-4">
             <div class="first:mt-0">
                 <label class="label">Title:</label>
@@ -19,7 +19,7 @@
                 <textarea id="description" asp-for="Description"></textarea>
             </div>
 
-            <div class="grid grid-cols-3 gap-2">
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-2">
                 <div>
                     <label for="" class="label">Email:</label>
                     <input type="email" class="input" asp-for="Email" placeholder="email@example.com">
@@ -52,7 +52,7 @@
                 </div>
             </div>
 
-            <div class="last:mt-8 text-center">
+            <div class="text-center last:mt-8 mb-2 sm:mb-0">
                 <button type="submit" class="button button-dark py-1">Save</button>
             </div>
         </form>
