@@ -21,7 +21,10 @@
 
 @layer base {
     html {
-        @apply font-manrope 2xl:text-lg;
+        @apply font-manrope text-sm sm:text-base 2xl:text-lg;
+    }
+    body {
+        @apply box-border;
     }
     h1 {
         @apply text-3xl sm:text-4xl lg:text-5xl font-bold;
@@ -97,10 +100,10 @@
     }
 
     .label {
-        @apply block font-medium mb-1;
+        @apply block text-sm sm:text-base font-medium mb-1;
     }
     .input {
-        @apply w-full bg-white text-black px-4 py-2 border border-gray-200 rounded-md focus:caret-black focus:ring-black;
+        @apply w-full bg-white text-black text-sm sm:text-base px-4 py-2 border border-gray-200 rounded-md focus:caret-black focus:ring-black;
     }
     #dashboard-layout .input {
         @apply px-2 py-1 rounded-sm;
@@ -128,6 +131,18 @@
     .pagination-item.active {
         @apply bg-black text-white;
     }
+}
+
+
+/****************************
+** Summernote
+****************************/
+
+.note-editor i {
+    @apply text-xs sm:text-sm;
+}
+.note-editor.fullscreen .note-editing-area {
+    @apply bg-white;
 }
 
 

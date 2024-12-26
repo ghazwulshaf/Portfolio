@@ -92,7 +92,7 @@ namespace GhazwulShaf.Controllers.Admin.Dashboard
             ViewBag.Session = "Add";
             ViewBag.Action = "AddSection";
 
-            var view = "/Views/Shared/Dashboard/About/_SectionForm.cshtml";
+            var view = "/Views/Admin/Dashboard/About/_SectionForm.cshtml";
             var section = new AboutSection();
 
             return PartialView(view, section);
@@ -115,7 +115,7 @@ namespace GhazwulShaf.Controllers.Admin.Dashboard
             ViewBag.Session = "Edit";
             ViewBag.Action = "EditSection";
 
-            var view = "/Views/Shared/Dashboard/About/_SectionForm.cshtml";
+            var view = "/Views/Admin/Dashboard/About/_SectionForm.cshtml";
             var section = await _sectionService.GetByIdAsync(id);
 
             return PartialView(view, section);
@@ -144,7 +144,7 @@ namespace GhazwulShaf.Controllers.Admin.Dashboard
         [Route("Sections/{sectionId}/Add")]
         public async Task<IActionResult> AddSectionItem(int sectionId)
         {
-            var view = "/Views/Shared/Dashboard/About/_SectionItem.cshtml";
+            var view = "/Views/Admin/Dashboard/About/_SectionItem.cshtml";
             var section = await _sectionService.GetByIdAsync(sectionId);
 
             ViewBag.Id = section.Id;
@@ -169,7 +169,7 @@ namespace GhazwulShaf.Controllers.Admin.Dashboard
         [Route("Sections/{sectionId}/{itemId}/Edit")]
         public async Task<IActionResult> EditSectionItem(int sectionId, int itemId)
         {
-            var view = "/Views/Shared/Dashboard/About/_SectionItem.cshtml";
+            var view = "/Views/Admin/Dashboard/About/_SectionItem.cshtml";
             var section = await _sectionService.GetByIdAsync(sectionId);
             var item = await _sectionService.GetItemByIdAsync(sectionId, itemId);
 

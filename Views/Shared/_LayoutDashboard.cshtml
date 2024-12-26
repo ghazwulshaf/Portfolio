@@ -21,16 +21,16 @@
 
 <body>
 
-    <div id="dashboard-layout" class="relative min-h-screen w-full flex flex-row items-stretch">
-        <div id="dashboard-sidebar" class="sticky top-0 min-h-screen w-fit overflow-y-auto flex flex-col items-center justify-between bg-gray-800 text-white pb-4">
+    <div id="dashboard-layout" class="w-full min-h-screen flex flex-row items-start">
+        <div id="dashboard-sidebar" class="flex-none sticky top-0 min-h-screen z-40 overflow-y-auto flex flex-col items-center justify-between bg-gray-800 text-white pb-4">
             <div>
                 <div class="flex gap-4">
-                    <a id="dashboard-brand" href="@Url.Action("Index", "Home")" class="hidden xl:block p-4">
+                    <a id="dashboard-brand" href="@Url.Action("Index", "Home")" class="hidden xl:block px-2 sm:px-4 py-4">
                         <h4>GhazwulShaf</h4>
                         <span>@AuthUser.Role</span>
                     </a>
-                    <button type="button" id="dashboard-navbar-menu-button" class="xl:hidden p-4">
-                        <i data-feather="menu" class="h-5"></i>
+                    <button type="button" id="dashboard-navbar-menu-button" class="xl:hidden px-2 sm:px-4 py-4">
+                        <i data-feather="menu" class="h-4 sm:h-5"></i>
                     </button>
                 </div>
 
@@ -45,33 +45,33 @@
                         return "";
                     }
                 }
-                <nav id="dashboard-navbar" class="w-full mb-24 flex flex-col items-stretch gap-0 *:px-4 *:py-3 *:flex *:items-center *:gap-2">
+                <nav id="dashboard-navbar" class="w-full mb-24 flex flex-col items-stretch gap-0 *:px-2 *:sm:px-4 *:py-3 *:flex *:items-center *:gap-2">
                     <a href="@Url.Action("Index", "Dashboard")" class="@IsActive("Dashboard")">
-                        <i data-feather="layout" class="h-5"></i><span class="hidden xl:inline">Dashboard</span>
+                        <i data-feather="layout" class="h-4 sm:h-5"></i><span class="hidden xl:inline">Dashboard</span>
                     </a>
                     <a href="@Url.Action("Index", "DashboardMasterdata")" class="@IsActive("DashboardMasterdata")">
-                        <i data-feather="file-text" class="h-5"></i><span class="hidden xl:inline">Masterdata</span>
+                        <i data-feather="file-text" class="h-4 sm:h-5"></i><span class="hidden xl:inline">Masterdata</span>
                     </a>
                     <a href="@Url.Action("Index", "DashboardAbout")" class="@IsActive("DashboardAbout")">
-                        <i data-feather="user" class="h-5"></i><span class="hidden xl:inline">About</span>
+                        <i data-feather="user" class="h-4 sm:h-5"></i><span class="hidden xl:inline">About</span>
                     </a>
                     <a href="@Url.Action("Index", "DashboardProjects")" class="@IsActive("DashboardProjects")">
-                        <i data-feather="code" class="h-5"></i><span class="hidden xl:inline">Projects</span>
+                        <i data-feather="code" class="h-4 sm:h-5"></i><span class="hidden xl:inline">Projects</span>
                     </a>
                     <a href="@Url.Action("Index", "DashboardContact")" class="@IsActive("DashboardContact")">
-                        <i data-feather="phone" class="h-5"></i><span class="hidden xl:inline">Contact</span>
+                        <i data-feather="phone" class="h-4 sm:h-5"></i><span class="hidden xl:inline">Contact</span>
                     </a>
                 </nav>
             </div>
             
-            <div class="w-full flex px-4">
+            <div class="w-full flex px-2 sm:px-4">
                 <form id="auth-logout" name="auth-logout" method="post" action="@Url.Action("Logout", "Auth")" hidden></form>
                 <button type="submit" form="auth-logout" id="dashboard-logout-button" class="grow flex items-center justify-center gap-2 xl:bg-black rounded-md py-3"><i data-feather="log-out" class="inline xl:hidden h-5"></i><span class="hidden xl:inline">Logout</span></button>
             </div>
         </div>
         
-        <div id="content" class="grow bg-gray-200">
-            <header class="w-full bg-white px-4 lg:px-12 py-4">
+        <div id="content" class="flex-1 w-auto min-h-screen bg-gray-200">
+            <header class="w-full bg-white px-2 sm:px-4 lg:px-12 py-2 sm:py-4">
                 <h4>@ViewData["Title"]</h4>
             </header>
 
@@ -119,19 +119,25 @@
     </script>
 
     <script>
+        const dashboard = document.querySelector('#dashboard-layout');
         const sidebar = document.querySelector('#dashboard-sidebar');
         const navbarMenuButton = document.querySelector('#dashboard-navbar-menu-button');
         const navbar = document.querySelector('#dashboard-navbar');
         const brand = document.querySelector('#dashboard-brand');
         const logoutButton = document.querySelector('#dashboard-logout-button');
+        const content = document.querySelector('#content');
+
+        var sidebarWidth = sidebar.clientWidth;
+        var contentMargin = 'ps-[' + sidebarWidth + 'px]';
 
         navbarMenuButton.addEventListener('click', () => {
             ToggleSidebar();
         });
 
         function ToggleSidebar() {
+            content.classList.toggle('ps-[' + sidebarWidth + 'px]');
             sidebar.classList.toggle('sticky');
-            sidebar.classList.toggle('absolute');
+            sidebar.classList.toggle('fixed');
             brand.classList.toggle('hidden');
             const navbarItemsText = navbar.querySelectorAll('span');
             navbarItemsText.forEach((itemText) => {

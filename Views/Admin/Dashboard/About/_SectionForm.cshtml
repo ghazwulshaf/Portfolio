@@ -7,8 +7,8 @@
         SubmitText = "Save";
 }
 
-<div id="section-form" class="fixed top-0 right-0 bottom-0 left-0 backdrop-blur-sm bg-white/30 flex justify-center items-center">
-    <div class="card w-96">
+<div id="section-form" class="fixed -top-4 right-0 bottom-0 left-0 backdrop-blur-sm bg-white/30 flex justify-center items-center">
+    <div class="card sm:w-96 p-2 sm:p-4">
         <form method="post" asp-action="@ViewBag.Action" asp-controller="DashboardAbout">
             <input type="hidden" asp-for='Id'>
 
@@ -18,7 +18,7 @@
                 <span asp-validation-for="Title" class="text-sm text-red-500"></span>
             </div>
 
-            <div class="flex justify-center gap-4 mt-8">
+            <div class="flex flex-col sm:flex-row items-stretch sm:justify-center gap-2 sm:gap-4 mt-4 sm:mt-8">
                 <button type="submit" class="button button-dark py-1">@SubmitText</button>
                 <button type="button" class="button button-light py-1" onclick="document.querySelector('#section-form').remove()">Cancel</button>
             </div>

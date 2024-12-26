@@ -5,84 +5,92 @@
     ViewData["Title"] = "About";
 }
 
-<div id="dashboard-about" class="relative select-none transition-all duration-500">
+<div id="dashboard-about" class="relative sm:w-full px-2 sm:px-4 lg:px-12 pt-2 sm:pt-4 pb-6 *:mt-4">
 
-    <div class="px-12 py-4 *:mt-4">
-
-        <!-- PROFILE -->
-        <section id="about-profile" class="first:mt-0">
-            <div class="section-title flex items-center gap-2 *:grow-0">
-                <h6>Profile</h6>
-                <button id="profile-form-edit" class="inline" onclick="EditForm(this, 'profile-form')"><i data-feather="edit-3" class="h-4"></i></button>
-            </div>
-            
-            @if (TempData["SuccessMessage"] != null)
-            {
-                <div class="text-blue-500">@TempData["SuccessMessage"]</div>
-            }
-            @if (TempData["ErrorMessage"] != null)
-            {
-                <div class="text-red-500">@TempData["ErrorMessage"]</div>
-            }
-
-            <div class="card mt-2">
-                
-                <form id="profile-form" method="post" enctype="multipart/form-data" asp-action="Update" asp-controller="DashboardAbout" data-editable="false" class="*:mt-4">
-                    <div class="first:mt-0">
-                        <label asp-for='Profile.Title' class="label">Title:</label>
-                        <input type="text" asp-for='Profile.Title' class="input">
-                    </div>
-
-                    <div>
-                        <label asp-for='Profile.Description' class="label">Description:</label>
-                        <textarea asp-for='Profile.Description' id="summernote"></textarea>
-                    </div>
-
-                    <div>
-                        <label asp-for='Profile.Photo' class="label">Photo:</label>
-                        <div class="input">
-                            <input type="hidden" asp-for='Profile.Photo'>
-                            <input type="file" id="profile-photo-input" name="ProfilePhotoFile" accept="image/*">
-                            <img id="profile-photo" src='@Model.Profile.Photo' class="w-48 mt-2">
-                        </div>
-                    </div>
-
-                    <div>
-                        <label asp-for="Profile.CV" class="label">CV:</label>
-                        <div class="input">
-                            <input type="hidden" asp-for="Profile.CV">
-                            <input type="file" name="ProfileCVFile" id="profile-cv-input" accept="pdf/*">
-                        @if (Model.Profile.CV != null && Model.Profile.CV != "")
-                        {
-                            <a href="@Url.Action("DownloadFile", "File", new { fileName = Model.Profile.CV })" class="flex items-start gap-2 mt-2">
-                                <img src="/images/pdf.png" alt="Download CV" class="h-12">
-                                <div>@Model.Profile.CV</div>
-                            </a>
-                        }
-                        </div>
-                    </div>
-
-                    <div id="profile-form-actions" class="hidden justify-center gap-4 last:mt-8 mb-4">
-                        <button type="submit" form="profile-form" class="button button-dark py-1">Save</button>
-                        <button type="button" class="button button-light py-1" onclick="CloseForm()">Cancel</button>
-                    </div>
-                </form>
-            </div>
-        </section>
-
-        @foreach (var Section in Model.Sections)
+    <!-- PROFILE -->
+    <section id="about-profile" class="first:mt-1">
+        <div class="section-title flex items-center gap-2 *:grow-0">
+            <h6>Profile</h6>
+            <button id="profile-form-edit" class="inline" onclick="EditForm(this, 'profile-form')"><i data-feather="edit-3" class="h-4"></i></button>
+        </div>
+        
+        @if (TempData["SuccessMessage"] != null)
         {
-        @await Html.PartialAsync("/Views/Admin/Dashboard/About/Section.cshtml", Section)
+            <div class="text-blue-500">@TempData["SuccessMessage"]</div>
+        }
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="text-red-500">@TempData["ErrorMessage"]</div>
         }
 
-        <div class="w-full mt-4 flex justify-end border border-t-black">
-            <button class="text-blue-500" onclick="AddSection()">Add Section</button>
+        <div class="card p-2 sm:p-4 mt-2">
+            
+            <form id="profile-form" method="post" enctype="multipart/form-data" asp-action="Update" asp-controller="DashboardAbout" data-editable="false" class="*:mt-4">
+                <div class="first:mt-0">
+                    <label asp-for='Profile.Title' class="label">Title:</label>
+                    <input type="text" asp-for='Profile.Title' class="input">
+                </div>
+
+                <div class="[&>.note-editor]:text-sm [&>.note-editor]:sm:text-base">
+                    <label asp-for='Profile.Description' class="label">Description:</label>
+                    <textarea asp-for='Profile.Description' id="summernote"></textarea>
+                </div>
+
+                <div>
+                    <label asp-for='Profile.Photo' class="label">Photo:</label>
+                    <div class="input">
+                        <input type="hidden" asp-for='Profile.Photo'>
+                        <input type="file" id="profile-photo-input" name="ProfilePhotoFile" accept="image/*">
+                        <img id="profile-photo" src='@Model.Profile.Photo' class="w-48 mt-2">
+                    </div>
+                </div>
+
+                <div>
+                    <label asp-for="Profile.CV" class="label">CV:</label>
+                    <div class="input">
+                        <input type="hidden" asp-for="Profile.CV">
+                        <input type="file" name="ProfileCVFile" id="profile-cv-input" accept="pdf/*">
+                    @if (Model.Profile.CV != null && Model.Profile.CV != "")
+                    {
+                        <a href="@Url.Action("DownloadFile", "File", new { fileName = Model.Profile.CV })" class="flex items-start gap-2 mt-2">
+                            <img src="/images/pdf.png" alt="Download CV" class="h-12">
+                            <div>@Model.Profile.CV</div>
+                        </a>
+                    }
+                    </div>
+                </div>
+
+                <div id="profile-form-actions" class="hidden justify-center gap-4 last:mt-8 mb-4">
+                    <button type="submit" form="profile-form" class="button button-dark py-1">Save</button>
+                    <button type="button" class="button button-light py-1" onclick="CloseForm()">Cancel</button>
+                </div>
+            </form>
         </div>
+    </section>
+
+    <div class="w-full flex justify-end border border-t-black">
+        <button class="text-blue-500" onclick="AddSection()">Add Section</button>
     </div>
+
+    @foreach (var Section in Model.Sections)
+    {
+    @await Html.PartialAsync("/Views/Admin/Dashboard/About/Section.cshtml", Section)
+    }
 </div>
 
 @section Scripts
 {
+    <script>
+        $(document).ready(() => {
+            const about = document.querySelector('#dashboard-about');
+            var screenWidth = window.innerWidth;
+            if (screenWidth < 375) {
+                var contentWidth = screenWidth - sidebarWidth;
+                about.style.width = `${contentWidth}px`;
+            }
+        })
+    </script>
+
     <script>
         // set data-editable global attribute on forms
         var forms = document.querySelectorAll('[data-editable]');
