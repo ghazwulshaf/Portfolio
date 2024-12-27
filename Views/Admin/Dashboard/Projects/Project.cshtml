@@ -6,12 +6,12 @@
     var tagsCount = Model.Tags.Any() ? Model.Tags.Count : 0;
 }
 
-<div class="px-12 py-4 *:mt-4">
-    <div class="card first:mt-0">
+<div class="px-2 sm:px-4 lg:px-12 pt-2 sm:pt-4 pb-6 text-sm sm:text-base *:mt-4">
+    <div class="card p-2 sm:p-4 first:mt-0">
         <a asp-action="Index" asp-controller="DashboardProjects" class="flex w-fit items-center"><i data-feather="arrow-left" class="inline h-4"></i> Back</a>
     </div>
 
-    <div class="card">
+    <div class="card p-2 sm:p-4">
         <form method="post" asp-action="@ViewData["FormAction"]" asp-controller="DashboardProjects" asp-route-guid="@Model.Guid" enctype="multipart/form-data" class="flex flex-col gap-4">
             <input type="hidden" asp-for="Id">
             <input type="hidden" asp-for="Guid">
@@ -57,6 +57,16 @@
                     <partial name="./_Tag.cshtml" for="@Model"></partial>
                 }
                 </div>
+            </div>
+
+            <div>
+                <label asp-for="LiveView" class="label">Live Demo Url:</label>
+                <input type="url" asp-for="LiveView" class="input" placeholder="Live demo url...">
+            </div>
+
+            <div>
+                <label asp-for="CodeView" class="label">Code View Url:</label>
+                <input type="url" asp-for="CodeView" class="input" placeholder="Code view url...">
             </div>
 
             <div>

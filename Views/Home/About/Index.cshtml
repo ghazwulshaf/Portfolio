@@ -4,37 +4,40 @@
     ViewData["Title"] = "About Me";
 }
 
-<div id="about" class="*:px-48 *:py-24">
-    <section id="profile" class="flex justify-between first:pt-12 odd:bg-white even:bg-neutral-200">
-        <div id="profile-left" class="order-first w-3/5">
+<div id="about" class="*:px-4 *:sm:px-12 *:lg:px-24 *:2xl:px-48 *:py-12 *:md:py-16 *:lg:py-24">
+    <section id="profile" class="flex flex-col md:flex-row md:justify-between gap-8 first:pt-6 first:lg:pt-12 odd:bg-white even:bg-neutral-200">
+        <div id="profile-left" class="order-last md:order-first md:w-1/2 xl:w-2/3">
 
             <div id="profile-title">
-                <h1>@Model.Profile.Data["Title"]</h1>
+                <h1>@Model.Profile.Title</h1>
             </div>
 
             <div id="profile-description" class="note-result mt-8 [&>p]:my-2">
-                @Html.Raw(Model.Profile.Data["Description"])
+                @Html.Raw(Model.Profile.Description)
             </div>
 
-            <div id="profile-actions" class="mt-8">
-                <a asp-area="" asp-page="/Contact/Index" class="button button-dark">Contact Me</a>
-                <a asp-area="" asp-page="" class="button button-light ms-2"><i data-feather="download" class="inline h-4"></i> Download CV</a>
+            <div id="profile-actions" class="flex flex-col items-stretch lg:flex-row gap-2 mt-8">
+                <a href="@Url.Action("Index", "Contact")" class="button button-dark">Contact Me</a>
+            @if (Model.Profile.CV != null && Model.Profile.CV.Length > 0)
+            {
+                <a href="@Url.Action("DownloadFile", "File", new { fileName = Model.Profile.CV })" class="button button-light"><i data-feather="download" class="inline h-4"></i> Download CV</a>
+            }
             </div>
         </div>
 
-        <div id="profile-right" class="w-1/5">
-            <div id="profile-image" class="relative w-full aspect-[4/6] rounded-md bg-gray-200 bg-cover bg-center" style='background-image: url(@Model.Profile.Data["Photo"]);'></div>
+        <div id="profile-right" class="md:w-1/2 xl:max-w-[420px]">
+            <div id="profile-image" class="relative w-full aspect-[4/6] rounded-md bg-gray-200 bg-cover bg-center" style='background-image: url(@Model.Profile.Photo);'></div>
         </div>
     </section>
 
     @foreach (var Section in Model.Sections)
     {
-    <section id="@Section.Title" class="odd:bg-white even:bg-neutral-200">
+    <section id="@Section.Title" class="odd:bg-white even:bg-neutral-200 last:pb-24 last:md:pb-28 last:lg:pb-36">
         <div>
             <h1>@Section.Title</h1>
         </div>
 
-        <div class="mt-8 flex flex-col items-stretch gap-4">
+        <div class="mt-8 @(Section.Title.Contains("skill", StringComparison.OrdinalIgnoreCase) ? "grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4" : "flex flex-col") items-stretch gap-4">
 
             @foreach (var Item in Section.Items)
             {

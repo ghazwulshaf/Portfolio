@@ -14,7 +14,7 @@
         </div>
     </div>
 
-    <div class="card mt-2">
+    <div class="card p-2 sm:p-4 mt-2">
         <div class="flex gap-2 *:grow-0">
             <label class="label">Items:</label>
             <div class="*:me-1">
@@ -29,21 +29,21 @@
             </div>
         </div>
 
-        <div class="flex flex-col gap-2">
+        <div class="grid grid-cols-1 gap-2">
         @foreach (var Item in Model.Items)
         {
-            <div id="section_@Model.Id-item_@Item.Id" class="section-item flex items-start gap-2" style="order: @Item.Id;">
+            <div id="section_@Model.Id-item_@Item.Id" class="section-item flex items-start justify-between gap-1 sm:gap-2" style="order: @Item.Id;">
                 <input type="hidden" form="section_@Model.Id-form-reorder" asp-for="Items[Item.Id].Id">
                 <input type="hidden" form="section_@Model.Id-form-reorder" asp-for="Items[Item.Id].Order" class="item-input-order">
                 
                 <form id="section_@Model.Id-item_@Item.Id-form-delete" method="post" asp-action="DeleteSectionItem" asp-controller="DashboardAbout" asp-route-sectionId="@Model.Id" asp-route-itemId="@Item.Id" onsubmit="return Delete(event, 'item')" hidden></form>
                 
-                <div class="w-full border border-gray-200 p-4">
-                    <h6 class="text-base">@Item.Name</h6>
+                <div class="w-56 grow border border-gray-200 text-sm sm:text-base p-2 sm:p-4">
+                    <h6 class="text-sm sm:text-base">@Item.Name</h6>
 
                     @if (Item.Company != null || Item.From != null)
                     {
-                    <div class="mt-1 text-sm text-gray-500">
+                    <div class="mt-1 text-xs sm:text-sm text-gray-500">
                         <span>@Item.Company</span> <span>@(@Item.From != null ? "|" : null)</span> <span>@Item.From?.ToString("MMMM yyyy")</span> <span>@(Item.To != null ? "-" : null)</span> <span>@Item.To?.ToString("MMMM yyyy")</span>
                     </div>
                     }
@@ -54,7 +54,7 @@
                     }
                 </div>
 
-                <div class="mt-2 grow-0 flex">
+                <div class="flex-none flex flex-col gap-2 mt-0 sm:mt-2">
                     <button type="button" onclick="GetSectionItem('@Url.Action("EditSectionItem", "DashboardAbout", new { sectionId = Model.Id, itemId = Item.Id })')" class="hover:text-blue-900"><i data-feather="edit-3" class="h-4"></i></button>
                     <button type="button" class="btn-order btn-order-up hidden hover:text-blue-900" onclick="OrderUp('section_@Model.Id-item_@Item.Id', @Model.Items.Count)"><i data-feather="arrow-up" class="h-4"></i></button>
                     <button type="button" class="btn-order btn-order-down hidden hover:text-blue-900" onclick="OrderDown('section_@Model.Id-item_@Item.Id', @Model.Items.Count)"><i data-feather="arrow-down" class="h-4"></i></button>

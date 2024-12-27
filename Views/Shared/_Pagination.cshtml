@@ -5,17 +5,17 @@
 }
 
 <div class="pagination">
-    <button class="pagination-item" @(CurrentPage == 1 ? "disabled" : "") data-page-number="@(CurrentPage - 1)" onclick="SetPage(this)"><i data-feather="chevron-left"></i></button>
+    <button class="pagination-item" @(CurrentPage == 1 ? "disabled" : "") data-page-number="@(CurrentPage - 1)" onclick="SetPage(this)"><i data-feather="chevron-left" class="w-4"></i></button>
     <button class="pagination-item @(CurrentPage == 1 ? "active" : "")" data-page-number="1" onclick="SetPage(this)">1</button>
-    <div class="@(CurrentPage >= 4 ? "flex" : "hidden") items-center"><i data-feather="more-horizontal" class="inline h-5"></i></div>
+    <div class="@(CurrentPage >= 4 ? "flex" : "hidden") items-center"><i data-feather="more-horizontal" class="inline w-3"></i></div>
 @if (TotalPages > 1)
 {
     @for (int i = CurrentPage > 2 ? CurrentPage - 1 : 2; i <= (TotalPages - CurrentPage >= 2 ? CurrentPage + 1 : TotalPages - 1); i++)
     {
     <button class="pagination-item @(i == CurrentPage ? "active" : "")" data-page-number="@i" onclick="SetPage(this)">@i</button>
     }
-    <div class="@(TotalPages - CurrentPage >= 3 ? "flex" : "hidden") flex items-center"><i data-feather="more-horizontal" class="inline h-5"></i></div>
+    <div class="@(TotalPages - CurrentPage >= 3 ? "flex" : "hidden") flex items-center"><i data-feather="more-horizontal" class="inline w-3"></i></div>
     <button class="pagination-item @(CurrentPage == TotalPages ? "active" : "")" data-page-number="@TotalPages" onclick="SetPage(this)">@TotalPages</button>
 }
-    <button class="pagination-item" @(CurrentPage == TotalPages ? "disabled" : "") data-page-number="@(CurrentPage + 1)" onclick="SetPage(this)"><i data-feather="chevron-right"></i></button>
+    <button class="pagination-item" @(CurrentPage == TotalPages ? "disabled" : "") data-page-number="@(CurrentPage + 1)" onclick="SetPage(this)"><i data-feather="chevron-right" class="w-4"></i></button>
 </div>

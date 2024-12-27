@@ -7,30 +7,32 @@
     PagingInfo PagingInfo = ViewBag.PagingInfo;
 }
 
-<section id="page-title" class="text-center px-48 pt-12 pb-36">
-    <h1>My Projects</h1>
-    <h5 class="mt-4 text-gray-500">Explore a collection of my latest work and personal projects.</h5>
-</section>
+<div id="projects" class="*:px-4 *:sm:px-12 *:lg:px-24 *:2xl:px-48 *:py-12 *:md:py-16 *:lg:py-24">
+    <section id="page-title" class="text-center first:pt-6 first:lg:pt-12 pb-36">
+        <h1>My Projects</h1>
+        <h5 class="mt-4 text-gray-500">Explore a collection of my latest work and personal projects.</h5>
+    </section>
 
-<section id="projects-list" class="bg-neutral-200 px-48 py-24">
-    <div id="list-header" class="grid grid-cols-3 w-full gap-4">
-        <div class="relative">
-            <input id="projects-search" type="search" class="input-search w-full text-black" style="padding-left: 2rem;" oninput="Filter()" placeholder="Search projects...">
-            <div class="absolute left-2 top-0 bottom-0 flex items-center text-gray-500"><i data-feather="search" class="h-4"></i></div>
+    <section id="projects-list" class="bg-neutral-200">
+        <div id="list-header" class="grid grid-cols-1 lg:grid-cols-3 w-full gap-4">
+            <div class="relative">
+                <input id="projects-search" type="search" class="input-search w-full text-black" style="padding-left: 2rem;" oninput="Filter()" placeholder="Search projects...">
+                <div class="absolute left-2 top-0 bottom-0 flex items-center text-gray-500"><i data-feather="search" class="h-4"></i></div>
+            </div>
+            <div id="list-filters" class="lg:col-span-2 flex flex-row lg:justify-end gap-2">
+                <button data-project-type="All" class="project_types-item current" onclick="SetType(this)">All</button>
+            @foreach (var ProjectType in ProjectTypes)
+            {
+                <button data-project-type="@ProjectType.Name" class="project_types-item" onclick="SetType(this)">@ProjectType.Name</button>
+            }
+            </div>
         </div>
-        <div id="list-filters" class="col-span-2 flex flex-row justify-end gap-2">
-            <button data-project-type="All" class="project_types-item current" onclick="SetType(this)">All</button>
-        @foreach (var ProjectType in ProjectTypes)
-        {
-            <button data-project-type="@ProjectType.Name" class="project_types-item" onclick="SetType(this)">@ProjectType.Name</button>
-        }
-        </div>
-    </div>
 
-    <div id="list-items" class="mt-12">
-        <partial name="./_Projects.cshtml" for="@Model"></partial>
-    </div>
-</section>
+        <div id="list-items" class="mt-12">
+            <partial name="./_Projects.cshtml" for="@Model"></partial>
+        </div>
+    </section>
+</div>
 
 @section Scripts
 {

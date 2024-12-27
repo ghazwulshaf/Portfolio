@@ -7,7 +7,7 @@
     ViewData["Title"] = Project.Title;
 }
 
-<div class="px-48 pt-24 pb-36">
+<div class="px-4 sm:px-12 lg:px-24 2xl:px-48 pt-6 lg:pt-12 pb-12 lg:pb-24 xl:pb-36">
 
     <div id="detail-header" class="mb-8">
         <a asp-action="Index" asp-controller="Projects" class="flex items-center gap-1">
@@ -18,9 +18,9 @@
 
     <div id="detail-project">
 
-        <div id="project-header" class="grid grid-cols-2 gap-8">
+        <div id="project-header" class="grid grid-cols-1 lg:grid-cols-2 2xl:grid-cols-3 gap-8">
 
-            <div id="project-header-left" class="order-first">
+            <div id="project-header-left" class="2xl:col-span-2">
 
                 <div id="project-title">
                     <h1>@Project.Title</h1>
@@ -39,49 +39,55 @@
                 }
                 </div>
 
-                <div id="project-actions" class="mt-12">
-                    <a asp-area="" asp-page="" class="button button-dark"><i data-feather="play" class="inline h-4"></i> Live Demo</a>
-                    <a asp-area="" asp-page="" class="ms-2 button button-light"><i data-feather="github" class="inline h-4"></i> View Code</a>
+                <div id="project-actions" class="flex flex-col sm:flex-row items-stretch gap-2 mt-12">
+                @if (Project.LiveView != null)
+                {
+                    <a href="@Project.LiveView" class="button button-dark"><i data-feather="play" class="inline h-4"></i> Live Demo</a>
+                }
+                @if (Project.CodeView != null)
+                {
+                    <a href="@Project.CodeView" class="button button-light"><i data-feather="github" class="inline h-4"></i> View Code</a>
+                }
                 </div>
             </div>
 
-            <div id="project-header-right">
+            <div id="project-header-right" class="order-first lg:order-last">
                 <div id="project-image" class="relative w-full aspect-[16/9] bg-cover bg-center rounded-md bg-gray-200"
                     style="background-image: url('@Project.Thumbnail');"
                 ></div>
             </div>
         </div>
 
-        <div class="mt-12 flex gap-4">
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-4 mt-12">
 
-            <div id="project-content" class="w-3/4"></div>
+            <div id="project-content" class="xl:col-span-2"></div>
 
-            <div id="project-side" class="w-1/4 ps-4 border-s *:mt-4">
+            <div id="project-side" class="border-t xl:border-t-0 xl:border-s pt-4 xl:pt-0 xl:ps-4 *:mt-8">
             @if (ViewBag.NextProject != null)
             {
                 <div class="first:mt-0">
-                    <div>Next Project</div>
-                    <div class="grid grid-cols-1 gap-3 text-sm mt-2">
-                        <div class="grid grid-cols-3 gap-2">
+                    <div class="text-lg font-semibold">Next Project</div>
+                    <div class="grid grid-cols-1 gap-3 mt-2">
+                        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-2 2xl:grid-cols-3 gap-2">
                             <div class="relative aspect-video bg-cover bg-center bg-gray-200"
                                 style="background-image: url('@NextProject.Thumbnail');"
                             ></div>
-                            <a asp-action="Details" asp-controller="Projects" asp-route-id="@NextProject.Id" class="col-span-2">@NextProject.Title</a>
+                            <a asp-action="Details" asp-controller="Projects" asp-route-id="@NextProject.Id" class="sm:col-span-2 lg:col-span-3 xl:col-span-1 2xl:col-span-2">@NextProject.Title</a>
                         </div>
                     </div>
                 </div>
             }
 
                 <div class="first:mt-0">
-                    <div>@Project.Type</div>
-                    <div class="grid grid-cols-1 gap-3 text-sm mt-2">
+                    <div class="text-lg font-semibold">@Project.Type</div>
+                    <div class="grid grid-cols-1 gap-3 mt-2">
                     @foreach (var ProjectSameType in ProjectsSameType)
                     {
-                        <div class="grid grid-cols-3 gap-2">
+                        <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-2 2xl:grid-cols-3 gap-2">
                             <div class="relative aspect-video bg-cover bg-center bg-gray-200"
                                 style="background-image: url('@ProjectSameType.Thumbnail');"
                             ></div>
-                            <a asp-action="Details" asp-controller="Projects" asp-route-id="@ProjectSameType.Id" class="col-span-2">@ProjectSameType.Title</a>
+                            <a asp-action="Details" asp-controller="Projects" asp-route-id="@ProjectSameType.Id" class="sm:col-span-2 lg:col-span-3 xl:col-span-1 2xl:col-span-2">@ProjectSameType.Title</a>
                         </div>
                     }
                     </div>

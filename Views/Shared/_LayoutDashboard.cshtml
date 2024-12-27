@@ -21,49 +21,57 @@
 
 <body>
 
-    <div id="dashboard-layout" class="min-h-screen flex flex-row justify-stretch items-stretch">
-        <div id="sidebar" class="fixed top-0 bottom-0 left-0 min-h-screen overflow-y-auto w-1/6 mb-8 bg-gray-800 text-white">
+    <div id="dashboard-layout" class="w-full min-h-screen flex flex-row items-start">
+        <div id="dashboard-sidebar" class="flex-none sticky top-0 min-h-screen z-40 overflow-y-auto flex flex-col items-center justify-between bg-gray-800 text-white pb-4">
+            <div>
+                <div class="flex gap-4">
+                    <a id="dashboard-brand" href="@Url.Action("Index", "Home")" class="hidden xl:block px-2 sm:px-4 py-4">
+                        <h4>GhazwulShaf</h4>
+                        <span>@AuthUser.Role</span>
+                    </a>
+                    <button type="button" id="dashboard-navbar-menu-button" class="xl:hidden px-2 sm:px-4 py-4">
+                        <i data-feather="menu" class="h-4 sm:h-5"></i>
+                    </button>
+                </div>
 
-            <a id="brand" href="@Url.Action("Index", "Home")" class="block p-4">
-                <h4>GhazwulShaf</h4>
-                <span>@AuthUser.Role</span>
-            </a>
-
-            @functions {
-                // function to get route and set nav active 
-                public string IsActive(string controller)
-                {
-                    var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
-                    if (currentController == controller)
-                        return "active";
-                    
-                    return "";
+                @functions {
+                    // function to get route and set nav active 
+                    public string IsActive(string controller)
+                    {
+                        var currentController = ViewContext.RouteData.Values["controller"]?.ToString();
+                        if (currentController == controller)
+                            return "active";
+                        
+                        return "";
+                    }
                 }
-            }
-            <nav id="dashboard-navbar" class="w-full mb-24 flex flex-col items-stretch gap-0 *:px-4 *:py-3 *:flex *:items-center *:gap-2">
-                <a href="@Url.Action("Index", "Dashboard")" class="@IsActive("Dashboard")">
-                    <i data-feather="layout" class="h-5"></i> Dashboard
-                </a>
-                <a href="@Url.Action("Index", "DashboardMasterdata")" class="@IsActive("DashboardMasterdata")">
-                    <i data-feather="file-text" class="h-5"></i> Masterdata
-                </a>
-                <a href="@Url.Action("Index", "DashboardAbout")" class="@IsActive("DashboardAbout")">
-                    <i data-feather="user" class="h-5"></i> About
-                </a>
-                <a href="@Url.Action("Index", "DashboardProjects")" class="@IsActive("DashboardProjects")">
-                    <i data-feather="code" class="h-5"></i> Projects
-                </a>
-                <a href="@Url.Action("Index", "DashboardContact")" class="@IsActive("DashboardContact")">
-                    <i data-feather="phone" class="h-5"></i> Contact
-                </a>
-            </nav>
-
-            <form id="auth-logout" name="auth-logout" method="post" action="@Url.Action("Logout", "Auth")"></form>
-            <button type="submit" form="auth-logout" class="absolute left-4 right-4 bottom-4 button button-dark">Logout</button>
+                <nav id="dashboard-navbar" class="w-full mb-24 flex flex-col items-stretch gap-0 *:px-2 *:sm:px-4 *:py-3 *:flex *:items-center *:gap-2">
+                    <a href="@Url.Action("Index", "Dashboard")" class="@IsActive("Dashboard")">
+                        <i data-feather="layout" class="h-4 sm:h-5"></i><span class="hidden xl:inline">Dashboard</span>
+                    </a>
+                    <a href="@Url.Action("Index", "DashboardMasterdata")" class="@IsActive("DashboardMasterdata")">
+                        <i data-feather="file-text" class="h-4 sm:h-5"></i><span class="hidden xl:inline">Masterdata</span>
+                    </a>
+                    <a href="@Url.Action("Index", "DashboardAbout")" class="@IsActive("DashboardAbout")">
+                        <i data-feather="user" class="h-4 sm:h-5"></i><span class="hidden xl:inline">About</span>
+                    </a>
+                    <a href="@Url.Action("Index", "DashboardProjects")" class="@IsActive("DashboardProjects")">
+                        <i data-feather="code" class="h-4 sm:h-5"></i><span class="hidden xl:inline">Projects</span>
+                    </a>
+                    <a href="@Url.Action("Index", "DashboardContact")" class="@IsActive("DashboardContact")">
+                        <i data-feather="phone" class="h-4 sm:h-5"></i><span class="hidden xl:inline">Contact</span>
+                    </a>
+                </nav>
+            </div>
+            
+            <div class="w-full flex px-2 sm:px-4">
+                <form id="auth-logout" name="auth-logout" method="post" action="@Url.Action("Logout", "Auth")" hidden></form>
+                <button type="submit" form="auth-logout" id="dashboard-logout-button" class="grow flex items-center justify-center gap-2 xl:bg-black rounded-md py-3"><i data-feather="log-out" class="inline xl:hidden h-5"></i><span class="hidden xl:inline">Logout</span></button>
+            </div>
         </div>
         
-        <div id="content" class="w-5/6 bg-gray-200">
-            <header class="w-full bg-white px-12 py-4">
+        <div id="content" class="flex-1 w-auto min-h-screen bg-gray-200">
+            <header class="w-full bg-white px-2 sm:px-4 lg:px-12 py-2 sm:py-4">
                 <h4>@ViewData["Title"]</h4>
             </header>
 
@@ -89,9 +97,6 @@
     <script src="~/lib/summernote/dist/summernote-lite.min.js"></script>
     <script>
         $(document).ready(function() {
-            // add margin at main section
-            $('#content').css('margin-left', $('#sidebar').width() + 'px');
-
             // init summernote
             $('#summernote').summernote({
                 placeholder: 'Write the contents in here',
@@ -112,6 +117,47 @@
             });
         })
     </script>
+
+    <script>
+        const dashboard = document.querySelector('#dashboard-layout');
+        const sidebar = document.querySelector('#dashboard-sidebar');
+        const navbarMenuButton = document.querySelector('#dashboard-navbar-menu-button');
+        const navbar = document.querySelector('#dashboard-navbar');
+        const brand = document.querySelector('#dashboard-brand');
+        const logoutButton = document.querySelector('#dashboard-logout-button');
+        const content = document.querySelector('#content');
+
+        var sidebarWidth = sidebar.clientWidth;
+        
+        content.style.maxWidth = `${screen.width - sidebarWidth}px`;
+
+        var sidebarState = "collapsed";
+
+        navbarMenuButton.addEventListener('click', () => {
+            ToggleSidebar();
+        });
+
+        function ToggleSidebar() {
+            if (sidebarState == "collapsed") {
+                content.style.marginLeft = `${sidebarWidth}px`;
+                sidebarState = "uncollapsed";
+            } else if (sidebarState == "uncollapsed") {
+                content.style.marginLeft = `0px`;
+                sidebarState = "collapsed";
+            }
+            sidebar.classList.toggle('sticky');
+            sidebar.classList.toggle('fixed');
+            brand.classList.toggle('hidden');
+            const navbarItemsText = navbar.querySelectorAll('span');
+            navbarItemsText.forEach((itemText) => {
+                itemText.classList.toggle('hidden');
+            })
+            logoutButton.classList.toggle('bg-black');
+            const logoutButtonText = logoutButton.querySelector('span');
+            logoutButtonText.classList.toggle('hidden');
+        }
+    </script>
+
     @await RenderSectionAsync("Scripts", required: false)
 
 </body>

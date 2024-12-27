@@ -9,6 +9,7 @@ namespace GhazwulShaf.Controllers.Home
     {
         private readonly ProjectsService _projectsService;
         private readonly MasterdataService _masterdataService;
+        private readonly int _pageSize = 12;
 
         public ProjectsController(ProjectsService projectsService, MasterdataService masterdataService)
         {
@@ -25,7 +26,7 @@ namespace GhazwulShaf.Controllers.Home
             var masterdata = await _masterdataService.GetAsync();
 
             int pageCurrent = 1;
-            int pageSize = 6;
+            int pageSize = _pageSize;
             int totalCount = projects.Count;
             int totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
 
@@ -64,7 +65,7 @@ namespace GhazwulShaf.Controllers.Home
             }
 
             int pageCurrent = 1;
-            int pageSize = 6;
+            int pageSize = _pageSize;
             int totalCount = projects.Count;
             int totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
 
@@ -102,7 +103,7 @@ namespace GhazwulShaf.Controllers.Home
             }
 
             int pageCurrent = page;
-            int pageSize = 6;
+            int pageSize = _pageSize;
             int totalCount = projects.Count;
             int totalPages = (int)Math.Ceiling(totalCount / (double)pageSize);
 
@@ -123,7 +124,7 @@ namespace GhazwulShaf.Controllers.Home
 
         // GET: Project Details
         [HttpGet]
-        [Route("{id}/Details")]
+        [Route("{id}/details")]
         public async Task<IActionResult> Details(int id)
         {
             var projects = await _projectsService.GetAllAsync();

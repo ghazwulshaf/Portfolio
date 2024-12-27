@@ -6,8 +6,8 @@
     List<ProjectType> ProjectTypes = ViewBag.ProjectTypes;
 }
 
-<div class="px-12 py-4">
-    <section class="card flex gap-2">
+<div class="px-2 sm:px-4 lg:px-12 pt-2 sm:pt-4 pb-6 text-sm sm:text-base">
+    <section class="card p-2 sm:p-4 flex gap-2">
         <a asp-action="Add" asp-controller="DashboardProjects" class="flex justify-center items-center px-2 bg-gray-700 text-white rounded-sm"><i data-feather="plus"></i></a>
         <div class="relative w-3/4">
             <input type="search" id="project-search" class="input" style="padding-left: 2rem;" oninput="Search()" placeholder="Search...">
