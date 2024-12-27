@@ -20,11 +20,11 @@
 ****************************/
 
 @layer base {
+    * {
+        @apply box-border;
+    }
     html {
         @apply font-manrope text-sm sm:text-base 2xl:text-lg;
-    }
-    body {
-        @apply box-border;
     }
     h1 {
         @apply text-3xl sm:text-4xl lg:text-5xl font-bold;

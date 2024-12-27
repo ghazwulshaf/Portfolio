@@ -81,17 +81,6 @@
 @section Scripts
 {
     <script>
-        $(document).ready(() => {
-            const about = document.querySelector('#dashboard-about');
-            var screenWidth = window.innerWidth;
-            if (screenWidth < 375) {
-                var contentWidth = screenWidth - sidebarWidth;
-                about.style.width = `${contentWidth}px`;
-            }
-        })
-    </script>
-
-    <script>
         // set data-editable global attribute on forms
         var forms = document.querySelectorAll('[data-editable]');
         forms.forEach((form) => {

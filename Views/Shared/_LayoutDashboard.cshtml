@@ -128,14 +128,23 @@
         const content = document.querySelector('#content');
 
         var sidebarWidth = sidebar.clientWidth;
-        var contentMargin = 'ps-[' + sidebarWidth + 'px]';
+        
+        content.style.maxWidth = `${screen.width - sidebarWidth}px`;
+
+        var sidebarState = "collapsed";
 
         navbarMenuButton.addEventListener('click', () => {
             ToggleSidebar();
         });
 
         function ToggleSidebar() {
-            content.classList.toggle('ps-[' + sidebarWidth + 'px]');
+            if (sidebarState == "collapsed") {
+                content.style.marginLeft = `${sidebarWidth}px`;
+                sidebarState = "uncollapsed";
+            } else if (sidebarState == "uncollapsed") {
+                content.style.marginLeft = `0px`;
+                sidebarState = "collapsed";
+            }
             sidebar.classList.toggle('sticky');
             sidebar.classList.toggle('fixed');
             brand.classList.toggle('hidden');
