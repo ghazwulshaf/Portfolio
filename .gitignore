@@ -7,3 +7,7 @@
 
 # Ignore db files
 GhazwulShaf.db*
+
+# Ignore data files
+/wwwroot/data/
+/wwwroot/projects/
