@@ -5,6 +5,9 @@
 # Ignore node modules
 /node_modules/
 
+# Ignore launch settings
+/Properties/launchSettings.json
+
 # Ignore db files
 GhazwulShaf.db*
 

@@ -13,6 +13,10 @@
 
 ## PREPARE
 
+### RENAME launchSettings copy.json
+ - Open project directory `cd Portfolio`
+ - run command `ren "Properties/launcSettings copy.json" "Properties/launchSettings.json"`
+
 ### .NET PACKAGES
 <span>Packages:</span>
 <ul>
