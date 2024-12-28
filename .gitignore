@@ -11,3 +11,4 @@ GhazwulShaf.db*
 # Ignore data files
 /wwwroot/data/
 /wwwroot/projects/
+/wwwroot/images/profile/
