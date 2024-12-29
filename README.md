@@ -11,33 +11,35 @@
     <li>Feather Icons</li>
 </ul>
 
-## PREPARE
-
-### RENAME launchSettings copy.json
- - Open project directory `cd Portfolio`
- - run command `ren "Properties/launcSettings copy.json" "Properties/launchSettings.json"`
-
-### .NET PACKAGES
-<span>Packages:</span>
-<ul>
-    <li>Microsoft.AspNetCore.Identity 2.2.0</li>
-    <li>Microsoft.EntityFrameworkCore 9.0.0</li>
-    <li>Microsoft.EntityFrameworkCore.Design 9.0.0</li>
-    <li>Microsoft.EntityFrameworkCore.Tools 9.0.0</li>
-    <li>Microsoft.EntityFrameworkCore.SQLite 9.0.0</li>
-    <li>Microsoft.EntityFrameworkCore.SqlServer 9.0.0</li>
-</ul>
+## .NET PACKAGES
+Packages:
+ - Microsoft.AspNetCore.Identity 2.2.0
+ - Microsoft.EntityFrameworkCore 9.0.0
+ - Microsoft.EntityFrameworkCore.Design 9.0.0
+ - Microsoft.EntityFrameworkCore.Tools 9.0.0
+ - Microsoft.EntityFrameworkCore.SQLite 9.0.0
+ - Microsoft.EntityFrameworkCore.SqlServer 9.0.0
+ - MailKit 4.9.0
 
 <strong>Run:</strong> <code>dotnet add package &lt;package&gt;</code> <span>for adding package to project</span>
 
-### INSTALL NODE JS PACKAGES
+## PREPARE
+
+### Clone Project
+**Command:** `git clone https://github.com/ghazwulshaf/Portfolio.git`
+
+### Open Project
+**Command:** `cd Portfolio`
+
+### Set  appsettings.json
+**Command:** `ren "appsettings copy.json" appsettings.json`
+
+### Set launchSettings.json
+**Command:** `ren "Properties/launcSettings copy.json" "Properties/launchSettings.json"`
+
+### Install Node JS Packages
 <strong>Install:</strong> <code>npm install</code>
 
-### BUILD TAILWIND CSS
-<strong>Watch:</strong> <code>npm run watch</code>
-
-### BUILD .NET PROJECT
-<strong>Watch:</strong> <code>dotnet watch</code>
-
+### Build .NET Project
 <strong>Build:</strong> <code>dotnet build</code><br>
 <span>This build will build tailwind css also</span>
