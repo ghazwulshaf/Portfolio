@@ -1,0 +1,15 @@
+@model List<Learn>
+@{
+    List<Learn> Modules = Model;
+}
+
+<div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 2xl:grid-cols-4 w-full gap-4">
+@foreach (var Module in Modules)
+{
+    <partial name="./_Module.cshtml" for="@Module"></partial>
+}
+</div>
+
+<div id="pagination" class="card mt-12">
+    <partial name="_Pagination"></partial>
+</div>
