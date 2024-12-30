@@ -8,6 +8,9 @@
 # Ignore launch settings
 /Properties/launchSettings.json
 
+# Ignore app settings file
+appsettings.json
+
 # Ignore db files
 GhazwulShaf.db*
 

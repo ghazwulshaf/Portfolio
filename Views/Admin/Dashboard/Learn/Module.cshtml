@@ -1,0 +1,144 @@
+@model Learn
+@{
+    Layout = "_LayoutDashboard";
+    ViewData["Title"] = Model.Title ?? "Add Learn Module";
+
+    var tagsCount = Model.Tags.Any() ? Model.Tags.Count : 0;
+}
+
+<div class="px-2 sm:px-4 lg:px-12 pt-2 sm:pt-4 pb-6 text-sm sm:text-base *:mt-4">
+    <div class="card p-2 sm:p-4 first:mt-0">
+        <a href="@Url.Action("Index", "DashboardLearn")" class="flex w-fit items-center"><i data-feather="arrow-left" class="inline h-4"></i> Back</a>
+    </div>
+
+    <div class="card p-2 sm:p-4">
+        <form method="post" asp-action="@ViewData["FormAction"]" asp-controller="DashboardLearn" asp-route-guid="@Model.Guid" enctype="multipart/form-data" class="flex flex-col gap-4">
+            <input type="hidden" asp-for="Id">
+            <input type="hidden" asp-for="Guid">
+            
+            <div>
+                <label asp-for="Title" class="label">Title:</label>
+                <input type="text" asp-for="Title" class="input" placeholder="Learn module title..." autofocus>
+                <span asp-validation-for="Title" class="text-sm text-red-500"></span>
+            </div>
+
+            <div>
+                <label class="label">Thumbnail:</label>
+                <input type="file" id="thumbnail-input" name="thumbnailFile" accept="image/*" class="input">
+                <img id="thumbnail-show" src="@Model.Thumbnail" alt="thumbnail" class="w-96 mt-2">
+            </div>
+
+            <div>
+                <label asp-for="Description" class="label">Description:</label>
+                <textarea asp-for="Description" class="input" rows="3" placeholder="Learn module description..."></textarea>
+            </div>
+
+            <div>
+                <label asp-for="Type" class="label">Type:</label>
+                <select asp-for="Type" class="input">
+                    <option value="" disabled selected>-- Select Type --</option>
+                    @foreach (var Item in ViewBag.ProjectTypes)
+                    {
+                    <option value="@Item.Name">@Item.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div>
+                <label class="label">Tags:</label>
+                <input type="text" id="tags-input" class="input" placeholder="Type tag...">
+
+                <div id="tags-items" class="flex gap-2 mt-2">
+                @foreach (var Tag in Model.Tags)
+                {
+                    ViewBag.State = "Show";
+                    ViewBag.ItemId = Tag.Id;
+                    ViewBag.ItemName = Tag.Name;
+                    <partial name="./_Tag.cshtml" for="@Model"></partial>
+                }
+                </div>
+            </div>
+
+            <div>
+                <label class="label">Content:</label>
+                <textarea name="learnContent" id="summernote"></textarea>
+            </div>
+
+            <div class="flex justify-center gap-2 last:mt-8 mb-4">
+                <button type="submit" class="button button-dark">@ViewData["Button"]</button>
+                <a href="@Url.Action("Index", "DashboardLearn")" role="button" class="button button-light">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+<script>
+    $(document).ready(() => {
+        $('#thumbnail-input').change((event) => {
+            const file = event.target.files[0];
+            const imageShow = document.querySelector('#thumbnail-show');
+
+            if (file) {
+                const reader = new FileReader();
+
+                reader.onload = (e) => {
+                    imageShow.src = e.target.result;
+                }
+
+                reader.readAsDataURL(file);
+            }
+        })
+
+        var itemId = @tagsCount;
+
+        $('#tags-input').keypress((e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+
+                var itemName = $('#tags-input').val();
+                var data = {
+                    itemId: itemId++,
+                    itemName: itemName
+                };
+
+                $.ajax({
+                    url: '@Url.Action("AddTag", "DashboardLearn")',
+                    type: 'GET',
+                    data: data,
+                    success: (response) => {
+                        $('#tags-items').append(response);
+                        $('#tags-input').val('');
+                        feather.replace();
+                    }
+                });
+            }
+        })
+    })
+</script>
+
+<script>
+    function DeleteTag(elementId) {
+        const tag = document.querySelector('#' + elementId);
+        const name = document.querySelector('#' + elementId + '-Name');
+
+        tag.remove();
+        name.value = null;
+    }
+</script>
+
+@if (Model.ContentFile != null)
+{
+<script>
+    $(document).ready(() => {
+        fetch('@Model.ContentFile')
+            .then(response => response.text())
+            .then(data => {
+                $('#summernote').summernote('code', data);
+            })
+            .catch(error => console.error('Error content: ', error));
+    })
+</script>
+}
+}

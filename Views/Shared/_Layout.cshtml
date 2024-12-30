@@ -7,6 +7,9 @@
     <title>@ViewData["Title"] - GhazwulShaf</title>
     <script type="importmap"></script>
 
+    <meta name="author" content="Ghazwul Shaf">
+    <meta name="description" content="@ViewData["Description"]">
+
     <!-- Bootstrap CSS
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" /> -->
 
@@ -30,6 +33,7 @@
 
                 <div id="nav-menu" class="absolute top-full left-0 md:relative w-full md:w-fit hidden md:flex flex-col md:flex-row items-stretch md:items-end md:gap-8 font-semibold xl:text-xl *:px-4 *:sm:px-12 *:py-4 *:md:p-0">
                     <a asp-controller="About" asp-action="Index" class="bg-white">About</a>
+                    <a asp-controller="Learn" asp-action="Index" class="bg-white">Learn</a>
                     <a asp-controller="Projects" asp-action="Index" class="bg-white">Projects</a>
                     <a asp-controller="Contact" asp-action="Index" class="bg-white">Contact</a>
                 </div>
