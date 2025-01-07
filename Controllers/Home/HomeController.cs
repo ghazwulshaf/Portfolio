@@ -16,6 +16,10 @@ public class HomeController : Controller
         _logger = logger;
         _profileService = profileService;
         _projectsService = projectsService;
+
+        var dataDirecotry = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "data");
+        if (!Directory.Exists(dataDirecotry))
+            Directory.CreateDirectory(dataDirecotry);
     }
 
     public async Task<IActionResult> Index()
