@@ -14,7 +14,7 @@ public class AboutProfileService
         if (!File.Exists(_filePath))
         {
             var profile = new AboutProfile();
-            var json = JsonConvert.SerializeObject(_filePath, Formatting.Indented);
+            var json = JsonConvert.SerializeObject(profile, Formatting.Indented);
             File.WriteAllText(_filePath, json);
         }
     }
