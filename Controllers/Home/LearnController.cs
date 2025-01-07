@@ -121,12 +121,12 @@ public class LearnController : Controller
     }
 
     // GET: Learn Module Details
-    [HttpGet, Route("{id}/details")]
-    public async Task<IActionResult> Details(int id)
+    [HttpGet, Route("{slug}/details")]
+    public async Task<IActionResult> Details(string slug)
     {
         var learns = await _learnService.GetAllAsync();
-        var learn = await _learnService.GetByIdAsync(id);
-        var nextLearn = learns.FirstOrDefault(p => p.Id == id + 1) ?? null;
+        var learn = await _learnService.GetBySlugAsync(slug);
+        var nextLearn = learns.FirstOrDefault(p => p.Id == learn.Id + 1) ?? null;
 
         var learnsSameType = learns.Where(p => p.Type == learn.Type)
             .OrderByDescending(p => p.Id)

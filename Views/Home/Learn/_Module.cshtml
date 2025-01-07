@@ -4,7 +4,7 @@
 }
 
 <div class="card bg-white">
-    <a href="@Url.Action("Details", "Learn", new { id = Learn.Id })" class="block">
+    <a href="@Url.Action("Details", "Learn", new { slug = Learn.Slug })" class="block">
         <div class="relative w-full aspect-[16/9] rounded-sm bg-gray-200 bg-cover bg-center"
             style="background-image: url('@Learn.Thumbnail');"
         ></div>

@@ -4,7 +4,37 @@
     ViewData["Title"] = Model.Title ?? "Add Project";
 
     var tagsCount = Model.Tags.Any() ? Model.Tags.Count : 0;
+    var imageIndex = 0;
 }
+
+<script>
+    var galleryImages = new FormData();
+
+    async function AppendImage(imageUrl) {
+        const response = await fetch(imageUrl);
+        if (response.ok) {
+            const blob = await response.blob();
+            const filename = imageUrl.split('/').pop();
+            galleryImages.append('files', blob, filename);
+        } else {
+            console.error(`Failed to fetch: ${imageUrl}`);
+        }
+    }
+
+    function DeleteImage(button) {
+        const newFormData = new FormData();
+        const parent = button.parentElement;
+        const input = parent.querySelector('input');
+
+        galleryImages.forEach((value, key) => {
+            if (value.name !== input.value) {
+                newFormData.append(key, value);
+            }
+        })
+        galleryImages = newFormData;
+        parent.remove();
+    }
+</script>
 
 <div class="px-2 sm:px-4 lg:px-12 pt-2 sm:pt-4 pb-6 text-sm sm:text-base *:mt-4">
     <div class="card p-2 sm:p-4 first:mt-0">
@@ -12,7 +42,7 @@
     </div>
 
     <div class="card p-2 sm:p-4">
-        <form method="post" asp-action="@ViewData["FormAction"]" asp-controller="DashboardProjects" asp-route-guid="@Model.Guid" enctype="multipart/form-data" class="flex flex-col gap-4">
+        <form id="project-form" method="post" asp-action="@ViewData["FormAction"]" asp-controller="DashboardProjects" asp-route-guid="@Model.Guid" enctype="multipart/form-data" class="flex flex-col gap-4">
             <input type="hidden" asp-for="Id">
             <input type="hidden" asp-for="Guid">
             
@@ -69,9 +99,25 @@
                 <input type="url" asp-for="CodeView" class="input" placeholder="Code view url...">
             </div>
 
-            <div>
+            <div class="[&_ul]:list-disc [&_ol]:list-decimal [&_ul]:list-inside [&_ol]:list-inside">
                 <label class="label">Content:</label>
                 <textarea name="ProjectContent" id="summernote"></textarea>
+            </div>
+
+            <div>
+                <label class="label">Gallery:</label>
+                <input type="file" accept="image/*" id="gallery-input" class="input">
+                <div id="gallery-list" class="grid grid-cols-3 gap-2 mt-2">
+                @foreach (var file in Model.GalleryFiles)
+                {
+                    var imageUrl = $"/projects/{Model.Guid}/{file}";
+                    ViewBag.ImageNumber = imageIndex++;
+                    ViewBag.ImageUrl = imageUrl;
+                    ViewBag.ImageValue = file;
+                    <partial name="./_GalleryImage.cshtml"></partial>
+                    <script>AppendImage('@imageUrl')</script>
+                }
+                </div>
             </div>
 
             <div class="flex justify-center gap-2 last:mt-8 mb-4">
@@ -85,10 +131,6 @@
 @section Scripts
 {
     <script>
-        feather.replace();
-    </script>
-
-    <script>
         $(document).ready(() => {
             $('#thumbnail-input').change((event) => {
                 const file = event.target.files[0];
@@ -96,17 +138,14 @@
 
                 if (file) {
                     const reader = new FileReader();
-
                     reader.onload = (e) => {
                         imageShow.src = e.target.result;
                     }
-
                     reader.readAsDataURL(file);
                 }
             })
 
             var itemId = @tagsCount;
-
             $('#tags-input').keypress((e) => {
                 if (e.key === 'Enter') {
                     e.preventDefault();
@@ -129,6 +168,54 @@
                     });
                 }
             })
+
+            var galleryId = @imageIndex;
+            $('#gallery-input').change((event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    var data = {
+                        imageNumber: galleryId
+                    };
+                    
+                    $.ajax({
+                        url: '@Url.Action("AddImage", "DashboardProjects")',
+                        type: 'GET',
+                        data: data,
+                        success: (response) => {
+                            $('#gallery-list').append(response);
+                            feather.replace();
+
+                            const galleryImage = document.querySelector(`#gallery-image-${galleryId++}`);
+                            const reader = new FileReader();
+                            reader.onload = (e) => {
+                                galleryImage.style.backgroundImage = `url('${e.target.result}')`;
+                            }
+                            reader.readAsDataURL(file);
+
+                            const inputElement = galleryImage.querySelector('input');
+                            inputElement.value = file.name;
+                        }
+                    })
+                    
+                    galleryImages.append('files', file);
+                }
+            })
+
+            $('#project-form').submit((e) => {
+                $.ajax({
+                    url: '@Url.Action("StoreImages", "DashboardProjects")',
+                    type: 'POST',
+                    data: galleryImages,
+                    contentType: false,
+                    processData: false,
+                    success: (response) => {
+                        var index = 0;
+                        response.files.forEach(file => {
+                            console.log(file);
+                        })
+                    }
+                })
+            })
         })
     </script>
 
@@ -142,16 +229,28 @@
         }
     </script>
 
+    @if (ViewContext.RouteData.Values["action"]?.ToString() == "Add" && ViewContext.RouteData.Values["controller"]?.ToString() == "DashboardProjects")
+    {
+    <script>
+        $(document).ready(() => {
+            fetch('/template.html')
+                .then(response => response.text())
+                .then(data => {
+                    $('#summernote').summernote('code', data);
+                })
+                .catch(error => console.error('Error content: ', error));
+        })
+    </script>
+    }
+
     @if (Model.ContentFile != null)
     {
     <script>
         $(document).ready(() => {
-            const summernoteEditor = document.querySelector('[name="ProjectContent"] + .note-editor');
             fetch('@Model.ContentFile')
                 .then(response => response.text())
                 .then(data => {
-                    summernoteEditor.querySelector('.note-editable').innerHTML = data;
-                    summernoteEditor.querySelector('.note-placeholder, .note-control-selection').style.display = 'none';
+                    $('#summernote').summernote('code', data);
                 })
                 .catch(error => console.error('Error content: ', error));
         })

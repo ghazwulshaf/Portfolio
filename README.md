@@ -20,6 +20,7 @@ Packages:
  - Microsoft.EntityFrameworkCore.SQLite 9.0.0
  - Microsoft.EntityFrameworkCore.SqlServer 9.0.0
  - MailKit 4.9.0
+ - Slugify 0.1.0.20570
 
 <strong>Run:</strong> <code>dotnet add package &lt;package&gt;</code> <span>for adding package to project</span>
 

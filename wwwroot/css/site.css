@@ -27,19 +27,19 @@
         @apply font-manrope text-sm sm:text-base 2xl:text-lg;
     }
     h1 {
-        @apply text-3xl sm:text-4xl lg:text-5xl font-bold;
+        @apply text-3xl sm:text-4xl lg:text-5xl font-bold mb-4;
     }
     h2 {
-        @apply text-2xl sm:text-3xl lg:text-4xl font-bold;
+        @apply text-2xl sm:text-3xl lg:text-4xl font-bold mb-4;
     }
     h3 {
-        @apply text-xl sm:text-2xl lg:text-3xl font-bold;
+        @apply text-xl sm:text-2xl lg:text-3xl font-bold mb-2;
     }
     h4 {
-        @apply text-lg sm:text-xl lg:text-2xl font-semibold;
+        @apply text-lg sm:text-xl lg:text-2xl font-semibold mb-2;
     }
     h5 {
-        @apply text-base sm:text-lg lg:text-xl font-semibold;
+        @apply text-base sm:text-lg lg:text-xl font-semibold mb-2;
     }
     h6 {
         @apply text-base lg:text-lg font-semibold;
