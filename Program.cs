@@ -48,7 +48,6 @@ app.UseAuthorization();
 DbSeeder.Seed(app.Services);
 
 app.MapStaticAssets();
-app.UseStaticFiles();
 
 app.MapControllerRoute(
     name: "default",
