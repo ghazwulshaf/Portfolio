@@ -38,7 +38,7 @@
                 @foreach (var Project in Model)
                 {
                 <tr class="border-y border-y-gray-200 hover:bg-gray-200 align-top [&_td>div]:p-1">
-                    <form id="Project_@Project.Id-form-delete" method="post" asp-action="Delete" asp-controller="DashboardProjects" asp-route-id="@Project.Id" onsubmit="return DeleteProject(event)" hidden></form>
+                    <form id="Project_@Project.Id-form-delete" method="post" asp-action="Delete" asp-controller="DashboardProjects" asp-route-guid="@Project.Guid" onsubmit="return DeleteProject(event)" hidden></form>
 
                     <td class="w-1/12 text-center">
                         <div>

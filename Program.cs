@@ -1,6 +1,7 @@
 using GhazwulShaf.Data;
 using GhazwulShaf.Services;
 using Microsoft.EntityFrameworkCore;
+using Slugify;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +16,7 @@ builder.Services.AddAuthentication("CookieAuth")
         options.LogoutPath = "/Admin/Auth/Logout";
     });
 builder.Services.AddAuthorization();
+builder.Services.AddScoped<SlugHelper>();
 builder.Services.AddScoped<AuthService>();
 builder.Services.AddScoped<AboutProfileService>();
 builder.Services.AddScoped<AboutSectionService>();

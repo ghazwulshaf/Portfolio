@@ -4,7 +4,7 @@
 }
 
 <div class="card bg-white">
-    <a asp-controller="Projects" asp-action="Details" asp-route-id="@Project.Id" class="block">
+    <a asp-controller="Projects" asp-action="Details" asp-route-slug="@Project.Slug" class="block">
         <div class="relative w-full aspect-[16/9] rounded-sm bg-gray-200 bg-cover bg-center"
             style="background-image: url('@Project.Thumbnail');"
         ></div>

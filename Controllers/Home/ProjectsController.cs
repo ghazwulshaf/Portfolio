@@ -124,12 +124,12 @@ namespace GhazwulShaf.Controllers.Home
 
         // GET: Project Details
         [HttpGet]
-        [Route("{id}/details")]
-        public async Task<IActionResult> Details(int id)
+        [Route("{slug}/details")]
+        public async Task<IActionResult> Details(string slug)
         {
             var projects = await _projectsService.GetAllAsync();
-            var project = await _projectsService.GetByIdAsync(id);
-            var nextProject = projects.FirstOrDefault(p => p.Id == id + 1) ?? null;
+            var project = await _projectsService.GetBySlugAsync(slug);
+            var nextProject = projects.FirstOrDefault(p => p.Id == project.Id + 1) ?? null;
 
             var projectsSameType = projects.Where(p => p.Type == project.Type)
                 .OrderByDescending(p => p.Id)

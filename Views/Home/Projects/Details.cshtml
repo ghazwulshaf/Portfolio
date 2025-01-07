@@ -32,13 +32,15 @@
 
                 <div id="project-description" class="text-justify mt-4">@Project.Description</div>
 
-                <div id="project-tags" class="mt-4 flex flex-row items-center gap-2">
+                <div id="project-tags" class="mt-8 flex flex-row items-center gap-2">
                 @foreach (var Tag in Project.Tags)
                 {
                     <span class="tag">@Tag.Name</span>
                 }
                 </div>
 
+            @if (Project.LiveView != null || Project.CodeView != null)
+            {
                 <div id="project-actions" class="flex flex-col sm:flex-row items-stretch gap-2 mt-12">
                 @if (Project.LiveView != null)
                 {
@@ -49,6 +51,7 @@
                     <a href="@Project.CodeView" class="button button-light"><i data-feather="github" class="inline h-4"></i> View Code</a>
                 }
                 </div>
+            }
             </div>
 
             <div id="project-header-right" class="order-first lg:order-last">
@@ -58,9 +61,27 @@
             </div>
         </div>
 
-        <div class="grid grid-cols-1 xl:grid-cols-3 gap-4 mt-12">
+        <div class="grid grid-cols-1 xl:grid-cols-3 gap-4 [&_ul]:list-disc [&_ol]:list-decimal [&_ul]:list-inside [&_ol]:list-inside mt-8">
 
-            <div id="project-content" class="xl:col-span-2"></div>
+            <div class="xl:col-span-2">
+                <div id="project-content"></div>
+
+                @if (Project.GalleryFiles.Any())
+                {
+                <div id="project-gallery" class="mt-6">
+                    <h3>Gallery</h3>
+
+                    <div class="grid grid-cols-2 sm:grid-cols-3 2xl:grid-cols-4 gap-2 sm:gap-4 mt-4">
+                    @foreach (var file in Project.GalleryFiles)
+                    {
+                        var imageUrl = $"/projects/{Project.Guid}/{file}";
+                        <div class="relative w-full aspect-video bg-gray-200 bg-cover bg-center"
+                            style="background-image: url('@imageUrl');"></div>
+                    }
+                    </div>
+                </div>
+                }
+            </div>
 
             <div id="project-side" class="border-t xl:border-t-0 xl:border-s pt-4 xl:pt-0 xl:ps-4 *:mt-8">
             @if (ViewBag.NextProject != null)
