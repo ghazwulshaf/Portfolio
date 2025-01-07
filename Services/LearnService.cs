@@ -1,18 +1,28 @@
 using GhazwulShaf.Models;
 using Newtonsoft.Json;
+using Slugify;
 
 namespace GhazwulShaf.Services;
 
 public class LearnService
 {
     private readonly string _filePath;
+    private readonly string _deletedPath;
+    private readonly SlugHelper _slugHelper;
 
-    public LearnService()
+    public LearnService(SlugHelper slugHelper)
     {
         _filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "data", "learn_modules.json");
 
         if (!File.Exists(_filePath))
             File.WriteAllText(_filePath, "[]");
+            
+        _deletedPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "data", "_deleted_learn_modules.json");
+
+        if (!File.Exists(_deletedPath))
+            File.WriteAllText(_deletedPath, "[]");
+        
+        _slugHelper = slugHelper;
     }
 
     public async Task<List<Learn>> GetAllAsync()
@@ -35,6 +45,14 @@ public class LearnService
     {
         var learns = await GetAllAsync();
         var learn = learns.FirstOrDefault(p => p.Guid == guid) ?? new Learn();
+
+        return learn;
+    }
+
+    public async Task<Learn> GetBySlugAsync(string slug)
+    {
+        var learns = await GetAllAsync();
+        var learn = learns.FirstOrDefault(p => p.Slug == slug) ?? new Learn();
 
         return learn;
     }
@@ -89,12 +107,21 @@ public class LearnService
         var learns = await GetAllAsync();
         var learn = learns.FirstOrDefault(p => p.Guid == guid);
 
+        var deletedJson = await File.ReadAllTextAsync(_deletedPath);
+        var deletedLearn = JsonConvert.DeserializeObject<List<Learn>>(deletedJson) ?? new List<Learn>();
+
         if (learn != null)
         {
             learns.Remove(learn);
+
+            learn.DeleteDate = DateOnly.FromDateTime(DateTime.Now);
+            deletedLearn.Add(learn);
         }
 
         await WriteAsync(learns);
+
+        var deletedWriteJson = JsonConvert.SerializeObject(deletedLearn, Formatting.Indented);
+        await File.WriteAllTextAsync(_deletedPath, deletedWriteJson);
     }
 
     public async Task WriteAsync(List<Learn> learns)
@@ -125,7 +152,23 @@ public class LearnService
             }
         });
 
+        learns = await UpdateSlug(learns);
+
         var json = JsonConvert.SerializeObject(learns, Formatting.Indented);
         await File.WriteAllTextAsync(_filePath, json);
+    }
+
+    private async Task<List<Learn>> UpdateSlug(List<Learn> learns)
+    {
+        await Task.Run(() =>
+        {
+            foreach (var learn in learns)
+            {
+                var slug = _slugHelper.GenerateSlug(learn.Title ?? "");
+                learn.Slug = learn.Guid.ToString()[..4] + $"-{slug}";
+            }
+        });
+
+        return learns;
     }
 }

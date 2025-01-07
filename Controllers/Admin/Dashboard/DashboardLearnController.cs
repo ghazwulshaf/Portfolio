@@ -2,21 +2,33 @@ using GhazwulShaf.Models;
 using GhazwulShaf.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Slugify;
 
 namespace GhazwulShaf.Controllers.Admin.Dashboard;
 
 [Authorize(Roles = "Admin"), Route("/admin/dashboard/learn")]
 public class DashboardLearnController : Controller
 {
+    private readonly string _deletedDir;
     private readonly LearnService _learnService;
     private readonly MasterdataService _masterdataService;
+    private readonly SlugHelper _slugHelper;
 
     private readonly int _pageSize = 10;
 
-    public DashboardLearnController(LearnService learnService, MasterdataService masterdataService)
-    {
+    public DashboardLearnController(
+        LearnService learnService,
+        MasterdataService masterdataService,
+        SlugHelper slugHelper
+    ) {
+        _deletedDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "_archive", "deleted_learn_modules");
+
+        if (!Directory.Exists(_deletedDir))
+            Directory.CreateDirectory(_deletedDir);
+        
         _learnService = learnService;
         _masterdataService = masterdataService;
+        _slugHelper = slugHelper;
     }
 
     // GET: Dashboard Learn Modules List Page
@@ -150,6 +162,9 @@ public class DashboardLearnController : Controller
     {
         learn.Guid = Guid.NewGuid();
 
+        var slug = _slugHelper.GenerateSlug(learn.Title ?? "");
+        learn.Slug = learn.Guid.ToString()[..4] + $"-{slug}";
+
         var learnDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "learn_modules", learn.Guid.ToString());
 
         if (!Directory.Exists(learnDir))
@@ -237,7 +252,14 @@ public class DashboardLearnController : Controller
     [HttpPost, Route("{guid}/delete")]
     public async Task<IActionResult> Delete(Guid guid)
     {
+        var learn = await _learnService.GetByGuidAsync(guid);
+        var learnDir = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "learn_modules", learn.Guid.ToString());
+        
         await _learnService.DeleteAsync(guid);
+
+        var destinationDir = Path.Combine(_deletedDir, learn.Guid.ToString());
+        Directory.Move(learnDir, destinationDir);
+
         return RedirectToAction("Index", "DashboardLearn");
     }
 }
