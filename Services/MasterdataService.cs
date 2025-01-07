@@ -27,27 +27,38 @@ public class MasterdataService
         return masterdata;
     }
 
-    public async Task UpdateAsync(Masterdata masterdata)
+    public async Task UpdateWelcomeAsync(Welcome welcome)
     {
-        // delete prject types item don't use
-        var typesDontUse = new List<ProjectType>();
+        var masterdata = await GetAsync();
+        masterdata.Welcome = welcome;
 
-        // get items don't use
-        foreach (var item in masterdata.Types)
+        await WriteAsync(masterdata);
+    }
+
+    public async Task UpdateTypesAsync(List<ProjectType> types)
+    {
+        var masterdata = await GetAsync();
+
+        var typesDontUse = new List<ProjectType>();
+        foreach (var item in types)
         {
             if (item.Name == null)
                 typesDontUse.Add(item);
         }
 
-        // delete items don't use
         foreach (var item in typesDontUse)
-            masterdata.Types.Remove(item);
+            types.Remove(item);
         
-        // optimize Id
         for (int i = 0; i < masterdata.Types.Count; i++)
-            masterdata.Types[i].Id = i;
+            types[i].Id = i;
         
-        // update file
+        masterdata.Types = types;
+        
+        await WriteAsync(masterdata);
+    }
+
+    private async Task WriteAsync(Masterdata masterdata)
+    {
         var json = JsonConvert.SerializeObject(masterdata, Formatting.Indented);
         await File.WriteAllTextAsync(_filePath, json);
     }

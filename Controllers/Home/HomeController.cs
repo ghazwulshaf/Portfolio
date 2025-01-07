@@ -8,12 +8,18 @@ namespace GhazwulShaf.Controllers.Home;
 public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
+    private readonly MasterdataService _masterdataService;
     private readonly AboutProfileService _profileService;
     private readonly ProjectsService _projectsService;
 
-    public HomeController(ILogger<HomeController> logger, AboutProfileService profileService, ProjectsService projectsService)
-    {
+    public HomeController(
+        ILogger<HomeController> logger,
+        MasterdataService masterdataService,
+        AboutProfileService profileService,
+        ProjectsService projectsService
+    ) {
         _logger = logger;
+        _masterdataService = masterdataService;
         _profileService = profileService;
         _projectsService = projectsService;
 
@@ -24,9 +30,11 @@ public class HomeController : Controller
 
     public async Task<IActionResult> Index()
     {
+        var masterdata = await _masterdataService.GetAsync();
         var profile = await _profileService.GetAsync();
         var projects = await _projectsService.GetAllAsync();
 
+        ViewBag.Welcome = masterdata.Welcome;
         ViewBag.AboutDescription = profile.Description;
         ViewBag.Projects = projects.OrderByDescending(p => p.Id)
             .Take(3)
