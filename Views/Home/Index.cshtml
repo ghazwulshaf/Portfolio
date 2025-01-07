@@ -1,6 +1,7 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
 
+    Welcome Welcome = ViewBag.Welcome;
     var AboutDescription = ViewBag.AboutDescription;
     List<Project> Projects = ViewBag.Projects;
 }
@@ -8,8 +9,8 @@
 <div id="home" class="*:px-4 *:sm:px-12 *:lg:px-24 *:2xl:px-48">
 
     <section id="welcome" class="text-center pt-6 sm:pt-12 lg:pt-36 pb-24 lg:pb-60">
-        <div><code class="text-4xl sm:text-5xl lg:text-6xl font-bold">Hi, I'm Ghazwul Shaf</code></div>
-        <div class="mt-4"><code class="text-lg sm:text-xl lg:text-2xl text-gray-500">A passionate .NET Developer, Internet of Things, and Artificial Intelligence</code></div>
+        <div><code class="text-4xl sm:text-5xl lg:text-6xl font-bold">@Welcome.Heading</code></div>
+        <div class="mt-4"><code class="text-lg sm:text-xl lg:text-2xl text-gray-500">@Welcome.Caption</code></div>
         <div class="flex flex-col sm:flex-row sm:justify-center gap-4 mt-16">
             <a class="btn btn-dark" asp-controller="Projects" asp-action="Index">View Projects</a>
             <a class="btn btn-light" asp-controller="Contact" asp-action="Index">Contact Me</a>
