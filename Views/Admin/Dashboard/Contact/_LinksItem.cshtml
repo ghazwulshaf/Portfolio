@@ -1,0 +1,29 @@
+@model Contact
+@{
+    int ItemId = ViewBag.ItemId;
+}
+
+<div id="links-item_@ItemId" class="flex items-start gap-1 sm:gap-2">
+    <div class="first:mt-0 w-full border border-gray-200 p-2 grid grid-cols-2 sm:grid-cols-3 gap-2">
+        <input type="hidden" name="Links[@ItemId].Id" value="@(ViewBag.State == "Show" ? Model.Links[ItemId].Id : null)">
+
+        <div>
+            <label for="" class="label">Name:</label>
+            <input type="text" class="input" name="Links[@ItemId].Name" value="@(ViewBag.State == "Show" ? Model.Links[ItemId].Name : null)" placeholder="Example">
+        </div>
+
+        <div>
+            <label for="" class="label">Icon:</label>
+            <input type="text" class="input" name="Links[@ItemId].Icon" value="@(ViewBag.State == "Show" ? Model.Links[ItemId].Icon : null)" placeholder="example" title="Get the icon name from feather icons">
+        </div>
+
+        <div class="col-span-2 sm:col-span-1">
+            <label for="" class="label">Url:</label>
+            <input type="url" class="input" name="Links[@ItemId].Url" value="@(ViewBag.State == "Show" ? Model.Links[ItemId].Url : null)" placeholder="https://example.com">
+        </div>
+    </div>
+
+    <div id="links-item_@ItemId-actions">
+        <button type="button" class="text-red-500" onclick="DeleteItem('links-item_@ItemId')"><i data-feather="trash" class="h-4"></i></button>
+    </div>
+</div>

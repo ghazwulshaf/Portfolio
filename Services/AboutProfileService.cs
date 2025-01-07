@@ -10,34 +10,25 @@ public class AboutProfileService
     public AboutProfileService(IConfiguration configuration)
     {
         _filePath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "data", "about_profile.json");
+
+        if (!File.Exists(_filePath))
+        {
+            var profile = new AboutProfile();
+            var json = JsonConvert.SerializeObject(_filePath, Formatting.Indented);
+            File.WriteAllText(_filePath, json);
+        }
     }
 
     public async Task<AboutProfile> GetAsync()
     {
-        AboutProfile profile = new AboutProfile();
-        Dictionary<string, string> profileData = new Dictionary<string, string>();
-
-        if (!System.IO.File.Exists(_filePath))
-            await UpdateAsync(profile);
-        else
-        {
-            var data = await System.IO.File.ReadAllTextAsync(_filePath);
-            profileData = JsonConvert.DeserializeObject<Dictionary<string, string>>(data)!;
-            profile.Data = profileData;
-        }
-
+        var json = await File.ReadAllTextAsync(_filePath);
+        var profile = JsonConvert.DeserializeObject<AboutProfile>(json) ?? new AboutProfile();
         return profile;
     }
 
     public async Task UpdateAsync(AboutProfile profile)
     {
-        if (profile.Data == null)
-        {
-            AboutProfile initProfile = new AboutProfile();
-            profile.Data = initProfile.Data;
-        }
-
-        var profileJson = JsonConvert.SerializeObject(profile.Data, Formatting.Indented);
-        await System.IO.File.WriteAllTextAsync(_filePath, profileJson);
+        var json = JsonConvert.SerializeObject(profile, Formatting.Indented);
+        await File.WriteAllTextAsync(_filePath, json);
     }
 }

@@ -6,6 +6,7 @@ namespace GhazwulShaf.Models;
 public class AboutSectionItem
 {
     public int Id { get; set; } = default!;
+    public int Order { get; set; } = default!;
     public string Name { get; set; } = default!;
     public string? Company { get; set; }
     public string? Description { get; set; }

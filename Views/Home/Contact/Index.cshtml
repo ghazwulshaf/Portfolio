@@ -1,41 +1,41 @@
-﻿@{
+﻿@model Contact
+@{
     ViewData["Title"] = "Contact Me";
 }
 
-<div id="contact" class="grid grid-cols-2 gap-8 px-48 pt-24 pb-36">
+<div id="contact" class="grid grid-cols-1 lg:grid-cols-2 gap-8 px-4 sm:px-12 lg:px-24 2xl:px-48 pt-6 lg:pt-12 pb-12 lg:pb-24 xl:pb-36">
     <div id="contact-left" class="w-full">
 
         <div id="contact-title">
-            <h1>Get in Touch</h1>
+            <h1>@Model.Title</h1>
         </div>
 
         <div id="contact-subtitle" class="mt-8">
-            <p>
-                Lorem ipsum dolor, sit amet consectetur adipisicing elit. Culpa, id maiores nobis explicabo quia eum animi nemo, esse voluptatibus eveniet neque optio illo, iste hic iusto! Vero impedit optio eos!
-            </p>
+            @Html.Raw(Model.Description)
         </div>
 
         <div id="contact-list" class="flex flex-col gap-2 mt-4">
             <div id="contact-email">
                 <i data-feather="mail" class="inline"></i>
-                <span class="ms-2">email@example.com</span>
+                <span class="ms-2">@Model.Email</span>
             </div>
 
             <div id="contact-phone">
                 <i data-feather="phone" class="inline"></i>
-                <span class="ms-2">+62 821 234 567</span>
+                <span class="ms-2">@Model.Phone</span>
             </div>
 
             <div id="contact-address">
                 <i data-feather="map-pin" class="inline"></i>
-                <span class="ms-2">Wajo, Sulawesi Selatan, Indonesia</span>
+                <span class="ms-2">@Model.Address</span>
             </div>
         </div>
 
         <div id="contact-social" class="mt-12">
-            <a asp-area="" asp-page="" class="card"><i data-feather="github" class="inline"></i></a>
-            <a asp-area="" asp-page="" class="card"><i data-feather="linkedin" class="inline"></i></a>
-            <a asp-area="" asp-page="" class="card"><i data-feather="instagram" class="inline"></i></a>
+        @foreach (var Link in Model.Links)
+        {
+            <a title="@Link.Name" href="@Link.Url" target="_blank" class="card"><i data-feather="@Link.Icon" class="inline"></i></a>
+        }
         </div>
     </div>
 
@@ -55,25 +55,40 @@
                 <form>
                     <!-- name -->
                     <div id="form-name">
-                        <label for="name" class="label">Name</label>
-                        <input type="text" name="name" id="name" class="input mt-2" placeholder="Your name">
+                        <label for="name" class="label">Name:</label>
+                        <input type="text" name="name" id="name" class="input mt-2" placeholder="Your name" required>
                     </div>
 
                     <!-- email -->
                     <div id="form-email" class="label mt-4">
-                        <label for="email">Email</label>
-                        <input type="email" name="email" id="email" class="input mt-2" placeholder="Your email">
+                        <label for="email">Email:</label>
+                        <input type="email" name="email" id="email" class="input mt-2" placeholder="Your email" required>
+                    </div>
+                    
+                    <!-- subject -->
+                    <div id="form-subject" class="label mt-4">
+                        <label for="subject">Subject:</label>
+                        <input type="text" name="subject" id="subject" class="input mt-2" placeholder="Your subject" required>
                     </div>
 
                     <!-- messsage -->
                     <div id="form-message" class="label mt-4">
-                        <label for="message">Message</label>
-                        <textarea name="message" id="message" rows="3" class="input mt-2" placeholder="Your message"></textarea>
+                        <label for="message">Message:</label>
+                        <textarea name="message" id="message" rows="3" class="input mt-2" placeholder="Your message" required></textarea>
                     </div>
 
                     <!-- submit -->
                     <button type="submit" class="button button-dark mt-4 mb-8">Send Message</button>
                 </form>
+
+                @if (ViewData["Send_Success"] != null)
+                {
+                    <div class="text-blue-500">@ViewData["Send_Success"]</div>
+                }
+                @if (ViewData["Send_Error"] != null)
+                {
+                    <div class="text-red-500">@ViewData["Send_Error"]</div>
+                }
             </div>
         </div>
     </div>

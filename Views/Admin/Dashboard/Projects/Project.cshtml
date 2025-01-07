@@ -1,0 +1,259 @@
+﻿@model Project
+@{
+    Layout = "_LayoutDashboard";
+    ViewData["Title"] = Model.Title ?? "Add Project";
+
+    var tagsCount = Model.Tags.Any() ? Model.Tags.Count : 0;
+    var imageIndex = 0;
+}
+
+<script>
+    var galleryImages = new FormData();
+
+    async function AppendImage(imageUrl) {
+        const response = await fetch(imageUrl);
+        if (response.ok) {
+            const blob = await response.blob();
+            const filename = imageUrl.split('/').pop();
+            galleryImages.append('files', blob, filename);
+        } else {
+            console.error(`Failed to fetch: ${imageUrl}`);
+        }
+    }
+
+    function DeleteImage(button) {
+        const newFormData = new FormData();
+        const parent = button.parentElement;
+        const input = parent.querySelector('input');
+
+        galleryImages.forEach((value, key) => {
+            if (value.name !== input.value) {
+                newFormData.append(key, value);
+            }
+        })
+        galleryImages = newFormData;
+        parent.remove();
+    }
+</script>
+
+<div class="px-2 sm:px-4 lg:px-12 pt-2 sm:pt-4 pb-6 text-sm sm:text-base *:mt-4">
+    <div class="card p-2 sm:p-4 first:mt-0">
+        <a asp-action="Index" asp-controller="DashboardProjects" class="flex w-fit items-center"><i data-feather="arrow-left" class="inline h-4"></i> Back</a>
+    </div>
+
+    <div class="card p-2 sm:p-4">
+        <form id="project-form" method="post" asp-action="@ViewData["FormAction"]" asp-controller="DashboardProjects" asp-route-guid="@Model.Guid" enctype="multipart/form-data" class="flex flex-col gap-4">
+            <input type="hidden" asp-for="Id">
+            <input type="hidden" asp-for="Guid">
+            
+            <div>
+                <label asp-for="Title" class="label">Title:</label>
+                <input type="text" asp-for="Title" class="input" placeholder="Project title..." autofocus>
+                <span asp-validation-for="Title" class="text-sm text-red-500"></span>
+            </div>
+
+            <div>
+                <label class="label">Thumbnail:</label>
+                <input type="file" id="thumbnail-input" name="ThumbnailFile" accept="image/*" class="input">
+                <img id="thumbnail-show" src="@Model.Thumbnail" alt="thumbnail" class="w-96 mt-2">
+            </div>
+
+            <div>
+                <label asp-for="Description" class="label">Description:</label>
+                <textarea asp-for="Description" class="input" rows="3" placeholder="Project description..."></textarea>
+            </div>
+
+            <div>
+                <label asp-for="Type" class="label">Type:</label>
+                <select asp-for="Type" class="input">
+                    <option value="" disabled selected>-- Select Type --</option>
+                    @foreach (var Item in ViewBag.ProjectTypes)
+                    {
+                    <option value="@Item.Name">@Item.Name</option>
+                    }
+                </select>
+            </div>
+
+            <div>
+                <label class="label">Tags:</label>
+                <input type="text" id="tags-input" class="input" placeholder="Type tag...">
+
+                <div id="tags-items" class="flex gap-2 mt-2">
+                @foreach (var Tag in Model.Tags)
+                {
+                    ViewBag.State = "Show";
+                    ViewBag.ItemId = Tag.Id;
+                    ViewBag.ItemName = Tag.Name;
+                    <partial name="./_Tag.cshtml" for="@Model"></partial>
+                }
+                </div>
+            </div>
+
+            <div>
+                <label asp-for="LiveView" class="label">Live Demo Url:</label>
+                <input type="url" asp-for="LiveView" class="input" placeholder="Live demo url...">
+            </div>
+
+            <div>
+                <label asp-for="CodeView" class="label">Code View Url:</label>
+                <input type="url" asp-for="CodeView" class="input" placeholder="Code view url...">
+            </div>
+
+            <div class="[&_ul]:list-disc [&_ol]:list-decimal [&_ul]:list-inside [&_ol]:list-inside">
+                <label class="label">Content:</label>
+                <textarea name="ProjectContent" id="summernote"></textarea>
+            </div>
+
+            <div>
+                <label class="label">Gallery:</label>
+                <input type="file" accept="image/*" id="gallery-input" class="input">
+                <div id="gallery-list" class="grid grid-cols-3 gap-2 mt-2">
+                @foreach (var file in Model.GalleryFiles)
+                {
+                    var imageUrl = $"/projects/{Model.Guid}/{file}";
+                    ViewBag.ImageNumber = imageIndex++;
+                    ViewBag.ImageUrl = imageUrl;
+                    ViewBag.ImageValue = file;
+                    <partial name="./_GalleryImage.cshtml"></partial>
+                    <script>AppendImage('@imageUrl')</script>
+                }
+                </div>
+            </div>
+
+            <div class="flex justify-center gap-2 last:mt-8 mb-4">
+                <button type="submit" class="button button-dark">@ViewData["Button"]</button>
+                <a href="@Url.Action("Index", "DashboardProjects")" role="button" class="button button-light">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+
+@section Scripts
+{
+    <script>
+        $(document).ready(() => {
+            $('#thumbnail-input').change((event) => {
+                const file = event.target.files[0];
+                const imageShow = document.querySelector('#thumbnail-show');
+
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = (e) => {
+                        imageShow.src = e.target.result;
+                    }
+                    reader.readAsDataURL(file);
+                }
+            })
+
+            var itemId = @tagsCount;
+            $('#tags-input').keypress((e) => {
+                if (e.key === 'Enter') {
+                    e.preventDefault();
+
+                    var itemName = $('#tags-input').val();
+                    var data = {
+                        itemId: itemId++,
+                        itemName: itemName
+                    };
+
+                    $.ajax({
+                        url: '@Url.Action("AddTag", "DashboardProjects")',
+                        type: 'GET',
+                        data: data,
+                        success: (response) => {
+                            $('#tags-items').append(response);
+                            $('#tags-input').val('');
+                            feather.replace();
+                        }
+                    });
+                }
+            })
+
+            var galleryId = @imageIndex;
+            $('#gallery-input').change((event) => {
+                const file = event.target.files[0];
+                if (file) {
+                    var data = {
+                        imageNumber: galleryId
+                    };
+                    
+                    $.ajax({
+                        url: '@Url.Action("AddImage", "DashboardProjects")',
+                        type: 'GET',
+                        data: data,
+                        success: (response) => {
+                            $('#gallery-list').append(response);
+                            feather.replace();
+
+                            const galleryImage = document.querySelector(`#gallery-image-${galleryId++}`);
+                            const reader = new FileReader();
+                            reader.onload = (e) => {
+                                galleryImage.style.backgroundImage = `url('${e.target.result}')`;
+                            }
+                            reader.readAsDataURL(file);
+
+                            const inputElement = galleryImage.querySelector('input');
+                            inputElement.value = file.name;
+                        }
+                    })
+                    
+                    galleryImages.append('files', file);
+                }
+            })
+
+            $('#project-form').submit((e) => {
+                $.ajax({
+                    url: '@Url.Action("StoreImages", "DashboardProjects")',
+                    type: 'POST',
+                    data: galleryImages,
+                    contentType: false,
+                    processData: false,
+                    success: (response) => {
+                        var index = 0;
+                        response.files.forEach(file => {
+                            console.log(file);
+                        })
+                    }
+                })
+            })
+        })
+    </script>
+
+    <script>
+        function DeleteTag(elementId) {
+            const tag = document.querySelector('#' + elementId);
+            const name = document.querySelector('#' + elementId + '-Name');
+
+            tag.remove();
+            name.value = null;
+        }
+    </script>
+
+    @if (ViewContext.RouteData.Values["action"]?.ToString() == "Add" && ViewContext.RouteData.Values["controller"]?.ToString() == "DashboardProjects")
+    {
+    <script>
+        $(document).ready(() => {
+            fetch('/template.html')
+                .then(response => response.text())
+                .then(data => {
+                    $('#summernote').summernote('code', data);
+                })
+                .catch(error => console.error('Error content: ', error));
+        })
+    </script>
+    }
+
+    @if (Model.ContentFile != null)
+    {
+    <script>
+        $(document).ready(() => {
+            fetch('@Model.ContentFile')
+                .then(response => response.text())
+                .then(data => {
+                    $('#summernote').summernote('code', data);
+                })
+                .catch(error => console.error('Error content: ', error));
+        })
+    </script>
+    }
+}

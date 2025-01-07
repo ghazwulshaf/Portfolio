@@ -1,0 +1,17 @@
+@using GhazwulShaf.Services
+@{
+    ContactService contactService = new ContactService();
+    Contact contact = await contactService.GetAsync();
+}
+
+<div class="flex flex-row justify-between">
+    <div class="flex items-center gap-4">
+    @foreach (var Link in contact.Links)
+    {
+        <a title="@Link.Name" href="@Link.Url" target="_blank"><i data-feather="@Link.Icon" class="h-5 lg:h-6"></i></a>
+    }
+    </div>
+    <div class="text-gray-500">
+        &copy; 2024 - GhazwulShaf
+    </div>
+</div>

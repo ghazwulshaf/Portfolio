@@ -20,26 +20,29 @@
 ****************************/
 
 @layer base {
+    * {
+        @apply box-border;
+    }
     html {
-        @apply font-manrope text-lg;
+        @apply font-manrope text-sm sm:text-base 2xl:text-lg;
     }
     h1 {
-        @apply text-5xl font-bold mb-4;
+        @apply text-3xl sm:text-4xl lg:text-5xl font-bold mb-4;
     }
     h2 {
-        @apply text-4xl font-bold mb-4;
+        @apply text-2xl sm:text-3xl lg:text-4xl font-bold mb-4;
     }
     h3 {
-        @apply text-3xl font-bold mb-3;
+        @apply text-xl sm:text-2xl lg:text-3xl font-bold mb-2;
     }
     h4 {
-        @apply text-2xl font-semibold mb-2;
+        @apply text-lg sm:text-xl lg:text-2xl font-semibold mb-2;
     }
     h5 {
-        @apply text-xl font-semibold mb-1;
+        @apply text-base sm:text-lg lg:text-xl font-semibold mb-2;
     }
     h6 {
-        @apply text-lg font-semibold;
+        @apply text-base lg:text-lg font-semibold;
     }
 }
 
@@ -66,7 +69,7 @@
         @apply cursor-not-allowed text-gray-500;
     }
     .button {
-        @apply font-medium px-4 py-3 rounded-md;
+        @apply inline-flex justify-center items-center px-8 py-2 rounded-md;
     }
     .button.disabled {
         @apply bg-gray-400 text-gray-800;
@@ -97,19 +100,16 @@
     }
 
     .label {
-        @apply block font-medium mb-1;
+        @apply block text-sm sm:text-base font-medium mb-1;
     }
     .input {
-        @apply w-full bg-white text-black px-4 py-2 border border-gray-200 rounded-md focus:caret-black focus:ring-black;
+        @apply w-full bg-white text-black text-sm sm:text-base px-4 py-2 border border-gray-200 rounded-md focus:caret-black focus:ring-black;
     }
     #dashboard-layout .input {
         @apply px-2 py-1 rounded-sm;
     }
     .input::placeholder {
         @apply text-gray-500 font-normal;
-    }
-    #dashboard-layout .input::placeholder {
-        @apply text-sm;
     }
     .input-search {
         @apply bg-white text-gray-500 px-4 py-2 border-none rounded-md shadow focus:caret-gray-500 focus:ring-gray-500;
@@ -123,10 +123,10 @@
     }
 
     .pagination {
-        @apply flex flex-row justify-center gap-2;
+        @apply flex flex-row justify-center gap-1 sm:gap-2;
     }
     .pagination-item {
-        @apply bg-white text-black rounded-md px-4 py-2;
+        @apply bg-gray-200 text-black hover:bg-black hover:text-white disabled:text-gray-500 disabled:hover:bg-gray-200 disabled:hover:text-gray-500 rounded-md px-3 sm:px-4 py-2;
     }
     .pagination-item.active {
         @apply bg-black text-white;
@@ -135,11 +135,23 @@
 
 
 /****************************
-** Index (Home)
+** Summernote
+****************************/
+
+.note-editor i {
+    @apply text-xs sm:text-sm;
+}
+.note-editor.fullscreen .note-editing-area {
+    @apply bg-white;
+}
+
+
+/****************************
+** Home (Index)
 ****************************/
 
 #home .btn {
-    @apply font-semibold px-8 py-4 rounded;
+    @apply inline-flex items-center justify-center font-semibold px-6 sm:px-8 py-2 sm:py-4 rounded;
 }
 
 #home .btn-dark {
@@ -152,6 +164,18 @@
 
 
 /****************************
+** Home Projects
+****************************/
+
+.project_types-item {
+    @apply transition-colors delay-75 ease-in bg-white hover:bg-black text-black hover:text-white rounded-md shadow px-4 py-2;
+}
+.project_types-item.current {
+    @apply bg-black text-white;
+}
+
+
+/****************************
 ** Dashboard Layout
 ****************************/
 
@@ -160,4 +184,13 @@
 }
 #dashboard-layout nav a.active {
     @apply bg-gray-900;
+}
+
+
+/****************************
+** Dashboard About
+****************************/
+
+.btn-order.disable {
+    @apply text-gray-400 hover:text-gray-400;
 }

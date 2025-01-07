@@ -1,0 +1,77 @@
+@model AboutSectionItem
+@{
+    var SubmitText = "";
+    if (ViewBag.Session == "Add")
+        SubmitText = "Add";
+    if (ViewBag.Session == "Edit")
+        SubmitText = "Save";
+}
+
+<div id="section-item" class="fixed -top-4 right-0 bottom-0 left-0 z-50 overflow-auto backdrop-blur-sm bg-white/30 flex justify-center items-center px-2 sm:px-4">
+    
+    <div class="card p-2 sm:p-4 max-w-[728px] 2xl:max-w-[1440px]">
+        <h6 class="text-center sm:text-left">@ViewBag.Title</h6>
+
+        @* <form method="post" action="@Url.Action("AddSectionItem", "DashboardAbout", new { id = ViewBag.Id })" class="mt-4 *:mt-4"> *@
+        <form method="post" asp-action="@ViewBag.Action" asp-controller="DashboardAbout" asp-route-id="@ViewBag.Id" asp-route-itemId="@Model.Id" class="w-full flex flex-col gap-2 sm:gap-4 mt-4">
+            <input type="hidden" asp-for="Id">
+            <input type="hidden" asp-for="Order">
+
+            <div class="first:mt-0">
+                <label class="label">Name:</label>
+                <input type="text" class="input" asp-for="Name" required>
+            </div>
+
+            <div>
+                <label class="label">Company/University:</label>
+                <input type="text" class="input" asp-for="Company">
+            </div>
+
+            <div>
+                <label class="label">Description:</label>
+                <textarea class="summernote" asp-for="Description"></textarea>
+            </div>
+
+            <div class="flex flex-wrap gap-2 *:flex-1">
+                <div>
+                    <label class="label">From:</label>
+                    <input type="month" class="input" asp-for="From">
+                </div>
+
+                <div>
+                    <label class="label">To:</label>
+                    <input type="month" class="input" asp-for="To">
+                </div>
+            </div>
+
+            <div class="flex flex-col sm:flex-row items-stretch sm:justify-center gap-2 mt-4 sm:mt-8 mb-4">
+                <button type="submit" class="button button-dark py-1">@SubmitText</button>
+                <button type="button" class="button button-light py-1" onclick="document.querySelector('#section-item').remove()">Cancel</button>
+            </div>
+        </form>
+    </div>
+    
+    <script>
+        $(document).ready(() => {
+            $('#Name').focus();
+
+            $('.summernote').summernote({
+                placeholder: 'Write the contents in here',
+                tabsize: 2,
+                height: 200,
+                toolbar: [
+                    ['style', ['style']],
+                    ['font', ['bold', 'underline', 'clear']],
+                    ['color', ['color']],
+                    ['para', ['ul', 'ol', 'paragraph']],
+                    ['table', ['table']],
+                    ['insert', ['link', 'picture', 'video']],
+                    ['view', ['fullscreen', 'codeview', 'help']]
+                ],
+                fontNames: ['Manrope'],
+                fontNamesIgnoreCheck: ['Manrope'],
+                addDefaultFonts: false,
+            });
+        })
+    </script>
+</div>

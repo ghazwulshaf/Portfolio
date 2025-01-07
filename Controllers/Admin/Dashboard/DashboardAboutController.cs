@@ -11,6 +11,7 @@ namespace GhazwulShaf.Controllers.Admin.Dashboard
     public class DashboardAboutController : Controller
     {
         private readonly string _profilePhotoFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", "profile");
+        private readonly string _cvFileFolder = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "files");
         private readonly AboutProfileService _profileService;
         private readonly AboutSectionService _sectionService;
 
@@ -19,11 +20,11 @@ namespace GhazwulShaf.Controllers.Admin.Dashboard
             _profileService = profileService;
             _sectionService = sectionsService;
 
-            // pastikan setiap folder tersedia
             if (!Directory.Exists(_profilePhotoFolder))
-            {
                 Directory.CreateDirectory(_profilePhotoFolder);
-            }
+
+            if (!Directory.Exists(_cvFileFolder))
+                Directory.CreateDirectory(_cvFileFolder);
         }
 
         // GET: DashboardAboutController
@@ -38,39 +39,43 @@ namespace GhazwulShaf.Controllers.Admin.Dashboard
             );
         }
 
+        // POST: Update About Profile
         [HttpPost]
         [Route("Update")]
-        public async Task<IActionResult> Update(About About)
+        public async Task<IActionResult> Update(About About, IFormFile ProfilePhotoFile, IFormFile ProfileCVFile)
         {
-            if (About.Profile.Data != null)
+            if (About.Profile != null)
             {
-                // simpan file gambar jika terdapat file terupload
-                if (About.ProfilePhoto.File != null && About.ProfilePhoto.File.Length > 0)
+                if (ProfilePhotoFile != null && ProfilePhotoFile.Length > 0)
                 {
-                    var photoFileName = Path.GetFileName(About.ProfilePhoto.File.FileName);
+                    var photoFileName = Path.GetFileName(ProfilePhotoFile.FileName);
                     var photoFilePath = Path.Combine(_profilePhotoFolder, photoFileName);
 
-                    // pastikan tidak terdapat file gambar dengan nama yang sama
                     if (System.IO.File.Exists(photoFilePath))
-                    {
-                        // hapus file gambar jika ada
                         System.IO.File.Delete(photoFilePath);
-                    }
 
-                    // simpan file gambar
-                    using (var stream = new FileStream(photoFilePath, FileMode.Create))
-                    {
-                        await About.ProfilePhoto.File.CopyToAsync(stream);
-                    }
+                    using var stream = new FileStream(photoFilePath, FileMode.Create);
+                    await ProfilePhotoFile.CopyToAsync(stream);
 
-                    // simpan data file gambar pada json
-                    About.Profile.Data["Photo"] = "/images/profile/" + photoFileName;
+                    About.Profile.Photo = "/images/profile/" + photoFileName;
                 }
 
-                // simpan data ke file
+                if (ProfileCVFile != null && ProfileCVFile.Length > 0)
+                {
+                    var cvFileName = "curriculumvitae" + Path.GetExtension(ProfileCVFile.FileName);
+                    var cvFilePath = Path.Combine(_cvFileFolder, cvFileName);
+
+                    if (System.IO.File.Exists(cvFilePath))
+                        System.IO.File.Delete(cvFilePath);
+
+                    using var stream = new FileStream(cvFilePath, FileMode.Create);
+                    await ProfileCVFile.CopyToAsync(stream);
+
+                    About.Profile.CV = cvFileName;
+                }
+
                 await _profileService.UpdateAsync(About.Profile);
 
-                // kembali ke halaman Index dan tampilkan pesan
                 TempData["SuccessMessage"] = "Profile has been updated!";
                 return RedirectToAction(nameof(Index));
             }
@@ -87,7 +92,7 @@ namespace GhazwulShaf.Controllers.Admin.Dashboard
             ViewBag.Session = "Add";
             ViewBag.Action = "AddSection";
 
-            var view = "/Views/Shared/Dashboard/About/_SectionForm.cshtml";
+            var view = "/Views/Admin/Dashboard/About/_SectionForm.cshtml";
             var section = new AboutSection();
 
             return PartialView(view, section);
@@ -110,7 +115,7 @@ namespace GhazwulShaf.Controllers.Admin.Dashboard
             ViewBag.Session = "Edit";
             ViewBag.Action = "EditSection";
 
-            var view = "/Views/Shared/Dashboard/About/_SectionForm.cshtml";
+            var view = "/Views/Admin/Dashboard/About/_SectionForm.cshtml";
             var section = await _sectionService.GetByIdAsync(id);
 
             return PartialView(view, section);
@@ -139,7 +144,7 @@ namespace GhazwulShaf.Controllers.Admin.Dashboard
         [Route("Sections/{sectionId}/Add")]
         public async Task<IActionResult> AddSectionItem(int sectionId)
         {
-            var view = "/Views/Shared/Dashboard/About/_SectionItem.cshtml";
+            var view = "/Views/Admin/Dashboard/About/_SectionItem.cshtml";
             var section = await _sectionService.GetByIdAsync(sectionId);
 
             ViewBag.Id = section.Id;
@@ -164,7 +169,7 @@ namespace GhazwulShaf.Controllers.Admin.Dashboard
         [Route("Sections/{sectionId}/{itemId}/Edit")]
         public async Task<IActionResult> EditSectionItem(int sectionId, int itemId)
         {
-            var view = "/Views/Shared/Dashboard/About/_SectionItem.cshtml";
+            var view = "/Views/Admin/Dashboard/About/_SectionItem.cshtml";
             var section = await _sectionService.GetByIdAsync(sectionId);
             var item = await _sectionService.GetItemByIdAsync(sectionId, itemId);
 
@@ -191,6 +196,15 @@ namespace GhazwulShaf.Controllers.Admin.Dashboard
         public async Task<IActionResult> DeleteSectionItem(int sectionId, int itemId)
         {
             await _sectionService.DeleteItemAsync(sectionId, itemId);
+            return RedirectToAction(nameof(Index));
+        }
+
+        // POST: Reorder Section Items
+        [HttpPost]
+        [Route("Sections/{sectionId}/Reorder")]
+        public async Task<IActionResult> ReorderSectionItems(AboutSection section)
+        {
+            await _sectionService.ReorderItemsAsync(section);
             return RedirectToAction(nameof(Index));
         }
     }
