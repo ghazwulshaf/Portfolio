@@ -59,7 +59,7 @@
 
                 @if (Item.Description != null)
                 {
-                <div class="card-body">
+                <div class="card-body [&_ul]:list-inside [&_ul]:list-disc [&_ol]:list-inside [&_ol]:list-decimal">
                     @Html.Raw(Item.Description)
                 </div>
                 }
